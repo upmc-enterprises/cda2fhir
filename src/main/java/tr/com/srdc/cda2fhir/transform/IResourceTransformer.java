@@ -26,6 +26,7 @@ import org.hl7.fhir.dstu3.model.Composition.SectionComponent;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.FamilyMemberHistory;
 import org.hl7.fhir.dstu3.model.Group;
+import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
 import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
 import org.hl7.fhir.dstu3.model.Substance;
@@ -45,6 +46,7 @@ import org.openhealthtools.mdht.uml.cda.consol.ImmunizationActivity;
 import org.openhealthtools.mdht.uml.cda.consol.Indication;
 import org.openhealthtools.mdht.uml.cda.consol.MedicationActivity;
 import org.openhealthtools.mdht.uml.cda.consol.MedicationInformation;
+import org.openhealthtools.mdht.uml.cda.consol.MedicationSupplyOrder;
 import org.openhealthtools.mdht.uml.cda.consol.ProblemConcernAct;
 import org.openhealthtools.mdht.uml.cda.consol.ProblemObservation;
 import org.openhealthtools.mdht.uml.cda.consol.ReactionObservation;
@@ -54,253 +56,415 @@ import org.openhealthtools.mdht.uml.cda.consol.ServiceDeliveryLocation;
 import org.openhealthtools.mdht.uml.cda.consol.VitalSignObservation;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 
+import tr.com.srdc.cda2fhir.transform.entry.IEntityResult;
+import tr.com.srdc.cda2fhir.transform.entry.IEntryResult;
+import tr.com.srdc.cda2fhir.transform.util.IBundleInfo;
+
 public interface IResourceTransformer {
-	
+
 	/**
-	 * Transforms a CDA AgeObservation instance to a FHIR Age composite datatype instance
+	 * Transforms a CDA AgeObservation instance to a FHIR Age composite datatype
+	 * instance
+	 *
 	 * @param cdaAgeObservation A CDA AgeObservation instance
 	 * @return A FHIR Age composite datatype instance
 	 */
 	Age tAgeObservation2Age(org.openhealthtools.mdht.uml.cda.consol.AgeObservation cdaAgeObservation);
 
 	/**
-	 * Transforms a CDA AllergyProblemAct instance to a FHIR AllergyIntolerance resource.
+	 * Transforms a CDA AllergyProblemAct instance to a FHIR AllergyIntolerance
+	 * resource.
+	 *
 	 * @param cdaAllergyProblemAct A CDA AllergyProblemAct instance
-	 * @return A FHIR Bundle that contains the AllergyIntolerance as the first entry, which can also include other referenced resources such as Practitioner
-     */
-	Bundle tAllergyProblemAct2AllergyIntolerance(AllergyProblemAct cdaAllergyProblemAct);
+	 * @param bundleInfo           A BundleInfo object which acts as a context for
+	 *                             the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tAllergyProblemAct2AllergyIntolerance(AllergyProblemAct cdaAllergyProblemAct, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA AssignedAuthor instance to a FHIR Practitioner resource.
+	 *
 	 * @param cdaAssignedAuthor A CDA AssignedAuthor instance
-	 * @return A FHIR Bundle that contains the Practitioner as the first entry, which can also include other referenced resources such as Organization
-     */
-	Bundle tAssignedAuthor2Practitioner(AssignedAuthor cdaAssignedAuthor);
+	 * @param bundleInfo        A BundleInfo object which acts as a context for the
+	 *                          current transformation bundle.
+	 * @return A result object that might include FHIR Bundle and/or a reference to
+	 *         a Practitioner
+	 */
+	IEntityResult tAssignedAuthor2Practitioner(AssignedAuthor cdaAssignedAuthor, IBundleInfo bundleInfo);
+
+	/**
+	 * Transforms a CDA AssignedAuthor instance to a FHIR Device resource.
+	 *
+	 * @param cdaAssignedAuthor A CDA AssignedAuthor instance
+	 * @param bundleInfo        A BundleInfo object which acts as a context for the
+	 *                          current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntityResult tAssignedAuthor2Device(AssignedAuthor cdaAssignedAuthor, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA AssignedEntity instance to a FHIR Practitioner resource.
+	 *
 	 * @param cdaAssignedEntity A CDA AssignedEntity instance
-	 * @return A FHIR Bundle that contains the Practitioner as the first entry, which can also include other referenced resources such as Organization
-     */
-	Bundle tAssignedEntity2Practitioner(AssignedEntity cdaAssignedEntity);
+	 * @param bundleInfo        A BundleInfo object which acts as a context for the
+	 *                          current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntityResult tAssignedEntity2Practitioner(AssignedEntity cdaAssignedEntity, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA Author instance to a FHIR Practitioner resource.
-	 * @param cdaAuthor A CDA Author instance
-	 * @return A FHIR Bundle that contains the Practitioner as the first entry, which can also include other referenced resources such as Organization
+	 *
+	 * @param cdaAuthor  A CDA Author instance
+	 * @param bundleInfo A BundleInfo object which acts as a context for the current
+	 *                   transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tAuthor2Practitioner(org.openhealthtools.mdht.uml.cda.Author cdaAuthor);
+	IEntityResult tAuthor2Practitioner(org.openhealthtools.mdht.uml.cda.Author cdaAuthor, IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA CD instance to a FHIR Substance resource.
+	 *
 	 * @param cdaSubstanceCode A CDA CD instance
 	 * @return A FHIR Substance resource
 	 */
 	Substance tCD2Substance(CD cdaSubstanceCode);
-	
+
 	/**
 	 * Transforms a CDA ClicinalDocument instance to a FHIR Composition resource.
+	 *
 	 * @param cdaClinicalDocument A CDA ClicinalDocument instance
-	 * @return A FHIR Bundle that contains the Composition as the first entry, which can also include other referenced resources such as Patient, Practitioner, Organization
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tClinicalDocument2Composition(ClinicalDocument cdaClinicalDocument);
-	
+	IEntryResult tClinicalDocument2Composition(ClinicalDocument cdaClinicalDocument);
+
 	/**
-	 * Transforms a CDA CustodianOrganization instance to a FHIR Organization resource.
+	 * Transforms a CDA ClicinalDocument instance to a FHIR Bundle resource.
+	 *
+	 * @param cdaClinicalDocument A CDA ClicinalDocument instance
+	 * @param includeComposition  Include composition resource or not
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+
+	IEntryResult tClinicalDocument2Bundle(ClinicalDocument cdaClinicalDocument, boolean includeComposition);
+
+	/**
+	 * Transforms a CDA CustodianOrganization instance to a FHIR Organization
+	 * resource.
+	 *
 	 * @param cdaCustodianOrganization A CDA CustodianOrganization instance
-	 * @return A FHIR Organization resource
+	 * @param bundleInfo               A BundleInfo object which acts as a context
+	 *                                 for the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	org.hl7.fhir.dstu3.model.Organization tCustodianOrganization2Organization(org.openhealthtools.mdht.uml.cda.CustodianOrganization cdaCustodianOrganization);
-	
-	/**
-	 * Transforms a CDA Encounter instance to a FHIR Encounter resource.
-	 * @param cdaEncounter A CDA Encounter instance
-	 * @return A FHIR Bundle that contains the Encounter as the first entry, which can also include other referenced resources such as Practitioner, Location
-	 */
-	Bundle tEncounter2Encounter(org.openhealthtools.mdht.uml.cda.Encounter cdaEncounter);
+	IEntryResult tCustodianOrganization2Organization(
+			org.openhealthtools.mdht.uml.cda.CustodianOrganization cdaCustodianOrganization, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA EncounterActivity instance to a FHIR Encounter resource.
+	 *
 	 * @param cdaEncounterActivity A CDA EncounterActivity instance
-	 * @return A FHIR Bundle that contains the Encounter as the first entry, which can also include other referenced resources such as Practitioner, Location
+	 * @param bundleInfo           A BundleInfo object which acts as a context for
+	 *                             the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tEncounterActivity2Encounter(org.openhealthtools.mdht.uml.cda.consol.EncounterActivities cdaEncounterActivity);
-	
+	IEntryResult tEncounterActivity2Encounter(
+			org.openhealthtools.mdht.uml.cda.consol.EncounterActivities cdaEncounterActivity, IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Entity instance to a FHIR Group resource.
+	 *
 	 * @param cdaEntity A CDA Entity instance
 	 * @return A FHIR Group resource
 	 */
 	Group tEntity2Group(Entity cdaEntity);
-	
+
 	/**
-	 * Transforms a CDA FamilyHistoryOrganizer instance to a FHIR FamilyMemberHistory resource.
+	 * Transforms a CDA FamilyHistoryOrganizer instance to a FHIR
+	 * FamilyMemberHistory resource.
+	 *
 	 * @param cdaFamilyHistoryOrganizer A CDA FamilyHistoryOrganizer instance
 	 * @return A FHIR FamilyMemberHistory resource
 	 */
 	FamilyMemberHistory tFamilyHistoryOrganizer2FamilyMemberHistory(FamilyHistoryOrganizer cdaFamilyHistoryOrganizer);
 
 	/**
-	 * Transforms a CDA Observation instance that is included in Functional Status Section to a FHIR Observation resource.
-	 * @param cdaObservation A CDA Observation instance that is included in Functional Status Section
-	 * @return A FHIR Bundle that contains the Observation as the first entry, which can also include other referenced resources such as Practitioner
+	 * Transforms a CDA Observation instance that is included in Functional Status
+	 * Section to a FHIR Observation resource.
+	 *
+	 * @param cdaObservation A CDA Observation instance that is included in
+	 *                       Functional Status Section
+	 * @param bundleInfo     A BundleInfo object which acts as a context for the
+	 *                       current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tFunctionalStatus2Observation(org.openhealthtools.mdht.uml.cda.Observation cdaObservation);
+	IEntryResult tFunctionalStatus2Observation(org.openhealthtools.mdht.uml.cda.Observation cdaObservation,
+			IBundleInfo bundleInfo);
 
-    /**
-     * Transforms a CDA Guardian instance to a FHIR Patient.Contact resource.
-     * @param cdaGuardian A CDA Guardian instance
-     * @return A FHIR Patient.Contact resource
-     */
-    org.hl7.fhir.dstu3.model.Patient.ContactComponent tGuardian2Contact(org.openhealthtools.mdht.uml.cda.Guardian cdaGuardian);
-    
 	/**
-	 * Transforms a CDA ImmunizationActivity instance to a FHIR Immunization resource.
-	 * @param cdaImmunizationActivity A CDA ImmunizationActivity instance
-	 * @return A FHIR Bundle that contains the Immunization as the first entry, which can also include other referenced resources such as Organization, Practitioner
+	 * Transforms a CDA Guardian instance to a FHIR Patient.Contact resource.
+	 *
+	 * @param cdaGuardian A CDA Guardian instance
+	 * @return A FHIR Patient.Contact resource
 	 */
-	Bundle tImmunizationActivity2Immunization(ImmunizationActivity cdaImmunizationActivity);
-    
+	org.hl7.fhir.dstu3.model.Patient.ContactComponent tGuardian2Contact(
+			org.openhealthtools.mdht.uml.cda.Guardian cdaGuardian);
+
+	/**
+	 * Transforms a CDA ImmunizationActivity instance to a FHIR Immunization
+	 * resource.
+	 *
+	 * @param cdaImmunizationActivity A CDA ImmunizationActivity instance
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tImmunizationActivity2Immunization(ImmunizationActivity cdaImmunizationActivity,
+			IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Indication instance to a FHIR Condition resource.
+	 *
 	 * @param cdaIndication A CDA Indication instance
 	 * @return A FHIR Condition resource
 	 */
 	Condition tIndication2Condition(Indication cdaIndication);
-	
-    /**
-     * Transforms a CDA LanguageCommunication instance to a FHIR Communication resource.
-     * @param cdaLanguageCommunication A CDA LanguageCommunication instance
-     * @return A FHIR Communication resource
-     */
+
+	/**
+	 * Transforms a CDA LanguageCommunication instance to a FHIR Communication
+	 * resource.
+	 *
+	 * @param cdaLanguageCommunication A CDA LanguageCommunication instance
+	 * @return A FHIR Communication resource
+	 */
 	PatientCommunicationComponent tLanguageCommunication2Communication(LanguageCommunication cdaLanguageCommunication);
-	
+
 	/**
 	 * Transforms a CDA ManufacturedProduct instance to a FHIR Medication resource.
+	 *
 	 * @param cdaManufacturedProduct A CDA ManufacturedProduct instance
-	 * @return A FHIR Bundle that contains the Medication as the first entry, which can also include other referenced resources such as Substance, Organization
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tManufacturedProduct2Medication(ManufacturedProduct cdaManufacturedProduct);
-	
+	Bundle tManufacturedProduct2Medication(ManufacturedProduct cdaManufacturedProduct, IBundleInfo bundleInfo);
+
 	/**
-	 * Transforms a CDA MedicationActivity instance to a FHIR MedicationStatement resource.
+	 * Transforms a CDA MedicationActivity instance to a FHIR MedicationStatement
+	 * resource.
+	 *
 	 * @param cdaMedicationActivity A CDA MedicationActivity instance
-	 * @return A FHIR Bundle that contains the MedicationStatement as the first entry, which can also include other referenced resources such as Practitioner, Medication, Condition
+	 * @param bundleInfo            A BundleInfo object which acts as a context for
+	 *                              the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tMedicationActivity2MedicationStatement(MedicationActivity cdaMedicationActivity);
-	
+	IEntryResult tMedicationActivity2MedicationStatement(MedicationActivity cdaMedicationActivity,
+			IBundleInfo bundleInfo);
+
 	/**
-	 * Transforms a CDA MedicationDispense instance to a FHIR MedicationDispense resource.
+	 * Transforms a CDA MedicationDispense instance to a FHIR MedicationDispense
+	 * resource.
+	 *
 	 * @param cdaMedicationDispense A CDA MedicationDispense instance
-	 * @return A FHIR Bundle that contains the MedicationDispense as the first entry, which can also include other referenced resources such as Medication, Practitioner
+	 * @param bundleInfo            A BundleInfo object which acts as a context for
+	 *                              the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tMedicationDispense2MedicationDispense(org.openhealthtools.mdht.uml.cda.consol.MedicationDispense cdaMedicationDispense);
-	
+	IEntryResult tMedicationDispense2MedicationDispense(
+			org.openhealthtools.mdht.uml.cda.consol.MedicationDispense cdaMedicationDispense, IBundleInfo bundleInfo);
+
 	/**
-	 * Transforms a CDA MedicationInformation instance to a FHIR Medication resource.
+	 * Transforms a CDA MedicationInformation instance to a FHIR Medication
+	 * resource.
+	 *
 	 * @param cdaMedicationInformation A CDA MedicationInformation instance
-	 * @return A FHIR Bundle that contains the Medication as the first entry, which can also include other referenced resources such as Substance, Organization
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tMedicationInformation2Medication(MedicationInformation cdaMedicationInformation);
+	Bundle tMedicationInformation2Medication(MedicationInformation cdaMedicationInformation, IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Observation instance to a FHIR Observation resource.
+	 *
 	 * @param cdaObservation A CDA Observation instance
-	 * @return A FHIR Bundle that contains the Observation as the first entry, which can also include other referenced resources such as Encounter, Practitioner
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	org.hl7.fhir.dstu3.model.Bundle tObservation2Observation(org.openhealthtools.mdht.uml.cda.Observation cdaObservation);
-	
+	IEntryResult tObservation2Observation(org.openhealthtools.mdht.uml.cda.Observation cdaObservation,
+			IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Organization instance to a FHIR Organization resource.
+	 *
 	 * @param cdaOrganization A CDA Organization instance
-	 * @return A FHIR Organization resource
+	 * @param bundleInfo      A BundleInfo object which acts as a context for the
+	 *                        current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 *
 	 */
-	org.hl7.fhir.dstu3.model.Organization tOrganization2Organization(org.openhealthtools.mdht.uml.cda.Organization cdaOrganization);
-	
+	IEntryResult tOrganization2Organization(org.openhealthtools.mdht.uml.cda.Organization cdaOrganization,
+			IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA ParticipantRole instance to a FHIR Location resource.
+	 *
 	 * @param cdaParticipantRole A CDA ParticipantRole instance
 	 * @return A FHIR Location Resource
 	 */
 	org.hl7.fhir.dstu3.model.Location tParticipantRole2Location(ParticipantRole cdaParticipantRole);
-	
+
 	/**
 	 * Transforms a CDA PatientRole instance to a FHIR Patient resource.
-	 * @param cdaPatientRole A CDA PatientRole instance
-	 * @return A FHIR Bundle that contains the PatientRole as the first entry, which can also include other referenced resources such as Organization
+	 *
+	 * @param cdaPatientRole A CDA PatientRole instance * @param bundleInfo A
+	 *                       BundleInfo object which acts as a context for the
+	 *                       current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tPatientRole2Patient(PatientRole cdaPatientRole);
-	
+	IEntryResult tPatientRole2Patient(PatientRole cdaPatientRole, IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Performer2 instance to a FHIR Practitioner resource.
+	 *
 	 * @param cdaPerformer2 A CDA Performer2 instance
-	 * @return A FHIR Bundle that contains the Practitioner as the first entry, which can also include other referenced resources such as Organization
+	 * @param bundleInfo    A BundleInfo object which acts as a context for the
+	 *                      current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources.
 	 */
-	Bundle tPerformer22Practitioner(Performer2 cdaPerformer2);
-	
+	IEntityResult tPerformer22Practitioner(Performer2 cdaPerformer2, IBundleInfo bundleInfo);
+
 	/**
-	 * Transforms a CDA ProblemConcernAct instance to FHIR Condition resource(s). A ProblemConcernAct might include several Problem Observations, and each Problem Observation corresponds to a FHIR Condition. Therefore, the returning Bundle can contain several FHIR Conditions.
+	 * Transforms a CDA ProblemConcernAct instance to FHIR Condition resource(s). A
+	 * ProblemConcernAct might include several Problem Observations, and each
+	 * Problem Observation corresponds to a FHIR Condition. Therefore, the returning
+	 * Bundle can contain several FHIR Conditions.
+	 *
 	 * @param cdaProblemConcernAct A CDA ProblemConcernAct instance
-	 * @return A FHIR Bundle that contains the corresponding Condition(s), and further referenced resources such as Encounter, Practitioner
+	 * @param bundleInfo           A BundleInfo object which acts as a context for
+	 *                             the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources.
 	 */
-	Bundle tProblemConcernAct2Condition(ProblemConcernAct cdaProblemConcernAct);
+	IEntryResult tProblemConcernAct2Condition(ProblemConcernAct cdaProblemConcernAct, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA ProblemObservation instance to FHIR Condition resource.
+	 *
 	 * @param cdaProbObs A CDA ProblemObservation instance
-	 * @return A FHIR Bundle that contains the Condition as the first entry, which can also include other referenced resources such as Encounter, Practitioner
-     */
-	Bundle tProblemObservation2Condition(ProblemObservation cdaProbObs);
+	 * @param bundleInfo A BundleInfo object which acts as a context for the current
+	 *                   transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Condition as the first entry, as well as other referenced resources
+	 *         such as Encounter, Practitioner
+	 */
+	IEntryResult tProblemObservation2Condition(ProblemObservation cdaProbObs, IBundleInfo bundleInfo);
 
 	/**
-	 * Transforms a CDA Procedure instance to a FHIR Procedure resource.
-	 * @param cdaProcedure A CDA Procedure instance
-	 * @return A FHIR Bundle that contains the Procedure as the first entry, which can also include other referenced resources such as Practitioner
+	 * Transforms a CDA Procedure instance to a FHIR Procedure and supporting
+	 * resources.
+	 *
+	 * @param cdaProcedure    A CDA Procedure instance
+	 * @param idedAnnotations Annotations that can be referenced
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources.
 	 */
-	Bundle tProcedure2Procedure(org.openhealthtools.mdht.uml.cda.Procedure cdaProcedure);
+	IEntryResult tProcedure2Procedure(org.openhealthtools.mdht.uml.cda.Procedure cdaProcedure, IBundleInfo bundleInfo);
 
 	/**
 	 * Transforms a CDA ReactionObservation instance to a FHIR Observation resource.
+	 *
 	 * @param cdaReactionObservation A CDA ReactionObservation instance
-	 * @return A FHIR Bundle that contains the Observation as the first entry, which can also include other referenced resources such as Encounter, Practitioner
-     */
-	Bundle tReactionObservation2Observation(ReactionObservation cdaReactionObservation);
-	
-    /**
-     * Transforms a CDA ReferenceRange instance to a FHIR ObservationReferenceRangeComponent resource.
-     * @param cdaReferenceRange A CDA ReferenceRange instance
-     * @return A FHIR ObservationReferenceRangeComponent resource
-     */
-	ObservationReferenceRangeComponent tReferenceRange2ReferenceRange(org.openhealthtools.mdht.uml.cda.ReferenceRange cdaReferenceRange);
-    
-	/**
-	 * Transforms a CDA ResultObservation instance to a FHIR Observation resource.
-	 * @param cdaResultObservation A CDA ResultObservation instance
-	 * @return A FHIR Bundle that contains the Observation as the first entry, which can also include other referenced resources such as Encounter, Practitioner
+	 * @param bundleInfo             A BundleInfo object which acts as a context for
+	 *                               the current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
 	 */
-	Bundle tResultObservation2Observation(ResultObservation cdaResultObservation);
+	IEntryResult tReactionObservation2Observation(ReactionObservation cdaReactionObservation, IBundleInfo bundleInfo);
 
 	/**
-	 * Transforms a CDA ResultOrganizer instance to a FHIR DiagnosticReport resource.
-	 * @param cdaResultOrganizer A CDA ResultOrganizer instance
-	 * @return A FHIR Bundle that contains the DiagnosticReport as the first entry, which can also include other referenced resources such as Practitioner, Observation
+	 * Transforms a CDA ReferenceRange instance to a FHIR
+	 * ObservationReferenceRangeComponent resource.
+	 *
+	 * @param cdaReferenceRange A CDA ReferenceRange instance
+	 * @return A FHIR ObservationReferenceRangeComponent resource
 	 */
-	Bundle tResultOrganizer2DiagnosticReport(ResultOrganizer cdaResultOrganizer);
-	
+	ObservationReferenceRangeComponent tReferenceRange2ReferenceRange(
+			org.openhealthtools.mdht.uml.cda.ReferenceRange cdaReferenceRange);
+
+	/**
+	 * Transforms a CDA ResultObservation instance to a FHIR Observation resource.
+	 *
+	 * @param cdaResultObservation A CDA ResultObservation instance
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tResultObservation2Observation(ResultObservation cdaResultObservation, IBundleInfo bundleInfo);
+
+	/**
+	 * Transforms a CDA ResultOrganizer instance to a FHIR DiagnosticReport
+	 * resource.
+	 *
+	 * @param cdaResultOrganizer A CDA ResultOrganizer instance
+	 * @param bundleInfo         A BundleInfo object which acts as a context for the
+	 *                           current transformation bundle.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tResultOrganizer2DiagnosticReport(ResultOrganizer cdaResultOrganizer, IBundleInfo bundleInfo);
+
 	/**
 	 * Transforms a CDA Section instance to a FHIR SectionComponent resource.
+	 *
 	 * @param cdaSection A CDA Section instance
 	 * @return A FHIR SectionComponent resource
 	 */
 	SectionComponent tSection2Section(Section cdaSection);
-    
+
 	/**
-	 * Transforms a CDA ServiceDeliveryLocation instance to a FHIR Location resource.
+	 * Transforms a CDA ServiceDeliveryLocation instance to a FHIR Location
+	 * resource.
+	 *
 	 * @param cdaSDLOC A CDA ServiceDeliveryLocation instance
 	 * @return A FHIR Location resource
 	 */
 	org.hl7.fhir.dstu3.model.Location tServiceDeliveryLocation2Location(ServiceDeliveryLocation cdaSDLOC);
-	
+
 	/**
 	 * Transforms a CDA Supply instance to a FHIR Device resource.
+	 *
 	 * @param cdaSupply A CDA Supply instance
 	 * @return A FHIR Device resource
 	 */
@@ -308,8 +472,94 @@ public interface IResourceTransformer {
 
 	/**
 	 * Transforms a CDA VitalSignObservation to a FHIR Observation resource.
+	 *
 	 * @param cdaVitalSignObservation A CDA VitalSignObservation instance
-	 * @return A FHIR Bundle that contains the Observation as the first entry, which can also include other referenced resources such as Encounter, Practitioner
+	 * @param bundleInfo              A BundleInfo object which acts as a context
+	 *                                for the current transformation bundle.
+	 * @return An EntryResult object containing a FHIR Bundle with the Observation
+	 *         as the first entry, which can also include other referenced resources
+	 *         such as Encounter, Practitioner
 	 */
-    Bundle tVitalSignObservation2Observation(VitalSignObservation cdaVitalSignObservation);
+	IEntryResult tVitalSignObservation2Observation(VitalSignObservation cdaVitalSignObservation,
+			IBundleInfo bundleInfo);
+
+	/**
+	 * Transforms a CDA MedicationSupplyOrder to a FHIR MedicationRequest resource.
+	 *
+	 * @param supply A CDA MedicationSupplyOrder instance
+	 * @return An Entry result that contains a FHIR Bundle with the MedicatinRequest
+	 *         as the first entry, which can also include other referenced resources
+	 *         such as Encounter, Practitioner, and will include all other
+	 *         Medication objects that are referenced by the MedicationRequest.
+	 *         Provides a provenance file to store the targeted references.
+	 *
+	 * @param supply A CDA MedicationSupplyOrder instance*
+	 * 
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 **/
+
+	IEntryResult medicationSupplyOrder2MedicationRequest(MedicationSupplyOrder supply, IBundleInfo bundleInfo);
+
+	/**
+	 * Provides a provenance file to store the targeted references.
+	 *
+	 * @param bundle          The built bundle, needed to parse for references.
+	 * @param encodedBody     A string with the encoded document body.
+	 * @param assemblerDevice An Identifier of the original assembling device.
+	 * @return Bundle, updated with a provenance object, and entries for binary and
+	 *         device.
+	 */
+	Bundle tProvenance(Bundle bundle, String encodedBody, Identifier assemblerDevice);
+
+	/**
+	 * Creates a FHIR Condition object of category problem-list-item from a CDA
+	 * Indication object.
+	 *
+	 * @param cdaIndication a CDA Indication object
+	 * @param bundleInfo    A BundleInfo object which acts as a context for the
+	 *                      current transformation.
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tIndication2ConditionProblemListItem(Indication cdaIndication, IBundleInfo bundleInfo);
+
+	/**
+	 * Creates a FHIR Condition object of category encounter-diagnosis from a CDA
+	 * Indication object.
+	 *
+	 * @param cdaIndication a CDA Indication object
+	 *
+	 * @return An EntryResult object which contains FHIR Bundle that with the
+	 *         Resource as the first entry, as well as other referenced resources
+	 *         and maps.
+	 */
+	IEntryResult tIndication2ConditionEncounter(Indication cdaIndication, IBundleInfo bundleInfo);
+
+	/**
+	 * Turns a CDA manufactured product object into a FHIR medication.
+	 *
+	 * @param cdaProduct CDA Product object.
+	 * @param bundleInfo A BundleInfo object which acts as a context for the current
+	 *                   transformation.
+	 * @return An Entry result that contains a FHIR Bundle with the Medication,
+	 *         which can also include other referenced resources such as
+	 *         Practitioner.
+	 */
+	IEntryResult tManufacturedProduct2Medication(Product cdaProduct, IBundleInfo bundleInfo);
+
+	/**
+	 * Turns a CDA manufactured product object into a FHIR medication.
+	 * 
+	 * @param cdaProduct CDA Product object.
+	 * @param bundleInfo A BundleInfo object which acts as a context for the current
+	 *                   transformation.
+	 * @return An Entry result that contains a FHIR Bundle with the Medication,
+	 *         which can also include other referenced resources such as
+	 *         Practitioner.
+	 */
+	IEntryResult tManufacturedProduct2Medication(Consumable cdaConsumable, IBundleInfo bundleInfo);
+
 }

@@ -1,5 +1,7 @@
 package tr.com.srdc.cda2fhir.transform;
 
+import java.util.Map;
+
 /*
  * #%L
  * CDA to FHIR Transformer Library
@@ -21,34 +23,70 @@ package tr.com.srdc.cda2fhir.transform;
  */
 
 import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.Bundle.BundleType;
+import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
+import org.openhealthtools.mdht.uml.cda.consol.ContinuityOfCareDocument;
 
 import tr.com.srdc.cda2fhir.util.IdGeneratorEnum;
 
 public interface ICDATransformer {
-    /**
-     * Returns a Reference for the patient of the CDA document
-     * @return A Reference that references the patient (i.e. recordTarget/patientRole) of the document
-     */
-    Reference getPatientRef();
+	/**
+	 * Returns a Reference for the patient of the CDA document
+	 * 
+	 * @return A Reference that references the patient (i.e.
+	 *         recordTarget/patientRole) of the document
+	 */
+	Reference getPatientRef();
 
-    /**
-     * A consistent unique resource id generator
-     * @return a unique resource id
-     */
-    String getUniqueId();
+	/**
+	 * A consistent unique resource id generator
+	 * 
+	 * @return a unique resource id
+	 */
+	String getUniqueId();
 
-    /**
-     * Sets the resource id generator format, which is either an incremental COUNTER or UUID
-     * @param idGen The id generator enumeration to be set
-     */
-    void setIdGenerator(IdGeneratorEnum idGen);
+	/**
+	 * Sets the resource id generator format, which is either an incremental COUNTER
+	 * or UUID
+	 * 
+	 * @param idGen The id generator enumeration to be set
+	 */
+	void setIdGenerator(IdGeneratorEnum idGen);
 
-    /**
-     * Transforms a Clinical Document Architecture (CDA) instance to a Bundle of corresponding FHIR resources
-     * @param cda A ClinicalDocument (CDA) instance to be transformed
-     * @return A FHIR Bundle that contains a Composition corresponding to the CDA document and all other resources that are referenced within the Composition.
-     */
-    Bundle transformDocument(ClinicalDocument cda);
+	/**
+	 * Transforms a Clinical Document Architecture (CDA) instance to a Bundle of
+	 * corresponding FHIR resources
+	 * 
+	 * @param cda             A ContinuityOfCareDocument (CDA) instance to be
+	 *                        transformed
+	 * @param documentBody    The base64 decoded body from the original document
+	 * @param assemblerDevice An identifier with the name of the device doing the
+	 *
+	 * @return A FHIR Bundle that contains a Composition corresponding to the CDA
+	 *         document and all other resources that are referenced within the
+	 *         Composition.
+	 */
+	Bundle transformDocument(ContinuityOfCareDocument cda, String documentBody, Identifier assemblerDevice);
+
+	/**
+	 * Transforms a Clinical Document Architecture (CDA) instance to a Bundle of
+	 * corresponding FHIR resources
+	 *
+	 * @param cda                A ContinuityOfCareDocument (CDA) instance to be
+	 *                           transformed
+	 * @param bundleType         The type of bundle being transformed, currently
+	 *                           only supports transactional bundles
+	 * @param resourceProfileMap Map of resources used in DAF assignment, no longer
+	 *                           actively supported but left in API.
+	 * @param documentBody       The String body from the original document.
+	 * @param assemblerDevice    An identifier object for the Device responsible for
+	 *                           the transformation.
+	 *
+	 * @return A FHIR Bundle that contains a Composition corresponding to the CDA
+	 *         document and all other resources that are referenced within the
+	 *         Composition.
+	 */
+	Bundle transformDocument(ContinuityOfCareDocument cda, BundleType bundleType,
+			Map<String, String> resourceProfileMap, String documentBody, Identifier assemblerDevice) throws Exception;
 }
