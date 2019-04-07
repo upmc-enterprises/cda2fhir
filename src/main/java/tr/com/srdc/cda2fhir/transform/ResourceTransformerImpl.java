@@ -123,7 +123,6 @@ import org.openhealthtools.mdht.uml.cda.ServiceEvent;
 import org.openhealthtools.mdht.uml.cda.SubstanceAdministration;
 import org.openhealthtools.mdht.uml.cda.consol.AllergyObservation;
 import org.openhealthtools.mdht.uml.cda.consol.AllergyProblemAct;
-import org.openhealthtools.mdht.uml.cda.consol.AllergyStatusObservation;
 import org.openhealthtools.mdht.uml.cda.consol.CommentActivity;
 import org.openhealthtools.mdht.uml.cda.consol.FamilyHistoryOrganizer;
 import org.openhealthtools.mdht.uml.cda.consol.ImmunizationActivity;
@@ -446,18 +445,6 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 						for (EntryRelationship entryRelShip : cdaAllergyObs.getEntryRelationships()) {
 							if (entryRelShip != null && !entryRelShip.isSetNullFlavor()) {
 								if (entryRelShip.getObservation() != null && !entryRelShip.isSetNullFlavor()) {
-									Observation observation = entryRelShip.getObservation();
-
-									// status observation -> clinical status
-									if (observation != null && observation instanceof AllergyStatusObservation) {
-										observation.getValues().stream().filter(value -> value instanceof CE)
-												.map(value -> (CE) value).map(ce -> ce.getCode()).forEach(code -> {
-													AllergyIntoleranceClinicalStatus status = vst
-															.tProblemStatus2AllergyIntoleranceClinicalStatus(code);
-													fhirAllergyIntolerance.setClinicalStatus(status);
-												});
-									}
-
 									// reaction observation
 									if (entryRelShip.getObservation() instanceof ReactionObservation) {
 
