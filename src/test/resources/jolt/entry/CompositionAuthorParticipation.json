@@ -2,7 +2,7 @@
 	{
 		"operation": "cardinality",
 		"spec": {
-			"assignedEntity": {
+			"assignedAuthor": {
 				"id": "MANY"
 			}
 		}
@@ -14,8 +14,24 @@
 			"conditions": [
 				{
 					"nullFlavor": "n",
-					"assignedEntity": {
-						"nullFlavor": "n"
+					"assignedAuthor": {
+						"nullFlavor": "n",
+						"assignedPerson": "y"
+					}
+				}
+			]
+		}
+	},
+	{
+		"operation": "tr.com.srdc.cda2fhir.jolt.KeepWhen",
+		"spec": {
+			"target": "*",
+			"conditions": [
+				{
+					"assignedAuthor": {
+						"assignedPerson": {
+							"nullFlavor": "n"
+						}
 					}
 				}
 			]
@@ -24,13 +40,13 @@
 	{
 		"operation": "tr.com.srdc.cda2fhir.jolt.EntityIdDefault",
 		"spec": {
-			"path": "assignedEntity"
+			"path": "assignedAuthor"
 		}
 	},
 	{
 		"operation": "shift",
 		"spec": {
-			"assignedEntity": [
+			"assignedAuthor": [
 				"Practitioner.->EntityPractitioner",
 				"Organization.->EntityOrganization",
 				"PractitionerRole.->EntityPractitionerRole"

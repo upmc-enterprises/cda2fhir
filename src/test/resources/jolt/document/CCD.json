@@ -45,7 +45,10 @@
 				"confidentialityCode": {
 					"code": "confidentiality"
 				},
-				"author": "->AuthorParticipation",
+				"recordTarget": {
+					"0": "Subject.->PatientRole"
+				},
+				"author": ["->CompositionAuthorParticipation", "->CompositionDeviceParticipation"],
 				"legalAuthenticator": "attester[].->LegalAttester",
 				"authenticator": {
 					"*": "attester[].->Attester"
@@ -57,9 +60,6 @@
 					"assignedCustodian": {
 						"representedCustodianOrganization": "Custodian.->Organization"
 					}
-				},
-				"recordTarget": {
-					"0": "Subject.->PatientRole"
 				},
 				"component": {
 					"structuredBody": {
@@ -89,6 +89,10 @@
 		"operation": "tr.com.srdc.cda2fhir.jolt.Assign",
 		"spec": {
 			"Practitioner": [
+				"author[0].reference",
+				"author[0].display"
+			],
+			"Device": [
 				"author[0].reference",
 				"author[0].display"
 			],
@@ -127,14 +131,24 @@
 			}
 		}
 	},
-	{
+	{ 
 		"operation": "remove",
 		"spec": {
 			"Practitioner": "",
 			"PractitionerRole": "",
 			"Organization": "",
 			"Custodian": "",
-			"Subject": ""
+			"Subject": "",
+			"Device": ""
+		}
+	},
+	{
+		"operation": "tr.com.srdc.cda2fhir.jolt.ResolveDeferred"
+	},
+	{
+		"operation": "tr.com.srdc.cda2fhir.jolt.SquashNulls",
+		"spec": {
+			"recursive": true
 		}
 	},
 	{

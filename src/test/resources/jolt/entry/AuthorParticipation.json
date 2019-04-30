@@ -8,6 +8,20 @@
 		}
 	},
 	{
+		"operation": "tr.com.srdc.cda2fhir.jolt.KeepWhen",
+		"spec": {
+			"target": "*",
+			"conditions": [
+				{
+					"nullFlavor": "n",
+					"assignedAuthor": {
+						"nullFlavor": "n"
+					}
+				}
+			]
+		}
+	},
+	{
 		"operation": "tr.com.srdc.cda2fhir.jolt.EntityIdDefault",
 		"spec": {
 			"path": "assignedAuthor"
@@ -27,8 +41,5 @@
 		"operation": "tr.com.srdc.cda2fhir.jolt.Substitute",
 		"spec": {
 		}
-	},
-	{
-		"operation": "tr.com.srdc.cda2fhir.jolt.EntityIdResolve"
 	}
 ]

@@ -26,10 +26,14 @@
 		}
 	},
 	{
+		"operation": "tr.com.srdc.cda2fhir.jolt.SectionText"
+	},
+	{
 		"operation": "shift",
 		"spec": {
 			"section": {
 				"code": "code.->CD2",
+				"title": "title",
 				"#snapshot": "mode",
 				"entry": {
 					"*": "Condition[].->ProblemConcernAct"

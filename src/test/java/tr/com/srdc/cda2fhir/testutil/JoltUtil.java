@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Composition;
 import org.hl7.fhir.dstu3.model.Composition.SectionComponent;
 import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.dstu3.model.Device;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.DiagnosisComponent;
@@ -642,6 +644,48 @@ public class JoltUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public void verify(Device device, Map<String, Object> joltDevice) throws Exception {
+		Map<String, Object> joltClone = joltDevice == null ? null : new LinkedHashMap<>(joltDevice);
+
+		if (device.hasOwner()) {
+			Assert.assertNotNull("Jolt device exists", joltClone);
+
+			String reference = device.getOwner().getReference();
+
+			Map<String, Object> joltOwner = (Map<String, Object>) joltClone.get("owner");
+			Assert.assertNotNull("Jolt device owner exists", joltOwner);
+			joltOwner = new LinkedHashMap<String, Object>(joltOwner);
+			joltClone.put("owner", joltOwner);
+
+			String joltReference = (String) joltOwner.get("reference");
+			Assert.assertNotNull("Joltdevice owner reference exists", joltReference);
+
+			Organization org = bundleUtil.getResourceFromReference(reference, Organization.class);
+			Map<String, Object> joltOrg = TransformManager.chooseResourceByReference(result, joltReference);
+			verify(org, joltOrg, null);
+
+			joltOwner.put("reference", reference);
+		} else if (joltDevice != null) {
+			Object owner = joltDevice.get("owner");
+			Assert.assertNull("No devioce owner", owner);
+		}
+
+		verify(device, joltClone, null);
+	}
+
+	public void verifyDeviceEntity(String reference, String joltReference) throws Exception {
+		Assert.assertNotNull("Entity reference exists", joltReference);
+
+		Device device = bundleUtil.getResourceFromReference(reference, Device.class);
+		Assert.assertNotNull("Device", device);
+
+		Map<String, Object> joltDevice = TransformManager.chooseResourceByReference(result, joltReference);
+		Assert.assertNotNull("Jolt device", joltDevice);
+
+		verify(device, joltDevice);
+	}
+
 	public void verifyEntity(Practitioner practitioner, PractitionerRole role, Organization org) throws Exception {
 		Map<String, Object> joltPractitioner = TransformManager.chooseResource(result, "Practitioner");
 		Map<String, Object> joltRole = TransformManager.chooseResource(result, "PractitionerRole");
@@ -1024,9 +1068,32 @@ public class JoltUtil {
 					Assert.assertNull("No performer on behalf", joltPerformer.get("onBehalf"));
 				}
 			}
-		} else {
+		} else if (joltProcedure != null) {
 			String value = findPathString(joltProcedure, "recorder.reference");
 			Assert.assertNull("No recorder", value);
+		}
+
+		if (procedure.hasContext()) {
+			Assert.assertNotNull("Jolt procedure exists", joltClone);
+
+			String reference = procedure.getContext().getReference();
+
+			Map<String, Object> joltContext = (Map<String, Object>) joltClone.get("context");
+			Assert.assertNotNull("Jolt procedure context exists", joltContext);
+			joltContext = new LinkedHashMap<String, Object>(joltContext);
+			joltClone.put("context", joltContext);
+
+			String joltReference = (String) joltContext.get("reference");
+			Assert.assertNotNull("Jolt procedure context reference exists", joltReference);
+
+			Encounter enc = bundleUtil.getResourceFromReference(reference, Encounter.class);
+			Map<String, Object> joltEnc = TransformManager.chooseResourceByReference(result, joltReference);
+			verify(enc, joltEnc);
+
+			joltContext.put("reference", reference);
+		} else if (joltProcedure != null) {
+			String value = findPathString(joltProcedure, "context.reference");
+			Assert.assertNull("No context reference", value);
 		}
 
 		verify(procedure, joltClone, info);
@@ -1046,6 +1113,8 @@ public class JoltUtil {
 		if (encounter.hasParticipant()) {
 			List<EncounterParticipantComponent> participants = encounter.getParticipant();
 			List<Object> joltParticipants = (List<Object>) joltClone.get("participant");
+			joltParticipants = new ArrayList<Object>(joltParticipants);
+			joltClone.put("participant", joltParticipants);
 
 			Assert.assertEquals("Participant count", joltParticipants.size(), participants.size());
 
@@ -1081,6 +1150,8 @@ public class JoltUtil {
 		if (encounter.hasDiagnosis()) {
 			List<DiagnosisComponent> diagnoses = encounter.getDiagnosis();
 			List<Object> joltDiagnoses = (List<Object>) joltClone.get("diagnosis");
+			joltDiagnoses = new ArrayList<Object>(joltDiagnoses);
+			joltClone.put("diagnosis", joltDiagnoses);
 
 			Assert.assertEquals("Diagnosis count", joltDiagnoses.size(), diagnoses.size());
 
@@ -1119,6 +1190,8 @@ public class JoltUtil {
 		if (encounter.hasLocation()) {
 			List<EncounterLocationComponent> locations = encounter.getLocation();
 			List<Object> joltLocations = (List<Object>) joltClone.get("location");
+			joltLocations = new ArrayList<Object>(joltLocations);
+			joltClone.put("location", joltLocations);
 
 			Assert.assertEquals("Location count", joltLocations.size(), locations.size());
 
@@ -1459,7 +1532,16 @@ public class JoltUtil {
 				Assert.assertNotNull("Jolt author exists", joltReferenceObject);
 				String joltReference = (String) joltReferenceObject.get("reference");
 
-				verifyEntity(reference, joltReference);
+				Resource resource = bundleUtil.getResourceFromReference(reference, Resource.class);
+				Assert.assertNotNull("Author resource exists", resource);
+
+				if (resource instanceof Practitioner) {
+					verifyEntity(reference, joltReference);
+				} else if (resource instanceof Device) {
+					verifyDeviceEntity(reference, joltReference);
+				} else {
+					Assert.assertTrue("Author device or practitioner", false);
+				}
 
 				joltReferenceObject = new LinkedHashMap<String, Object>(joltReferenceObject);
 				joltReferences.set(index, joltReferenceObject);
@@ -1605,9 +1687,27 @@ public class JoltUtil {
 			}
 		}
 
+		List<Object> joltSectionsTop = (List<Object>) joltClone.get("section");
+		if (joltSectionsTop != null) {
+			Iterator<Object> itr = joltSectionsTop.iterator();
+			while (itr.hasNext()) {
+				Map<String, Object> sect = (Map<String, Object>) itr.next();
+				List<Object> entries = (List<Object>) sect.get("entry");
+				if (entries == null || entries.size() == 0) {
+					itr.remove();
+				}
+			}
+			if (joltSectionsTop.size() == 0) {
+				joltClone.remove("section");
+			}
+		}
+
 		if (composition.hasSection()) {
 			List<SectionComponent> sections = composition.getSection();
 			List<Object> joltSections = (List<Object>) joltClone.get("section");
+			joltSections = new ArrayList<Object>(joltSections);
+			joltClone.put("section", joltSections);
+
 			Assert.assertEquals("Section count", sections.size(), joltSections.size());
 
 			sortSections(sections, joltSections);
@@ -1639,52 +1739,52 @@ public class JoltUtil {
 					joltReferences.set(index2, joltReferenceObject);
 					joltReferenceObject.put("reference", reference);
 
-					if (code.equals("48765-2")) {
+					if (code.equals(CDAUtilExtension.ALLERGIES_CODE)) {
 						AllergyIntolerance allergy = bundleUtil.getResourceFromReference(reference,
 								AllergyIntolerance.class);
 						Map<String, Object> joltAllergy = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(allergy, joltAllergy);
 					}
-					if (code.equals("10160-0")) {
+					if (code.equals(CDAUtilExtension.MEDICATIONS_CODE)) {
 						MedicationStatement medStatement = bundleUtil.getResourceFromReference(reference,
 								MedicationStatement.class);
 						Map<String, Object> joltMedStatement = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(medStatement, joltMedStatement);
 					}
-					if (code.equals("11369-6")) {
+					if (code.equals(CDAUtilExtension.IMMUNIZATIONS_CODE)) {
 						Immunization immunization = bundleUtil.getResourceFromReference(reference, Immunization.class);
 						Map<String, Object> joltImmunization = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(immunization, joltImmunization);
 					}
-					if (code.equals("30954-2")) {
+					if (code.equals(CDAUtilExtension.RESULTS_CODE)) {
 						DiagnosticReport report = bundleUtil.getResourceFromReference(reference,
 								DiagnosticReport.class);
 						Map<String, Object> joltReport = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(report, joltReport);
 					}
-					if (code.equals("8716-3")) {
+					if (code.equals(CDAUtilExtension.VITALS_CODE)) {
 						Observation observation = bundleUtil.getResourceFromReference(reference, Observation.class);
 						Map<String, Object> joltObservation = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(observation, joltObservation);
 					}
-					if (code.equals("11450-4")) {
+					if (code.equals(CDAUtilExtension.CONDITIONS_CODE)) {
 						Condition condition = bundleUtil.getResourceFromReference(reference, Condition.class);
 						Map<String, Object> joltCondition = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(condition, joltCondition);
 					}
-					if (code.equals("46240-8")) {
+					if (code.equals(CDAUtilExtension.ENCOUNTERS_CODE)) {
 						Encounter encounter = bundleUtil.getResourceFromReference(reference, Encounter.class);
 						Map<String, Object> joltEncounter = TransformManager.chooseResourceByReference(result,
 								joltReference);
 						verify(encounter, joltEncounter);
 					}
-					if (code.equals("47519-4")) {
+					if (code.equals(CDAUtilExtension.PROCEDURES_CODE)) {
 						Procedure procedure = bundleUtil.getResourceFromReference(reference, Procedure.class);
 						Map<String, Object> joltProcedure = TransformManager.chooseResourceByReference(result,
 								joltReference);
