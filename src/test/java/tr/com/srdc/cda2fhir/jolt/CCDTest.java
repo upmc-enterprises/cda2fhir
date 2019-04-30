@@ -12,6 +12,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Composition;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.Dosage;
+import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Resource;
@@ -145,15 +146,19 @@ public class CCDTest {
 			if (resource.get("resourceType").equals("Condition")) {
 				conditionJoltUpdate.accept(resource);
 			}
-			if (resource.get("resourceType").equals("Immunization")) {
-				String date = (String) resource.get("date");
-				if ("2006-06-28T14:24:00".equals(date)) {
-					resource.put("date", "2006-06-28T14:24:00-05:00");
+		};
+		customJoltUpdate2 = (r, resource) -> {
+			String date = (String) r.get("date");
+			if ("2006-06-28T14:24:00".equals(date)) {
+				if (resource instanceof Immunization) {
+					Immunization imm = (Immunization) resource;
+					r.put("date", imm.getDateElement().asStringValue());
 				}
 			}
 		};
 		runSampleTest("Vitera_CCDA_SMART_Sample.xml");
 		customJoltUpdate = null;
+		customJoltUpdate2 = null;
 	}
 
 	@Ignore
