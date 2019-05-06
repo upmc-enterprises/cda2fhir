@@ -23,7 +23,7 @@ import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class PNGenerator {
 	private static Map<String, Object> NAME_USE = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/NameUse.json");
+			.filepathToMap("src/test/resources//value-maps/NameUse.json");
 
 	private static final String USE = "C";
 	private static final String GIVEN = "JOE";

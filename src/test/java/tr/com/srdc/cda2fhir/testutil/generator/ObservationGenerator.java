@@ -24,9 +24,9 @@ import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class ObservationGenerator {
 	private static final Map<String, Object> OBSERVATION_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ObservationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ObservationStatus.json");
 	private static final Map<String, Object> OBSERVATION_INTERPRETATION = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ObservationInterpretation.json");
+			.filepathToMap("src/test/resources//value-maps/ObservationInterpretation.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

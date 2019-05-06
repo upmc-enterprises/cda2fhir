@@ -44,7 +44,7 @@ public class ImmunizationActivityTest {
 	private static CDAFactories factories;
 
 	private static Map<String, Object> statusMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ImmunizationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ImmunizationStatus.json");
 
 	@BeforeClass
 	public static void init() {

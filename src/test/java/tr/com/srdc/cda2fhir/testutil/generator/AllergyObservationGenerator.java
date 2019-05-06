@@ -32,13 +32,13 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class AllergyObservationGenerator {
 	private static final Map<String, Object> ALLERGY_INTOLERANCE_TYPE = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceType.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceType.json");
 	private static final Map<String, Object> ALLERGY_INTOLERANCE_CATEGORY = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceCategory.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceCategory.json");
 	private static final Map<String, Object> ALLERGY_INTOLERANCE_CRITICALITY = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceCriticality.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceCriticality.json");
 	private static final Map<String, Object> ALLERGY_INTOLERANCE_CLINICAL_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceClinicalStatus.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceClinicalStatus.json");
 
 	private List<AuthorGenerator> authorGenerators = new ArrayList<>();
 	private List<PlayingEntityGenerator> codeGenerators = new ArrayList<>();

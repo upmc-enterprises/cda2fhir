@@ -23,7 +23,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class AllergyConcernActGenerator {
 	private static final Map<String, Object> VERIFICATION_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceVerificationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceVerificationStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 	private CSCodeGenerator statusCodeGenerator;

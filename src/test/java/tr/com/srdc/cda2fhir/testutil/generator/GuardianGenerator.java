@@ -19,7 +19,7 @@ import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 
 public class GuardianGenerator {
 	private static final Map<String, Object> CONTACT_RLATIONSHIP = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ContactRelationship.json");
+			.filepathToMap("src/test/resources//value-maps/ContactRelationship.json");
 
 	private List<ADGenerator> addrGenerators = new ArrayList<>();
 	private List<TELGenerator> telecomGenerators = new ArrayList<>();

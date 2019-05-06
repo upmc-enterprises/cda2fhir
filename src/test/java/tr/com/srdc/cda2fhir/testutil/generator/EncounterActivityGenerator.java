@@ -45,7 +45,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class EncounterActivityGenerator {
 	private static final Map<String, Object> ENCOUNTER_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/EncounterStatus.json");
+			.filepathToMap("src/test/resources//value-maps/EncounterStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

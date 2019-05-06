@@ -44,7 +44,7 @@ public class ProblemConcernActTest {
 	private static DatatypesFactory cdaTypeFactory;
 
 	private static Map<String, Object> verificationStatusMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ConditionVerificationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ConditionVerificationStatus.json");
 
 	@BeforeClass
 	public static void init() {

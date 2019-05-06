@@ -44,7 +44,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class MedicationActivityGenerator {
 	private static final Map<String, Object> MED_STATEMENT_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/MedicationStatementStatus.json");
+			.filepathToMap("src/test/resources//value-maps/MedicationStatementStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

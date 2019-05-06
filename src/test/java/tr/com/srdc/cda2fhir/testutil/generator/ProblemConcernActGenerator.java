@@ -26,7 +26,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class ProblemConcernActGenerator {
 	private static final Map<String, Object> CONDITION_VERIFICATION_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ConditionVerificationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ConditionVerificationStatus.json");
 
 	private List<ProblemObservationGenerator> problemObservationGenerators = new ArrayList<>();
 

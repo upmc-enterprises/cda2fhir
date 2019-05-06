@@ -25,7 +25,7 @@ import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 
 public class MedicationDispenseGenerator {
 	private static final Map<String, Object> STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/MedicationDispenseStatus.json");
+			.filepathToMap("src/test/resources//value-maps/MedicationDispenseStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

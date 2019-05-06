@@ -66,11 +66,11 @@ public class AllergyConcernActTest {
 	private static Map<String, String> cdaAllergyIntoleranceTypeCodeToName = new HashMap<String, String>();
 
 	private static Map<String, Object> verificationStatusMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceVerificationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceVerificationStatus.json");
 	private static Map<String, Object> categoryMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceCategory.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceCategory.json");
 	private static Map<String, Object> typeMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceType.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceType.json");
 
 	@BeforeClass
 	public static void init() {

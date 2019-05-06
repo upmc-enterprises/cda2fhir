@@ -20,9 +20,9 @@ import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class TELGenerator {
 	private static Map<String, Object> contactPointSystemMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ContactPointSystem.json");
+			.filepathToMap("src/test/resources//value-maps/ContactPointSystem.json");
 	private static Map<String, Object> contactPointUseMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ContactPointUse.json");
+			.filepathToMap("src/test/resources//value-maps/ContactPointUse.json");
 
 	private static final String VALUE = "tel:+1(555)555-1009";
 	private static final String USE = "WP";

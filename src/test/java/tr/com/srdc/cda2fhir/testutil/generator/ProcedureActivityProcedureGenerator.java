@@ -31,7 +31,7 @@ import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class ProcedureActivityProcedureGenerator {
 	private static final Map<String, Object> PROCEDURE_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ProcedureStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ProcedureStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 	private IVL_TSPeriodGenerator ivlTsGenerator;

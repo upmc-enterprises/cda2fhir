@@ -22,7 +22,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class AllergyReactionObservationGenerator {
 	private static final Map<String, Object> ALLERGY_INTOLERANCE_SEVERITY = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AllergyIntoleranceSeverity.json");
+			.filepathToMap("src/test/resources//value-maps/AllergyIntoleranceSeverity.json");
 
 	private List<CDGenerator> valueGenerators = new ArrayList<>();
 

@@ -35,7 +35,7 @@ import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class MedicationSupplyOrderGenerator {
 	private static final Map<String, Object> MED_REQUEST_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/MedicationRequestStatus.json");
+			.filepathToMap("src/test/resources//value-maps/MedicationRequestStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

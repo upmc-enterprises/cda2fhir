@@ -21,9 +21,9 @@ import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 
 public class PatientGenerator {
 	private static final Map<String, Object> GENDER = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/Gender.json");
+			.filepathToMap("src/test/resources//value-maps/Gender.json");
 	private static final Map<String, Object> MARITAL_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/MaritalStatus.json");
+			.filepathToMap("src/test/resources//value-maps/MaritalStatus.json");
 
 	private List<PNGenerator> nameGenerators = new ArrayList<>();
 	private CECodeGenerator genderGenerator;

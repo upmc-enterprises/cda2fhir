@@ -21,7 +21,7 @@ import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 
 public class ResultOrganizerGenerator {
 	private static final Map<String, Object> DIAGNOSTIC_REPORT_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/DiagnosticReportStatus.json");
+			.filepathToMap("src/test/resources//value-maps/DiagnosticReportStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 

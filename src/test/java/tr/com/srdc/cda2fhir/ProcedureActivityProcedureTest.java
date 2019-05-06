@@ -34,7 +34,7 @@ public class ProcedureActivityProcedureTest {
 	private static CDAFactories factories;
 
 	private static Map<String, Object> statusMap = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ProcedureStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ProcedureStatus.json");
 
 	@BeforeClass
 	public static void init() {

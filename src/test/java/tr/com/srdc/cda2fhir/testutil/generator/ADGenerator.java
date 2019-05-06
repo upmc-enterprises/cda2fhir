@@ -20,9 +20,9 @@ import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 
 public class ADGenerator {
 	private static Map<String, Object> ADDRESS_TYPE = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AddressType.json");
+			.filepathToMap("src/test/resources//value-maps/AddressType.json");
 	private static Map<String, Object> ADDRESS_USE = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/AddressUse.json");
+			.filepathToMap("src/test/resources//value-maps/AddressUse.json");
 
 	private static final String LINE = "100 Aperture Drive";
 	private static final String LINE_2 = "Suite #1245";

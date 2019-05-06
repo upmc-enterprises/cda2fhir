@@ -35,7 +35,7 @@ import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class ImmunizationActivityGenerator {
 	private static final Map<String, Object> IMMUNIZATION_STATUS = JsonUtils
-			.filepathToMap("src/test/resources/jolt/value-maps/ImmunizationStatus.json");
+			.filepathToMap("src/test/resources//value-maps/ImmunizationStatus.json");
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
 
