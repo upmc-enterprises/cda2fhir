@@ -9,14 +9,17 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Property;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.exceptions.FHIRException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import tr.com.srdc.cda2fhir.jolt.report.ReportException;
 import tr.com.srdc.cda2fhir.transform.util.impl.IdentifierMap;
 
 public class IdentifierMapFactory {
 	interface ResourceInfo<T> {
 		T get(Resource resource);
 	}
+
+	private final static Logger logger = LoggerFactory.getLogger(IdentifierMapFactory.class);
 
 	public static <T> IIdentifierMap<T> bundleToResourceInfo(Bundle bundle, ResourceInfo<T> resourceInfo) {
 		IdentifierMap<T> identifierMap = new IdentifierMap<T>();
@@ -76,7 +79,7 @@ public class IdentifierMapFactory {
 			Resource resource = resources.get(index);
 			Property property = resource.getNamedProperty("identifier");
 			if (property == null) {
-				throw new ReportException("No identifier. Cannot be ordered");
+				logger.warn("No identifier. Cannot be ordered");
 			}
 			for (Base base : property.getValues()) {
 				Identifier identifier = resource.castToIdentifier(base);

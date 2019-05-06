@@ -1,29 +1,22 @@
 package tr.com.srdc.cda2fhir;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.json.JSONException;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.dstu3.model.Procedure;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import tr.com.srdc.cda2fhir.testutil.BundleUtil;
-import tr.com.srdc.cda2fhir.util.FHIRUtil;
 
 public class ProceduresSectionSnippetTest {
 	@BeforeClass
@@ -57,17 +50,6 @@ public class ProceduresSectionSnippetTest {
 				actualAnnotation);
 	}
 
-	private static void verifyGoldFile(List<Procedure> procedures, String sourceName)
-			throws IOException, JSONException {
-		String baseName = sourceName.substring(0, sourceName.length() - 4);
-
-		String actual = FHIRUtil.encodeToJSON(procedures);
-		FHIRUtil.printJSON(procedures, "src/test/resources/output/" + baseName + ".procedure.json");
-		Path goldFilePath = Paths.get("src/test/resources/gold/" + baseName + ".procedure.json");
-		String expected = new String(Files.readAllBytes(goldFilePath));
-		JSONAssert.assertEquals("Expect procedure gold file fields to remain", expected, actual, false);
-	}
-
 	private static void replaceIdWithIdentifier(List<Procedure> procedures) {
 		for (Procedure procedure : procedures) {
 			List<Identifier> identifiers = procedure.getIdentifier();
@@ -94,7 +76,6 @@ public class ProceduresSectionSnippetTest {
 		verifyProcedure(procedure2, "REPAIR ELBOW", "auto-populated from documented surgical case");
 
 		replaceIdWithIdentifier(procedures); // JSONAssert needs a unique key, id changes based on order
-		verifyGoldFile(procedures, "snippets/procedure_text.xml");
 	}
 
 	private static Encounter findEncounterByReference(List<Encounter> encounters, Reference reference) {
