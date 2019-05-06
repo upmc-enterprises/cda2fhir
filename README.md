@@ -59,8 +59,6 @@ In addition to the above mappings, cda2fhir also uses and supports the Patient, 
   * Provenance and Composition resources, which are not de-duplicated for attribution purposes.
   * DocumentReference resources are not de-duplicated, as there is no query accessor for the attachment hash field.
 * An integration test now uses Docker to automatically provision a HAPI FHIR server, post a transactional bundle to it, and.spot check for issues. Once complete this process will automatically de-provision the server.
-* Field-level data mappings are no longer statically maintained, and are instead generated from the source code using [Jolt](https://github.com/bazaarvoice/jolt). These mappings are validated by testing resources against the output of the cda2fhir library against the output created using Jolt templates.
-* cda2fhir now has a utility that enables users to generate a record of un-mapped fields for a given input document.
 
 ## Installation
 
