@@ -18,7 +18,7 @@ import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 import com.bazaarvoice.jolt.JsonUtils;
 
 import tr.com.srdc.cda2fhir.testutil.CDAFactories;
-import tr.com.srdc.cda2fhir.testutil.JoltUtil;
+import tr.com.srdc.cda2fhir.testutil.ValueMapUtil;
 import tr.com.srdc.cda2fhir.testutil.TestSetupException;
 
 public class PNGenerator {
@@ -62,7 +62,7 @@ public class PNGenerator {
 
 	@SuppressWarnings("unchecked")
 	public PNGenerator(Map<String, Object> json) {
-		JoltUtil.copyStringArray(json, uses, "use");
+		ValueMapUtil.copyStringArray(json, uses, "use");
 
 		family = new ENXPGenerator((String) json.get("family"));
 
