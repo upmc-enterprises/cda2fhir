@@ -6,7 +6,7 @@
 
 	<groupId>tr.com.srdc</groupId>
 	<artifactId>cda2fhir</artifactId>
-	<version>0.0.15-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -49,7 +49,44 @@
 	</build>
 	<packaging>jar</packaging>
 	<name>CDA to FHIR Transformer Library</name>
-
+	<developers>
+	<developer>
+			<name>Mert Baskaya</name>
+			<organization>SRDC</organization>
+		</developer>
+		<developer>
+			<name>Ryan Harrison</name>
+			<organization>Amida Technology Solutions</organization>
+		</developer>
+		<developer>
+			<name>Ismail Kocdemir</name>
+			<organization>SRDC</organization>
+		</developer>
+		<developer>
+			<name>Tahsincan Kose</name>
+			<organization>SRDC</organization>
+		</developer>
+		<developer>
+			<name>Matthew McCall</name>
+			<organization>Amida Technology Solutions</organization>
+		</developer>
+		<developer>
+			<name>Steven Staley</name>
+			<organization>Amida Technology Solutions</organization>
+		</developer>
+		<developer>
+			<name>Afsin Ustundag</name>
+			<organization>Amida Technology Solutions</organization>
+		</developer>
+		<developer>
+			<name>Necip Yildiran</name>
+			<organization>SRDC</organization>
+		</developer>
+		<developer>
+			<name>Mustafa Yuksel</name>
+			<organization>SRDC</organization>
+		</developer>
+	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
