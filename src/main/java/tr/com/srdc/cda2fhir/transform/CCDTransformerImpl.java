@@ -1,7 +1,6 @@
 package tr.com.srdc.cda2fhir.transform;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /*
  * #%L
@@ -40,10 +39,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.openhealthtools.mdht.uml.cda.Section;
-import org.openhealthtools.mdht.uml.cda.consol.ContinuityOfCareDocument;
-import org.openhealthtools.mdht.uml.cda.consol.MedicationSupplyOrder;
-import org.openhealthtools.mdht.uml.cda.consol.impl.MedicationSupplyOrderImpl;
-import org.openhealthtools.mdht.uml.cda.impl.SupplyImpl;
 import org.openhealthtools.mdht.uml.cda.consol.ConsolPackage;
 import org.openhealthtools.mdht.uml.cda.consol.ContinuityOfCareDocument;
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
@@ -59,15 +54,13 @@ import tr.com.srdc.cda2fhir.transform.util.IIdentifierMap;
 import tr.com.srdc.cda2fhir.transform.util.IdentifierMapFactory;
 import tr.com.srdc.cda2fhir.transform.util.impl.BundleInfo;
 import tr.com.srdc.cda2fhir.transform.util.impl.BundleRequest;
+import tr.com.srdc.cda2fhir.transform.util.impl.ReferenceInfo;
 import tr.com.srdc.cda2fhir.util.EMFUtil;
 import tr.com.srdc.cda2fhir.util.FHIRUtil;
 import tr.com.srdc.cda2fhir.util.IdGeneratorEnum;
 
 public class CCDTransformerImpl implements ICDATransformer, Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private int counter;
@@ -97,11 +90,12 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 		supportedSectionTypes.add(CDASectionTypeEnum.ENCOUNTERS_SECTION);
 		supportedSectionTypes.add(CDASectionTypeEnum.ENCOUNTERS_SECTION_ENTRIES_OPTIONAL);
 		supportedSectionTypes.add(CDASectionTypeEnum.RESULTS_SECTION);
+		supportedSectionTypes.add(CDASectionTypeEnum.VITAL_SIGNS_SECTION);
 	}
 
 	/**
 	 * Constructor that initiates with the provided resource id generator
-	 * 
+	 *
 	 * @param idGen The id generator enumeration to be set
 	 */
 	public CCDTransformerImpl(IdGeneratorEnum idGen) {
@@ -134,6 +128,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 		}
 	}
 
+	@Override
 	public void setIdGenerator(IdGeneratorEnum idGen) {
 		this.idGenerator = idGen;
 	}
@@ -151,6 +146,9 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	 * @param cda                A Consolidated CDA (C-CDA) 2.1 Continuity of Care
 	 *                           Document (CCD) instance to be transformed
 	 * @param bundleType         Desired type of the FHIR Bundle to be returned
+	 *
+	 * @param patientRef         Patient Reference of the given CDA Document
+	 *
 	 * @param resourceProfileMap The mappings of default resource profiles to
 	 *                           desired resource profiles. Used to set profile
 	 *                           URI's of bundle entries or omit unwanted entries.
@@ -192,7 +190,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	/**
 	 * Transforms a Consolidated CDA (C-CDA) 2.1 Continuity of Care Document (CCD)
 	 * instance to a Bundle of corresponding FHIR resources
-	 * 
+	 *
 	 * @param cda                A Consolidated CDA (C-CDA) 2.1 Continuity of Care
 	 *                           Document (CCD) instance to be transformed
 	 * @param bundleType         The type of bundle to create, currently only
@@ -207,6 +205,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	 *         Composition.
 	 * @throws Exception
 	 */
+
 	public Bundle transformDocument(String filePath, BundleType bundleType, Map<String, String> resourceProfileMap,
 			String documentBody, Identifier assemblerDevice) throws Exception {
 		ContinuityOfCareDocument cda = getClinicalDocument(filePath);
@@ -225,7 +224,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	/**
 	 * Transforms a Consolidated CDA (C-CDA) 2.1 Continuity of Care Document (CCD)
 	 * instance to a Bundle of corresponding FHIR resources
-	 * 
+	 *
 	 * @param filePath A file path string to a Consolidated CDA (C-CDA) 2.1
 	 *                 Continuity of Care Document (CCD) on file system
 	 * @return A FHIR Bundle that contains a Composition corresponding to the CCD
@@ -269,6 +268,8 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	 *         Composition.
 	 * @throws Exception
 	 */
+
+	@Override
 	public Bundle transformDocument(ContinuityOfCareDocument cda, BundleType bundleType,
 			Map<String, String> resourceProfileMap, String documentBody, Identifier assemblerDevice) throws Exception {
 		Bundle bundle = transformDocument(cda, true);
@@ -286,7 +287,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	/**
 	 * Transforms a Consolidated CDA (C-CDA) 2.1 Continuity of Care Document (CCD)
 	 * instance to a Bundle of corresponding FHIR resources
-	 * 
+	 *
 	 * @param cda          A Consolidated CDA (C-CDA) 2.1 Continuity of Care
 	 *                     Document (CCD) instance to be transformed.
 	 * @param documentBody The decoded base64 document that would be included in the
@@ -295,6 +296,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	 *         document and all other resources that are referenced within the
 	 *         Composition.
 	 */
+	@Override
 	public Bundle transformDocument(ContinuityOfCareDocument cda, String documentBody, Identifier assemblerDevice) {
 		Bundle bundle = transformDocument(cda, true);
 		if (assemblerDevice != null & !StringUtils.isEmpty(documentBody)) {
@@ -374,8 +376,10 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 				}
 
 				// add text annotation lookups.
-				Map<String, String> idedAnnotations = EMFUtil.findReferences(cdaSec.getText());
-				bundleInfo.mergeIdedAnnotations(idedAnnotations);
+				if (cdaSec.getText() != null) {
+					Map<String, String> idedAnnotations = EMFUtil.findReferences(cdaSec.getText());
+					bundleInfo.mergeIdedAnnotations(idedAnnotations);
+				}
 
 				ISectionResult sectionResult = section.transform(bundleInfo);
 				if (sectionResult != null) {
@@ -426,7 +430,7 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 
 	/**
 	 * Adds fullUrl field to the entry using it's resource id.
-	 * 
+	 *
 	 * @param entry Entry which fullUrl field to be added.
 	 */
 	private void addFullUrlToEntry(BundleEntryComponent entry) {

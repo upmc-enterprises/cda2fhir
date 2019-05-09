@@ -86,7 +86,6 @@ public class IndicationGenerator {
 		return indication;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void verify(Condition condition) {
 		if (!idGenerators.isEmpty()) {
 			for (int index = 0; index < idGenerators.size(); ++index) {
@@ -101,11 +100,6 @@ public class IndicationGenerator {
 			// throw new NotImplementedException("NOt yet implemented");
 		} else if (constCodeCode != null) {
 			Assert.assertEquals("Condition category count", 1, condition.getCategory().size());
-			Map<String, Object> result = (Map<String, Object>) CONDITION_CATEGORY.get(code);
-			Assert.assertNotNull("Condition category mapping value", result);
-			String expectedCode = (String) result.get("code");
-			String expectedSystem = (String) result.get("system");
-			String expectedDisplay = (String) result.get("display");
 			Coding actual = condition.getCategory().get(0).getCoding().get(0);
 			Assert.assertEquals("Condition category code", constCodeCode, actual.getCode());
 			Assert.assertEquals("Condition category system", constCodeSystem, actual.getSystem());

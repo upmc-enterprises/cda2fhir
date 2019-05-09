@@ -36,6 +36,5 @@ public class CDAMedicationsSection implements ICDASection {
 		return result;
 
 	}
-	
-	
+
 }

@@ -31,3 +31,4 @@ buildNumber.properties
 logs/
 src/test/resources/output
 HannahBanana_EpicCCD.xml
+/bin/

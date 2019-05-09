@@ -64,7 +64,7 @@ public class CompositionTest {
 		Assert.assertEquals("Expect type.display code.displayName", defaultExpectedTypeDisplay,
 				comp.getType().getCodingFirstRep().getDisplay());
 		Assert.assertEquals("Expect title to equal title", defaultExpectedTitle, comp.getTitle());
-		Assert.assertEquals("Expect confidentiality to eqial confidentiality", defaultExpectedConfidentiality,
+		Assert.assertEquals("Expect confidentiality to equal confidentiality", defaultExpectedConfidentiality,
 				comp.getConfidentiality().toString());
 		Assert.assertEquals("Expect composition to code system to equal http://hl7.org/fhir/ValueSet/doc-classcodes",
 				"http://hl7.org/fhir/ValueSet/doc-classcodes", comp.getClass_().getCodingFirstRep().getSystem());

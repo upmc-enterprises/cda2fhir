@@ -213,4 +213,12 @@ public class EntityResult implements IEntityResult {
 		info.setOrgIsNew(orgIsNew);
 	}
 
+	@Override
+	public String getDeviceId() {
+		Device device = info.getDevice();
+		if (device != null) {
+			return device.getId();
+		}
+		return null;
+	}
 }

@@ -54,7 +54,7 @@ public class BundleUtil {
 	public Resource getFromJSONArray(String fhirType, List<Object> identifiers) {
 		return identifierMap.getFromJSONArray(fhirType, identifiers);
 	}
-	
+
 	public IIdentifierMap<Resource> getIdentifierMap() {
 		return identifierMap;
 	}
@@ -238,7 +238,7 @@ public class BundleUtil {
 		Bundle bundle = generateBundle(sourceName, true);
 		return new BundleUtil(bundle);
 	}
-	
+
 	public static <T extends Resource> void printBundleResources(Bundle bundle, String sourceName, Class<T> cls)
 			throws Exception {
 		List<T> procedures = FHIRUtil.findResources(bundle, cls);

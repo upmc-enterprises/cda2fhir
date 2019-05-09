@@ -110,8 +110,12 @@ public class ProblemObservationGenerator {
 		}
 
 		if (codeGenerator != null) {
-			Assert.assertEquals("COndition category cpunt", 1, condition.getCategory().size());
-			codeGenerator.verify(condition.getCategory().get(0));
+			Assert.assertEquals("Condition category count", 1, condition.getCategory().size());
+			Coding actual = condition.getCategory().get(0).getCoding().get(0);
+			Assert.assertEquals("Condition category code", "problem-list-item", actual.getCode());
+			Assert.assertEquals("Condition category system", "http://hl7.org/fhir/condition-category",
+					actual.getSystem());
+			Assert.assertEquals("Condition category display", "Problem List Item", actual.getDisplay());
 		} else {
 			Assert.assertTrue("No condition category", !condition.hasCategory());
 		}

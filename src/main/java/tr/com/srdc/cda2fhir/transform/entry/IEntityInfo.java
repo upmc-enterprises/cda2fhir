@@ -15,4 +15,6 @@ public interface IEntityInfo {
 	boolean isOrgNew();
 
 	void setOrgIsNew(boolean orgIsNew);
+
+	Device getDevice();
 }

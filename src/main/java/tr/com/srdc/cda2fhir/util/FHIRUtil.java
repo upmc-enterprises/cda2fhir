@@ -199,6 +199,13 @@ public class FHIRUtil {
 		boolean get(Resource resource);
 	}
 
+	public static Bundle bundleJSON(File file) throws IOException {
+		InputStream targetStream = new FileInputStream(file);
+		Bundle resultBundle = (Bundle) jsonParser.parseResource(targetStream);
+		targetStream.close();
+		return resultBundle;
+	}
+
 	public static String toCDADatetime(String fhirDatetime) {
 		String noColon = fhirDatetime.replace(":", "");
 		String[] pieces = noColon.split("T");

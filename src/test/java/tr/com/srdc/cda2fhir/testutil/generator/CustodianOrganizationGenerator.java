@@ -1,20 +1,21 @@
-package tr.com.srdc.cda2fhir.testutil;
+package tr.com.srdc.cda2fhir.testutil.generator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Address;
-import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.junit.Assert;
-import org.openhealthtools.mdht.uml.cda.Organization;
+import org.openhealthtools.mdht.uml.cda.CustodianOrganization;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ON;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TEL;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 
-public class OrganizationGenerator {
+import tr.com.srdc.cda2fhir.testutil.CDAFactories;
+import tr.com.srdc.cda2fhir.testutil.TestSetupException;
+
+public class CustodianOrganizationGenerator {
 	private static final String NAME = "The Organization";
 
 	private String nullFlavor;
@@ -22,8 +23,19 @@ public class OrganizationGenerator {
 	private String name;
 
 	private List<IDGenerator> idGenerators = new ArrayList<>();
-	private List<ADGenerator> adGenerators = new ArrayList<>();
-	private List<TELGenerator> telGenerators = new ArrayList<>();
+	private ADGenerator adGenerator;
+	private TELGenerator telGenerator;
+
+	public CustodianOrganizationGenerator() {
+	}
+
+	public CustodianOrganizationGenerator(String name) {
+		this.name = name;
+	}
+
+	public void setADGenerator(ADGenerator adGenerator) {
+		this.adGenerator = adGenerator;
+	}
 
 	public void setNullFlavor() {
 		nullFlavor = "UNK";
@@ -33,13 +45,13 @@ public class OrganizationGenerator {
 		return nullFlavor != null;
 	}
 
-	public Organization generate(CDAFactories factories) {
-		Organization organization = factories.base.createOrganization();
+	public CustodianOrganization generate(CDAFactories factories) {
+		CustodianOrganization organization = factories.base.createCustodianOrganization();
 
 		if (name != null) {
 			ON on = factories.datatype.createON();
 			on.addText(name);
-			organization.getNames().add(on);
+			organization.setName(on);
 		}
 
 		idGenerators.forEach(idGenerator -> {
@@ -47,15 +59,15 @@ public class OrganizationGenerator {
 			organization.getIds().add(ii);
 		});
 
-		adGenerators.forEach(adGenerator -> {
+		if (adGenerator != null) {
 			AD ad = adGenerator.generate(factories);
-			organization.getAddrs().add(ad);
-		});
+			organization.setAddr(ad);
+		}
 
-		telGenerators.forEach(telGenerator -> {
+		if (telGenerator != null) {
 			TEL tel = telGenerator.generate(factories);
-			organization.getTelecoms().add(tel);
-		});
+			organization.setTelecom(tel);
+		}
 
 		if (nullFlavor != null) {
 			NullFlavor nf = NullFlavor.get(nullFlavor);
@@ -68,22 +80,19 @@ public class OrganizationGenerator {
 		return organization;
 	}
 
-	public static OrganizationGenerator getDefaultInstance() {
-		OrganizationGenerator og = new OrganizationGenerator();
+	public static CustodianOrganizationGenerator getDefaultInstance() {
+		CustodianOrganizationGenerator og = new CustodianOrganizationGenerator();
 
 		og.name = NAME;
 
-		ADGenerator adGenerator = ADGenerator.getDefaultInstance();
-		TELGenerator telGenerator = TELGenerator.getDefaultInstance();
-
-		og.adGenerators.add(adGenerator);
-		og.telGenerators.add(telGenerator);
+		og.adGenerator = ADGenerator.getDefaultInstance();
+		og.telGenerator = TELGenerator.getDefaultInstance();
 
 		return og;
 	}
 
-	public static OrganizationGenerator getFullInstance() {
-		OrganizationGenerator og = new OrganizationGenerator();
+	public static CustodianOrganizationGenerator getFullInstance() {
+		CustodianOrganizationGenerator og = new CustodianOrganizationGenerator();
 
 		og.name = NAME;
 
@@ -91,10 +100,8 @@ public class OrganizationGenerator {
 		og.idGenerators.add(IDGenerator.getNextInstance());
 		og.idGenerators.add(IDGenerator.getNextInstance());
 
-		og.adGenerators.add(ADGenerator.getFullInstance());
-		og.telGenerators.add(TELGenerator.getFullInstance());
-		og.adGenerators.add(ADGenerator.getDefaultInstance());
-		og.telGenerators.add(TELGenerator.getDefaultInstance());
+		og.adGenerator = ADGenerator.getDefaultInstance();
+		og.telGenerator = TELGenerator.getDefaultInstance();
 
 		return og;
 	}
@@ -108,16 +115,18 @@ public class OrganizationGenerator {
 			idGenerators.get(index).verify(identifiers.get(index));
 		}
 
-		List<Address> addresses = organization.getAddress();
-		Assert.assertEquals("Organization address count", addresses.size(), adGenerators.size());
-		for (int index = 0; index < adGenerators.size(); ++index) {
-			adGenerators.get(index).verify(addresses.get(index));
+		if (adGenerator == null) {
+			Assert.assertTrue("No address", !organization.hasAddress());
+		} else {
+			Assert.assertEquals("Address count", 1, organization.getAddress().size());
+			adGenerator.verify(organization.getAddress().get(0));
 		}
 
-		List<ContactPoint> contactPoints = organization.getTelecom();
-		Assert.assertEquals("Organization telecom count", contactPoints.size(), telGenerators.size());
-		for (int index = 0; index < telGenerators.size(); ++index) {
-			telGenerators.get(index).verify(contactPoints.get(index));
+		if (telGenerator == null) {
+			Assert.assertTrue("No telecom", !organization.hasTelecom());
+		} else {
+			Assert.assertEquals("Telecom count", 1, organization.getTelecom().size());
+			telGenerator.verify(organization.getTelecom().get(0));
 		}
 	}
 }
