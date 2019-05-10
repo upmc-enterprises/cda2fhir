@@ -94,7 +94,7 @@ This project incrementally builds and releases files for use in maven projects, 
 
 ## Transforming a CDA document to a Bundle of FHIR resources
 
-The below code is an annotated example of a basic CCD document transformation, further code examples can be found in [CCDTransformerTest.java](./src/test/java/tr/com/srdc/cda2fhir/CCDTransformerTest.java) file. You may also review all implemented interfaces in the [CCDTransformerImpl.java](./src/main/java/tr/com/srdc/cda2fhir/CCDTransformerImpl.java) file.
+The below code is an annotated example of a basic CCD document transformation, further code examples can be found in [CCDTransformerTest.java](./src/test/java/tr/com/srdc/cda2fhir/CCDTransformerTest.java) file. You may also review all implemented interfaces in the [CCDTransformerImpl.java](./src/main/java/tr/com/srdc/cda2fhir/transform/CCDTransformerImpl.java) file.
 
 The output of this operation will be located at: `src/test/resources/output/C-CDA_R2-1_CCD.json`.
 
