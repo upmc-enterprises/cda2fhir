@@ -1,6 +1,11 @@
 # Changelog
 Initial Changelog added (changes made by Amida).
 
+## [0.1.0] - 2019-05-10
+### Added
+- Cleaned up branches, documentation and commit history.
+- Incremented version number to indicate minor version.
+
 ## [0.0.15] - 2019-04-26
 ### Added
 - In bundle de-duplication for certain resources.
