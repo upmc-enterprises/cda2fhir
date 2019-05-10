@@ -93,7 +93,6 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<hapifhir.version>3.6.0</hapifhir.version>
 	</properties>
-
 	<repositories>
 		<repository>
 			<id>palantir</id>
