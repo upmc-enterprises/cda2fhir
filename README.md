@@ -31,7 +31,7 @@ documents/entries, it has been tested as well with several older document instan
 [HAPI FHIR Validator](http://hapifhir.io/doc_validation.html) is also integrated for automated validation of the generated FHIR resources.
 
 ## Latest Updates
-The original cda2fhir library created by [SRDC](https://github.com/srdc/cda2fhir) mapped C-CDA resources to FHIR DSTU2-compliant resources. Amida has created this fork of this library, incorporating the work of [CarthageKing](https://github.com/CarthageKing/cda2fhir), to instead map C-CDA resources to FHIR STU3-compliant resources. [Model Driven Health Tools (MDHT)](https://projects.eclipse.org/projects/modeling.mdht) is used for CDA manipulation and
+The original cda2fhir library created by [SRDC](https://github.com/srdc/cda2fhir) mapped C-CDA resources to FHIR DSTU2-compliant resources. [Amida](https://www.amida.com) has created this fork of this library, incorporating the work of [CarthageKing](https://github.com/CarthageKing/cda2fhir), to instead map C-CDA resources to FHIR STU3-compliant resources. [Model Driven Health Tools (MDHT)](https://projects.eclipse.org/projects/modeling.mdht) is used for CDA manipulation and
 [HAPI](http://hapifhir.io/) is used for FHIR manipulation. This version of cda2fhir currently supports the following C-CDA Section to Resource mappings:
 
 |C-CDA Section    | FHIR Resource(s)   |
