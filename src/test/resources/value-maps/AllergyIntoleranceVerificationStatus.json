@@ -1,6 +1,0 @@
-{
-	"completed": "confirmed",
-	"active": "confirmed",
-	"aborted": "unconfirmed",
-	"suspended": "unconfirmed"
-}

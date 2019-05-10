@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>tr.com.srdc</groupId>
+  <artifactId>cda2fhir</artifactId>
+  <versioning>
+    <versions>
+      <version>0.1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20190510171026</lastUpdated>
+  </versioning>
+</metadata>

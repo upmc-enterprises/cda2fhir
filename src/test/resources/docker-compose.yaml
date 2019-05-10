@@ -1,4 +1,0 @@
-hapi:
-  image: amidatech/hapi-fhir-jpaserver-starter:latest
-  ports:
-    - 1137:8080
