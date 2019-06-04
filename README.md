@@ -45,7 +45,7 @@ The original cda2fhir library created by [SRDC](https://github.com/srdc/cda2fhir
 |Allergies and Intolerances| AllergyIntolerance|
 |Encounters| Encounter|
 
-In addition to the above mappings, cda2fhir also uses and supports the Patient, Practitioner, PractitionerRole, Organization, Location, Device, DocumentReference, Composition, and Provenance FHIR Resources.
+In addition to the above mappings, cda2fhir also uses and supports the Patient, Practitioner, PractitionerRole, Organization, Location, Device, DocumentReference, Composition, and Provenance FHIR Resources. Field-level mappings for the aformentioned Resources may be found within [this spreadsheet](https://docs.google.com/spreadsheets/d/1fyoUSfTXBUJMC2wqqC1hAda77pyHWpULqrsF6G3Aock/edit?usp=sharing).
 
 **This version of the cda2fhir library implements several additional features not present in the SRDC version. These include:**
 
