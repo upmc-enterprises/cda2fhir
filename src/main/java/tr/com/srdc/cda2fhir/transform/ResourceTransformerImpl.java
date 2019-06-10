@@ -2625,7 +2625,9 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			}
 			// repeatNumber -> dosageRequest.numberOfRepeatsAllowed
 			if (cdaSupplyOrder.getRepeatNumber() != null && !cdaSupplyOrder.isSetNullFlavor()) {
-				dispenseRequest.setNumberOfRepeatsAllowed(cdaSupplyOrder.getRepeatNumber().getValue().intValue());
+				if (cdaSupplyOrder.getRepeatNumber().getValue() != null) {
+					dispenseRequest.setNumberOfRepeatsAllowed(cdaSupplyOrder.getRepeatNumber().getValue().intValue());
+				}
 			}
 
 			// effectiveTime -> dispenseRequest.validityPeriod
