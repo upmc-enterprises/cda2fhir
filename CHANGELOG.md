@@ -1,6 +1,10 @@
 # Changelog
 Initial Changelog added (changes made by Amida).
 
+## [0.1.1] - 2019-06-12
+### Fixed
+- Issue in medication repeat checking.
+
 ## [0.1.0] - 2019-05-10
 ### Added
 - Cleaned up branches, documentation and commit history.
