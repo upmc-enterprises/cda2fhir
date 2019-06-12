@@ -89,6 +89,18 @@ public class MedicationRequestTest {
 	}
 
 	@Test
+	public void testMedicationSupplyOrderEmpty() throws Exception {
+		BundleInfo bInfo = new BundleInfo(rt);
+		MedicationSupplyOrder defaultMedSupplyOrder = medSupplyOrderGenerator.generateDefaultMedicationSupplyOrder();
+		Integer nullValue = null;
+		defaultMedSupplyOrder.getRepeatNumber().setValue(nullValue);
+		EntryResult entryResult = rt.medicationSupplyOrder2MedicationRequest(defaultMedSupplyOrder, bInfo);
+		Bundle resultBundle = entryResult.getBundle();
+		MedicationRequest medRequest = BundleUtil.findOneResource(resultBundle, MedicationRequest.class);
+		Assert.assertTrue(medRequest.getDispenseRequest().getNumberOfRepeatsAllowedElement().isEmpty());
+	}
+
+	@Test
 	public void testMedicationActivity() throws Exception {
 		BundleInfo bInfo = new BundleInfo(rt);
 		MedicationActivity medActivity = factories.consol.createMedicationActivity();
