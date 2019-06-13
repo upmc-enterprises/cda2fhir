@@ -17,14 +17,7 @@ limitations under the License.
 cda2fhir [![License Info](http://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/srdc/cda2fhir/blob/master/LICENSE.txt)
 ===
 
-cda2fhir is a Java library to transform HL7 CDA R2 instances to HL7 FHIR resources. More specifically, cda2fhir enables automatic transformation of
-Consolidated CDA (C-CDA) Release 2.1 compliant document instances to the corresponding FHIR DSTU2 resources, wherever possible implementing the
-[U.S. Data Access Framework (DAF) FHIR Implementation Guide](http://hl7.org/fhir/DSTU2/daf/daf.html). For this purpose, cda2fhir provides extensible
-document transformers, resource transformers, data type transformers and value set transformers. The current implementation provides a
-document transformer for Continuity of Care Document (CCD), but further document transformers, e.g. for Discharge Summary or Referral Note,
-can be easily introduced by reusing the already existing section and entry transformers. Although the cda2fhir library expects C-CDA R2.1 compliant
-documents/entries, it has been tested as well with several older document instances compliant with earlier releases of C-CDA. The official
-[HL7 FHIR Validator](https://www.hl7.org/fhir/validation.html#jar) is also integrated for automated validation of the generated FHIR resources.
+cda2fhir is a Java library to transform HL7 CDA R2 instances to HL7 FHIR resources. More specifically, cda2fhir enables automatic transformation of Consolidated CDA (C-CDA) Release 2.1 compliant document instances to the corresponding FHIR DSTU2 resources, wherever possible implementing the [U.S. Data Access Framework (DAF) FHIR Implementation Guide](http://hl7.org/fhir/DSTU2/daf/daf.html). For this purpose, cda2fhir provides extensible document transformers, resource transformers, data type transformers and value set transformers. The current implementation provides a document transformer for Continuity of Care Document (CCD), but further document transformers, e.g. for Discharge Summary or Referral Note, can be easily introduced by reusing the already existing section and entry transformers. Although the cda2fhir library expects C-CDA R2.1 compliant documents/entries, it has been tested as well with several older document instances compliant with earlier releases of C-CDA. The official [HL7 FHIR Validator](https://www.hl7.org/fhir/validation.html#jar) is also integrated for automated validation of the generated FHIR resources.
 
 All the mappings implemented between CDA artifacts and FHIR resources, data types and value sets are documented in this sheet:
 [C-CDA CCD to FHIR DAF Mapping](https://docs.google.com/spreadsheets/d/15Kv6PFyPh91sH1JMYwLH7D2yjh4HOTy5pjETjQNRyaU/edit?usp=sharing)
