@@ -21,14 +21,11 @@ cda2fhir
 
 ## Overview
 cda2fhir is a Java library to transform HL7 [CDA R2](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=7) instances to HL7 [FHIR](https://www.hl7.org/fhir/) resources. More specifically, cda2fhir enables automatic transformation of
-Consolidated CDA (C-CDA) Release 2.1 compliant documents to corresponding FHIR STU3 resources. For this purpose, cda2fhir provides extensible
-document transformers, resource transformers, data type transformers and value set transformers.
+Consolidated CDA (C-CDA) Release 2.1 compliant documents to corresponding FHIR STU3 resources. For this purpose, cda2fhir provides extensible document transformers, resource transformers, data type transformers and value set transformers.
 
 The current implementation provides a
 document transformer for the Continuity of Care Document (CCD) template, but further document transformers, e.g. for Discharge Summary or Referral Note,
-can be easily introduced by reusing the already existing section and entry transformers. Although the cda2fhir library expects C-CDA R2.1 compliant
-documents/entries, it has been tested as well with several older document instances compliant with earlier releases of C-CDA. The 
-[HAPI FHIR Validator](http://hapifhir.io/doc_validation.html) is also integrated for automated validation of the generated FHIR resources.
+can be easily introduced by reusing the already existing section and entry transformers. Although the cda2fhir library expects C-CDA R2.1 compliant documents/entries, it has been tested as well with several older document instances compliant with earlier releases of C-CDA. The [HAPI FHIR Validator](http://hapifhir.io/doc_validation.html) is also integrated for automated validation of the generated FHIR resources.
 
 ## Latest Updates
 The original cda2fhir library created by [SRDC](https://github.com/srdc/cda2fhir) mapped C-CDA resources to FHIR DSTU2-compliant resources. [Amida](https://www.amida.com) has created this fork of this library, incorporating the work of [CarthageKing](https://github.com/CarthageKing/cda2fhir), to instead map C-CDA resources to FHIR STU3-compliant resources. [Model Driven Health Tools (MDHT)](https://projects.eclipse.org/projects/modeling.mdht) is used for CDA manipulation and
