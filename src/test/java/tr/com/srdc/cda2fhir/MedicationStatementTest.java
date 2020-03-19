@@ -22,8 +22,8 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Base;
-import org.hl7.fhir.dstu3.model.Dosage;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.Dosage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -67,10 +67,10 @@ public class MedicationStatementTest {
 
 		// Transform from CDA to FHIR.
 		BundleInfo bundleInfo = new BundleInfo(rt);
-		org.hl7.fhir.dstu3.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
+		org.hl7.fhir.r4.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
 				.getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
 		List<Base> takenCodes = fhirResource.getNamedProperty("taken").getValues();
 
 		// Make assertions.
@@ -161,10 +161,10 @@ public class MedicationStatementTest {
 		// Create signature to free text mapping in Bundle Info
 		bundleInfo.getIdedAnnotations().put(sig, freeTextInstruction);
 
-		org.hl7.fhir.dstu3.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
+		org.hl7.fhir.r4.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
 				.getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
 
 		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("dose")
 				.getValues();

@@ -20,33 +20,29 @@ package tr.com.srdc.cda2fhir.transform;
  * #L%
  */
 
-import org.hl7.fhir.dstu3.model.Address.AddressType;
-import org.hl7.fhir.dstu3.model.Address.AddressUse;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCriticality;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceSeverity;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceType;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus;
-import org.hl7.fhir.dstu3.model.Condition.ConditionVerificationStatus;
-import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointSystem;
-import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointUse;
-import org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportStatus;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.Enumerations.AdministrativeGender;
-import org.hl7.fhir.dstu3.model.FamilyMemberHistory.FamilyHistoryStatus;
-import org.hl7.fhir.dstu3.model.Group.GroupType;
-import org.hl7.fhir.dstu3.model.HumanName.NameUse;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
-import org.hl7.fhir.dstu3.model.MedicationDispense.MedicationDispenseStatus;
-import org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus;
-import org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus;
-import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
-import org.hl7.fhir.dstu3.model.Procedure.ProcedureStatus;
-import org.hl7.fhir.dstu3.model.Timing.UnitsOfTime;
+import org.hl7.fhir.r4.model.Address.AddressType;
+import org.hl7.fhir.r4.model.Address.AddressUse;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCategory;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCriticality;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceSeverity;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceType;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.ContactPoint.ContactPointSystem;
+import org.hl7.fhir.r4.model.ContactPoint.ContactPointUse;
+import org.hl7.fhir.r4.model.DiagnosticReport.DiagnosticReportStatus;
+import org.hl7.fhir.r4.model.Encounter.EncounterStatus;
+import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
+import org.hl7.fhir.r4.model.FamilyMemberHistory.FamilyHistoryStatus;
+import org.hl7.fhir.r4.model.Group.GroupType;
+import org.hl7.fhir.r4.model.HumanName.NameUse;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
+import org.hl7.fhir.r4.model.MedicationDispense.MedicationDispenseStatus;
+import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestStatus;
+import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementStatus;
+import org.hl7.fhir.r4.model.Observation.ObservationStatus;
+import org.hl7.fhir.r4.model.Procedure.ProcedureStatus;
+import org.hl7.fhir.r4.model.Timing.UnitsOfTime;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.vocab.EntityClassRoot;
 import org.openhealthtools.mdht.uml.hl7.vocab.EntityNameUse;
@@ -266,7 +262,7 @@ public interface IValueSetsTransformer {
 	 * @param cdaStatusCode A CDA StatusCode string
 	 * @return A value from the FHIR valueset AllergyIntoleranceVerificationStatus
 	 */
-	AllergyIntoleranceVerificationStatus tStatusCode2AllergyIntoleranceVerificationStatus(String cdaStatusCode);
+	CodeableConcept tStatusCode2AllergyIntoleranceVerificationStatus(String cdaStatusCode);
 
 	/**
 	 * Transforms a CDA StatusCode string to a value from the FHIR valueset
@@ -275,7 +271,7 @@ public interface IValueSetsTransformer {
 	 * @param cdaStatusCode A CDA StatusCode string
 	 * @return A value from the FHIR valueset ConditionVerificationStatus
 	 */
-	ConditionVerificationStatus tStatusCode2ConditionVerificationStatus(String cdaStatusCode);
+	CodeableConcept tStatusCode2ConditionVerificationStatus(String cdaStatusCode);
 
 	/**
 	 * Transforms a CDA StatusCode string to a value from the FHIR valueset
@@ -348,7 +344,7 @@ public interface IValueSetsTransformer {
 	 * @param code ProblemStatus code
 	 * @return A value from the FHIR AllergyIntoleranceClinicalStatus
 	 */
-	AllergyIntoleranceClinicalStatus tProblemStatus2AllergyIntoleranceClinicalStatus(String code);
+	CodeableConcept tProblemStatus2AllergyIntoleranceClinicalStatus(String code);
 
 	/**
 	 * Transforms a CDA ProblemStatus code to a COnditionClinicalStatus
@@ -356,7 +352,7 @@ public interface IValueSetsTransformer {
 	 * @param code ProblemStatus code
 	 * @return A value from the FHIR ConditionClinicalStatus
 	 */
-	ConditionClinicalStatus tProblemStatus2ConditionClinicalStatus(String code);
+	CodeableConcept tProblemStatus2ConditionClinicalStatus(String code);
 
 	MedicationRequestStatus tActStatus2MedicationRequestStatus(String string);
 }

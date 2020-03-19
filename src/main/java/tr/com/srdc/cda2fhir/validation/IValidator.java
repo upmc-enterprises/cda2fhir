@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import java.io.OutputStream;
 
-import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import ca.uhn.fhir.validation.ValidationResult;

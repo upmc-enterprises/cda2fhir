@@ -30,80 +30,80 @@ import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
-import org.hl7.fhir.dstu3.model.Age;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCriticality;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
-import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.Attachment;
-import org.hl7.fhir.dstu3.model.Base64BinaryType;
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Composition;
-import org.hl7.fhir.dstu3.model.Composition.CompositionAttestationMode;
-import org.hl7.fhir.dstu3.model.Composition.CompositionAttesterComponent;
-import org.hl7.fhir.dstu3.model.Composition.CompositionEventComponent;
-import org.hl7.fhir.dstu3.model.Composition.DocumentConfidentiality;
-import org.hl7.fhir.dstu3.model.Composition.SectionComponent;
-import org.hl7.fhir.dstu3.model.Composition.SectionMode;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus;
-import org.hl7.fhir.dstu3.model.Device;
-import org.hl7.fhir.dstu3.model.Device.FHIRDeviceStatus;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
-import org.hl7.fhir.dstu3.model.DocumentReference;
-import org.hl7.fhir.dstu3.model.DocumentReference.DocumentReferenceContentComponent;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
-import org.hl7.fhir.dstu3.model.Enumerations.AdministrativeGender;
-import org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
-import org.hl7.fhir.dstu3.model.FamilyMemberHistory;
-import org.hl7.fhir.dstu3.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
-import org.hl7.fhir.dstu3.model.Group;
-import org.hl7.fhir.dstu3.model.Group.GroupType;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationPractitionerComponent;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationReactionComponent;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationDispense.MedicationDispenseStatus;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestDispenseRequestComponent;
-import org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent;
-import org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestRequesterComponent;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus;
-import org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken;
-import org.hl7.fhir.dstu3.model.Narrative;
-import org.hl7.fhir.dstu3.model.Narrative.NarrativeStatus;
-import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Patient.ContactComponent;
-import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.Procedure.ProcedurePerformerComponent;
-import org.hl7.fhir.dstu3.model.Procedure.ProcedureStatus;
-import org.hl7.fhir.dstu3.model.Provenance;
-import org.hl7.fhir.dstu3.model.Provenance.ProvenanceAgentComponent;
-import org.hl7.fhir.dstu3.model.Provenance.ProvenanceEntityComponent;
-import org.hl7.fhir.dstu3.model.Provenance.ProvenanceEntityRole;
-import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
-import org.hl7.fhir.dstu3.model.SimpleQuantity;
-import org.hl7.fhir.dstu3.model.Substance;
-import org.hl7.fhir.dstu3.model.Timing;
-import org.hl7.fhir.dstu3.model.codesystems.ProvenanceAgentRole;
-import org.hl7.fhir.dstu3.model.codesystems.ProvenanceAgentType;
+import org.hl7.fhir.r4.model.Age;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCriticality;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
+import org.hl7.fhir.r4.model.Annotation;
+import org.hl7.fhir.r4.model.Attachment;
+import org.hl7.fhir.r4.model.Base64BinaryType;
+import org.hl7.fhir.r4.model.BooleanType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Composition.CompositionAttestationMode;
+import org.hl7.fhir.r4.model.Composition.CompositionAttesterComponent;
+import org.hl7.fhir.r4.model.Composition.CompositionEventComponent;
+import org.hl7.fhir.r4.model.Composition.DocumentConfidentiality;
+import org.hl7.fhir.r4.model.Composition.SectionComponent;
+import org.hl7.fhir.r4.model.Composition.SectionMode;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Condition.ConditionClinicalStatus;
+import org.hl7.fhir.r4.model.Device;
+import org.hl7.fhir.r4.model.Device.FHIRDeviceStatus;
+import org.hl7.fhir.r4.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.DocumentReference;
+import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent;
+import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
+import org.hl7.fhir.r4.model.Enumerations.DocumentReferenceStatus;
+import org.hl7.fhir.r4.model.FamilyMemberHistory;
+import org.hl7.fhir.r4.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
+import org.hl7.fhir.r4.model.Group;
+import org.hl7.fhir.r4.model.Group.GroupType;
+import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationPractitionerComponent;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationDispense.MedicationDispenseStatus;
+import org.hl7.fhir.r4.model.MedicationRequest;
+import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestDispenseRequestComponent;
+import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestIntent;
+import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestRequesterComponent;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementStatus;
+import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementTaken;
+import org.hl7.fhir.r4.model.Narrative;
+import org.hl7.fhir.r4.model.Narrative.NarrativeStatus;
+import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Patient.ContactComponent;
+import org.hl7.fhir.r4.model.Patient.PatientCommunicationComponent;
+import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Procedure.ProcedurePerformerComponent;
+import org.hl7.fhir.r4.model.Procedure.ProcedureStatus;
+import org.hl7.fhir.r4.model.Provenance;
+import org.hl7.fhir.r4.model.Provenance.ProvenanceAgentComponent;
+import org.hl7.fhir.r4.model.Provenance.ProvenanceEntityComponent;
+import org.hl7.fhir.r4.model.Provenance.ProvenanceEntityRole;
+import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.SimpleQuantity;
+import org.hl7.fhir.r4.model.Substance;
+import org.hl7.fhir.r4.model.Timing;
+import org.hl7.fhir.r4.model.codesystems.ProvenanceAgentRole;
+import org.hl7.fhir.r4.model.codesystems.ProvenanceAgentType;
 import org.hl7.fhir.exceptions.FHIRException;
 import org.openhealthtools.mdht.uml.cda.Act;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
@@ -328,7 +328,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (cdaAllergyProbAct.getStatusCode() != null && !cdaAllergyProbAct.getStatusCode().isSetNullFlavor()) {
 			if (cdaAllergyProbAct.getStatusCode().getCode() != null
 					&& !cdaAllergyProbAct.getStatusCode().getCode().isEmpty()) {
-				AllergyIntoleranceVerificationStatus allergyIntoleranceStatusEnum = vst
+				CodeableConcept allergyIntoleranceStatusEnum = vst
 						.tStatusCode2AllergyIntoleranceVerificationStatus(cdaAllergyProbAct.getStatusCode().getCode());
 				if (allergyIntoleranceStatusEnum != null) {
 					fhirAllergyIntolerance.setVerificationStatus(allergyIntoleranceStatusEnum);
@@ -468,7 +468,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 									if (observation != null && observation instanceof AllergyStatusObservation) {
 										observation.getValues().stream().filter(value -> value instanceof CE)
 												.map(value -> (CE) value).map(ce -> ce.getCode()).forEach(code -> {
-													AllergyIntoleranceClinicalStatus status = vst
+													CodeableConcept status = vst
 															.tProblemStatus2AllergyIntoleranceClinicalStatus(code);
 													fhirAllergyIntolerance.setClinicalStatus(status);
 												});
@@ -642,8 +642,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			IEntryResult orgResult = tOrganization2Organization(cdaAssignedAuthor.getRepresentedOrganization(),
 					bundleInfo);
 
-			org.hl7.fhir.dstu3.model.Organization org = (Organization) orgResult
-					.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization org = (Organization) orgResult
+					.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 
 			if (orgResult.hasResult()) {
 				info.setOrgIsNew(true);
@@ -758,8 +758,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			IEntryResult orgResult = tOrganization2Organization(cdaAssignedAuthor.getRepresentedOrganization(),
 					bundleInfo);
 
-			org.hl7.fhir.dstu3.model.Organization fhirOrganization = (Organization) orgResult
-					.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization fhirOrganization = (Organization) orgResult
+					.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 
 			if (orgResult.hasResult()) {
 				info.setOrgIsNew(true);
@@ -875,8 +875,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				IEntryResult orgResult = tOrganization2Organization(
 						cdaAssignedEntity.getRepresentedOrganizations().get(0), bundleInfo);
 
-				org.hl7.fhir.dstu3.model.Organization fhirOrganization = (Organization) orgResult
-						.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+				org.hl7.fhir.r4.model.Organization fhirOrganization = (Organization) orgResult
+						.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 
 				if (orgResult.hasResult()) {
 					info.setOrgIsNew(true);
@@ -1139,8 +1139,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					bundleInfo.updateFrom(orgResult);
 
 					if (fhirComp != null) {
-						org.hl7.fhir.dstu3.model.Organization fhirOrganization = (Organization) orgResult
-								.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+						org.hl7.fhir.r4.model.Organization fhirOrganization = (Organization) orgResult
+								.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 
 						if (fhirOrganization != null) {
 							fhirComp.setCustodian(getReference(fhirOrganization));
@@ -1162,7 +1162,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (cdaOrganization == null || cdaOrganization.isSetNullFlavor())
 			return result;
 
-		org.hl7.fhir.dstu3.model.Organization fhirOrganization = new org.hl7.fhir.dstu3.model.Organization();
+		org.hl7.fhir.r4.model.Organization fhirOrganization = new org.hl7.fhir.r4.model.Organization();
 
 		// resource id
 		IdType resourceId = new IdType("Organization", getUniqueId());
@@ -1175,14 +1175,14 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		// id -> identifier
 		if (cdaOrganization.getIds() != null && !cdaOrganization.getIds().isEmpty()) {
 
-			org.hl7.fhir.dstu3.model.Organization previousOrganization = (Organization) bundleInfo
-					.findResourceResult(cdaOrganization.getIds(), org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization previousOrganization = (Organization) bundleInfo
+					.findResourceResult(cdaOrganization.getIds(), org.hl7.fhir.r4.model.Organization.class);
 
 			if (previousOrganization != null) {
 				result.addExistingResource(previousOrganization);
 				return result;
 			} else {
-				result.putIIResource(cdaOrganization.getIds(), org.hl7.fhir.dstu3.model.Organization.class,
+				result.putIIResource(cdaOrganization.getIds(), org.hl7.fhir.r4.model.Organization.class,
 						fhirOrganization);
 
 			}
@@ -1230,7 +1230,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			return result;
 		}
 
-		org.hl7.fhir.dstu3.model.Encounter fhirEncounter = new org.hl7.fhir.dstu3.model.Encounter();
+		org.hl7.fhir.r4.model.Encounter fhirEncounter = new org.hl7.fhir.r4.model.Encounter();
 		result.addResource(fhirEncounter);
 
 		// NOTE: hospitalization.period not found. However, daf requires it being mapped
@@ -1370,7 +1370,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 								// then, we add the resource.location to resource.encounter.location
 
 								// usage of ParticipantRole2Location
-								org.hl7.fhir.dstu3.model.Location fhirLocation = tParticipantRole2Location(
+								org.hl7.fhir.r4.model.Location fhirLocation = tParticipantRole2Location(
 										cdaParticipant.getParticipantRole());
 								result.addResource(fhirLocation);
 								fhirEncounter.addLocation().setLocation(getReference(fhirLocation));
@@ -1572,7 +1572,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			return result;
 		}
 
-		org.hl7.fhir.dstu3.model.Observation fhirObs = new org.hl7.fhir.dstu3.model.Observation();
+		org.hl7.fhir.r4.model.Observation fhirObs = new org.hl7.fhir.r4.model.Observation();
 		result.addResource(fhirObs);
 
 		// resource id
@@ -1643,7 +1643,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					if (cdaSupply != null && !cdaSupply.isSetNullFlavor()) {
 						if (cdaSupply instanceof NonMedicinalSupplyActivity) {
 							// Non-Medicinal Supply Activity
-							org.hl7.fhir.dstu3.model.Device fhirDev = tSupply2Device(cdaSupply);
+							org.hl7.fhir.r4.model.Device fhirDev = tSupply2Device(cdaSupply);
 							fhirObs.setDevice(getReference(fhirDev));
 							result.addResource(fhirDev);
 						}
@@ -1791,8 +1791,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					result.updateFrom(orgResult);
 					localBundleInfo.updateFrom(orgResult);
 					if (orgResult.getFullBundle() != null) {
-						org.hl7.fhir.dstu3.model.Organization fhirOrganization = FHIRUtil.findFirstResource(
-								orgResult.getFullBundle(), org.hl7.fhir.dstu3.model.Organization.class);
+						org.hl7.fhir.r4.model.Organization fhirOrganization = FHIRUtil.findFirstResource(
+								orgResult.getFullBundle(), org.hl7.fhir.r4.model.Organization.class);
 						if (fhirOrganization != null) {
 							fhirImmunization.setManufacturer(getReference(fhirOrganization));
 						}
@@ -1904,11 +1904,11 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			EntryResult er = tReactionObservation2Observation(cdaImmunizationActivity.getReactionObservation(),
 					bundleInfo);
 			Bundle reactionBundle = er.getBundle();
-			org.hl7.fhir.dstu3.model.Observation fhirReactionObservation = null;
+			org.hl7.fhir.r4.model.Observation fhirReactionObservation = null;
 			for (BundleEntryComponent entry : reactionBundle.getEntry()) {
 				result.addResource(entry.getResource());
-				if (entry.getResource() instanceof org.hl7.fhir.dstu3.model.Observation) {
-					fhirReactionObservation = (org.hl7.fhir.dstu3.model.Observation) entry.getResource();
+				if (entry.getResource() instanceof org.hl7.fhir.r4.model.Observation) {
+					fhirReactionObservation = (org.hl7.fhir.r4.model.Observation) entry.getResource();
 
 					ImmunizationReactionComponent fhirReaction = fhirImmunization.addReaction();
 					// reaction -> reaction.detail[ref=Observation]
@@ -2050,14 +2050,14 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					&& !cdaIndication.getEffectiveTime().getLow().isSetNullFlavor()
 					&& cdaIndication.getEffectiveTime().getHigh() != null
 					&& !cdaIndication.getEffectiveTime().getHigh().isSetNullFlavor()) {
-				fhirCond.setClinicalStatus(ConditionClinicalStatus.INACTIVE);
+				fhirCond.setClinicalStatus(new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "inactive", "Inactive")));
 			} else if (cdaIndication.getEffectiveTime().getLow() != null
 					&& !cdaIndication.getEffectiveTime().getLow().isSetNullFlavor()) {
 				// low is present, high is not present -> active
-				fhirCond.setClinicalStatus(ConditionClinicalStatus.ACTIVE);
+				fhirCond.setClinicalStatus(new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "Active")));
 			} else if (cdaIndication.getEffectiveTime().getValue() != null) {
 				// value is present, low&high is not present -> active
-				fhirCond.setClinicalStatus(ConditionClinicalStatus.ACTIVE);
+				fhirCond.setClinicalStatus(new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "Active")));
 			}
 		}
 
@@ -2149,8 +2149,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			IEntryResult orgResult = tOrganization2Organization(cdaManufacturedProduct.getManufacturerOrganization(),
 					bundleInfo);
 
-			org.hl7.fhir.dstu3.model.Organization fhirOrganization = (Organization) orgResult
-					.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization fhirOrganization = (Organization) orgResult
+					.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 
 			result.updateFrom(orgResult);
 
@@ -2216,7 +2216,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		}
 
 		MedicationStatement fhirMedSt = new MedicationStatement();
-		org.hl7.fhir.dstu3.model.Dosage fhirDosage = fhirMedSt.addDosage();
+		org.hl7.fhir.r4.model.Dosage fhirDosage = fhirMedSt.addDosage();
 		result.addResource(fhirMedSt);
 
 		// resource id
@@ -2429,7 +2429,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// NOTE: Following mapping doesn't really suit the mapping proposed by daf
 
-		org.hl7.fhir.dstu3.model.MedicationDispense fhirMediDisp = new org.hl7.fhir.dstu3.model.MedicationDispense();
+		org.hl7.fhir.r4.model.MedicationDispense fhirMediDisp = new org.hl7.fhir.r4.model.MedicationDispense();
 		result.addResource(fhirMediDisp);
 
 		// patient
@@ -2521,7 +2521,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		}
 
 		// Adding dosageInstruction
-		org.hl7.fhir.dstu3.model.Dosage fhirDosageInstruction = fhirMediDisp.addDosageInstruction();
+		org.hl7.fhir.r4.model.Dosage fhirDosageInstruction = fhirMediDisp.addDosageInstruction();
 
 		// TODO: The information used for dosageInstruction is used for different
 		// fields, too.
@@ -2691,7 +2691,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			return result;
 		}
 
-		org.hl7.fhir.dstu3.model.Observation fhirObs = new org.hl7.fhir.dstu3.model.Observation();
+		org.hl7.fhir.r4.model.Observation fhirObs = new org.hl7.fhir.r4.model.Observation();
 		result.addResource(fhirObs);
 
 		// resource id
@@ -2876,7 +2876,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			return result;
 		}
 
-		org.hl7.fhir.dstu3.model.Organization fhirOrganization = new org.hl7.fhir.dstu3.model.Organization();
+		org.hl7.fhir.r4.model.Organization fhirOrganization = new org.hl7.fhir.r4.model.Organization();
 
 		// resource id
 		IdType resourceId = new IdType("Organization", getUniqueId());
@@ -2888,14 +2888,14 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// id -> identifier
 		if (cdaOrganization.getIds() != null && !cdaOrganization.getIds().isEmpty()) {
-			org.hl7.fhir.dstu3.model.Organization previousOrganization = (Organization) bundleInfo
-					.findResourceResult(cdaOrganization.getIds(), org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization previousOrganization = (Organization) bundleInfo
+					.findResourceResult(cdaOrganization.getIds(), org.hl7.fhir.r4.model.Organization.class);
 
 			if (previousOrganization != null) {
 				result.addExistingResource(previousOrganization);
 				return result;
 			} else {
-				result.putIIResource(cdaOrganization.getIds(), org.hl7.fhir.dstu3.model.Organization.class,
+				result.putIIResource(cdaOrganization.getIds(), org.hl7.fhir.r4.model.Organization.class,
 						fhirOrganization);
 			}
 
@@ -2953,11 +2953,11 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 	}
 
 	@Override
-	public org.hl7.fhir.dstu3.model.Location tParticipantRole2Location(ParticipantRole cdaParticipantRole) {
+	public org.hl7.fhir.r4.model.Location tParticipantRole2Location(ParticipantRole cdaParticipantRole) {
 		if (cdaParticipantRole == null || cdaParticipantRole.isSetNullFlavor())
 			return null;
 
-		org.hl7.fhir.dstu3.model.Location fhirLocation = new org.hl7.fhir.dstu3.model.Location();
+		org.hl7.fhir.r4.model.Location fhirLocation = new org.hl7.fhir.r4.model.Location();
 
 		// id -> identifier
 		if (cdaParticipantRole.getIds() != null && !cdaParticipantRole.getIds().isEmpty()) {
@@ -3068,8 +3068,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 			IEntryResult orgResult = tOrganization2Organization(cdaPatientRole.getProviderOrganization(), bundleInfo);
 
-			org.hl7.fhir.dstu3.model.Organization fhirOrganization = (Organization) orgResult
-					.findResourceResult(org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization fhirOrganization = (Organization) orgResult
+					.findResourceResult(org.hl7.fhir.r4.model.Organization.class);
 			result.updateFrom(orgResult);
 
 			if (fhirOrganization != null) {
@@ -3270,9 +3270,9 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// onset and abatement -> clinicalStatus
 		if (fhirCondition.getAbatement() != null) {
-			fhirCondition.setClinicalStatus(ConditionClinicalStatus.INACTIVE);
+			fhirCondition.setClinicalStatus(new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "inactive", "Inactive")));
 		} else {
-			fhirCondition.setClinicalStatus(ConditionClinicalStatus.ACTIVE);
+			fhirCondition.setClinicalStatus(new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "Active")));
 		}
 
 		// per spec will always have effectiveTime, so no need for verification status
@@ -3306,7 +3306,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			return result;
 		}
 
-		org.hl7.fhir.dstu3.model.Procedure fhirProc = new org.hl7.fhir.dstu3.model.Procedure();
+		org.hl7.fhir.r4.model.Procedure fhirProc = new org.hl7.fhir.r4.model.Procedure();
 		result.addResource(fhirProc);
 
 		// resource id
@@ -3582,7 +3582,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				if (fhirObsBundle != null) {
 					for (BundleEntryComponent entry : fhirObsBundle.getEntry()) {
 						result.addResource(entry.getResource());
-						if (entry.getResource() instanceof org.hl7.fhir.dstu3.model.Observation) {
+						if (entry.getResource() instanceof org.hl7.fhir.r4.model.Observation) {
 
 							Reference resultRef = new Reference();
 							resultRef.setReference(entry.getResource().getId());
@@ -3634,7 +3634,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 	}
 
 	@Override
-	public org.hl7.fhir.dstu3.model.Location tServiceDeliveryLocation2Location(ServiceDeliveryLocation cdaSDLOC) {
+	public org.hl7.fhir.r4.model.Location tServiceDeliveryLocation2Location(ServiceDeliveryLocation cdaSDLOC) {
 		/*
 		 * ServiceDeliveryLocation is a ParticipantRole instance with a specific
 		 * templateId Therefore, tParticipantRole2Location should satisfy the necessary
@@ -3644,7 +3644,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 	}
 
 	@Override
-	public org.hl7.fhir.dstu3.model.Device tSupply2Device(org.openhealthtools.mdht.uml.cda.Supply cdaSupply) {
+	public org.hl7.fhir.r4.model.Device tSupply2Device(org.openhealthtools.mdht.uml.cda.Supply cdaSupply) {
 		if (cdaSupply == null || cdaSupply.isSetNullFlavor())
 			return null;
 
@@ -3666,7 +3666,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (productInstance == null)
 			return null;
 
-		org.hl7.fhir.dstu3.model.Device fhirDev = new org.hl7.fhir.dstu3.model.Device();
+		org.hl7.fhir.r4.model.Device fhirDev = new org.hl7.fhir.r4.model.Device();
 
 		// resource id
 		IdType resourceId = new IdType("Device", getUniqueId());

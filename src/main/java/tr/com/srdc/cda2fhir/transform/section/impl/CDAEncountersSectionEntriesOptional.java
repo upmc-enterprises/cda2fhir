@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.r4.model.Encounter;
 import org.openhealthtools.mdht.uml.cda.consol.EncountersSectionEntriesOptional;
 
 import tr.com.srdc.cda2fhir.transform.section.ICDASection;

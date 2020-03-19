@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir;
 
-import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
+import org.hl7.fhir.r4.model.Patient.PatientCommunicationComponent;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

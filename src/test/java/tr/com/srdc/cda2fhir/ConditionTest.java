@@ -1,8 +1,8 @@
 package tr.com.srdc.cda2fhir;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Condition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

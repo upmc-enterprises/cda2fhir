@@ -1,9 +1,9 @@
 package tr.com.srdc.cda2fhir.transform.entry.impl;
 
-import org.hl7.fhir.dstu3.model.Device;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Device;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
 
 import tr.com.srdc.cda2fhir.transform.entry.IEntityInfo;
 

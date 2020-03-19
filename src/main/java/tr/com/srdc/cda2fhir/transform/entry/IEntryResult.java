@@ -1,7 +1,7 @@
 package tr.com.srdc.cda2fhir.transform.entry;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import tr.com.srdc.cda2fhir.transform.util.IResult;

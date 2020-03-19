@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization;
 import org.openhealthtools.mdht.uml.cda.consol.ImmunizationsSection;
 
 import tr.com.srdc.cda2fhir.transform.section.ICDASection;

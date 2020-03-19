@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.Device;
+import org.hl7.fhir.r4.model.Device;
 import org.openhealthtools.mdht.uml.cda.Organizer;
 import org.openhealthtools.mdht.uml.cda.Procedure;
 import org.openhealthtools.mdht.uml.cda.Supply;
@@ -47,7 +47,7 @@ public class CDAMedicalEquipmentSection implements ICDASection {
 		for (Procedure procedure : section.getProcedures()) {
 			if (procedure instanceof ProcedureActivityProcedure) {
 				IEntryResult entryResult = rt.tProcedure2Procedure(procedure, bundleInfo);
-				result.updateFrom(entryResult, org.hl7.fhir.dstu3.model.Procedure.class);
+				result.updateFrom(entryResult, org.hl7.fhir.r4.model.Procedure.class);
 			}
 		}
 		return result;

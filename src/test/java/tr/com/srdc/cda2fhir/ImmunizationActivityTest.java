@@ -4,11 +4,11 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
-import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
+import org.hl7.fhir.r4.model.Practitioner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -208,7 +208,7 @@ public class ImmunizationActivityTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle fhirBundle = rt.tImmunizationActivity2Immunization(act, bundleInfo).getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
 
 		String systemString = fhirResource.getNamedProperty("doseQuantity").getValues().get(0)
 				.getNamedProperty("system").getValues().get(0).toString();

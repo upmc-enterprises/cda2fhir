@@ -61,7 +61,7 @@ public class LocationTest {
 		pr.setPlayingEntity(pe);
 
 		// Transform from CDA to FHIR.
-		org.hl7.fhir.dstu3.model.Location fhirLocation = rt.tParticipantRole2Location(pr);
+		org.hl7.fhir.r4.model.Location fhirLocation = rt.tParticipantRole2Location(pr);
 
 		Assert.assertEquals("Identifier on FHIR Object", 1, fhirLocation.getIdentifier().size());
 

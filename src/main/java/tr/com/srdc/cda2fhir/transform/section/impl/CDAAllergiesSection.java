@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.openhealthtools.mdht.uml.cda.consol.AllergiesSection;
 import org.openhealthtools.mdht.uml.cda.consol.AllergyProblemAct;
 

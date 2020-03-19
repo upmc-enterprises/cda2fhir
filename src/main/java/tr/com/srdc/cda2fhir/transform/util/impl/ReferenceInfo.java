@@ -3,15 +3,15 @@ package tr.com.srdc.cda2fhir.transform.util.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Base;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Enumeration;
-import org.hl7.fhir.dstu3.model.HumanName;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
-import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Enumeration;
+import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.StringType;
 
 public class ReferenceInfo {
 
