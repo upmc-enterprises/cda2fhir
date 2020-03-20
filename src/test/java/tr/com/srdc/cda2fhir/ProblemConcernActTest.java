@@ -9,8 +9,6 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Condition.ConditionClinicalStatus;
-import org.hl7.fhir.r4.model.Condition.ConditionVerificationStatus;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -125,8 +123,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getText();
 		Assert.assertEquals("Inactive Problem with high value", "inactive", actual);
 
 	}
@@ -145,8 +143,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getText();
 		Assert.assertEquals("Active Problem without high value", "active", actual);
 
 	}
@@ -158,8 +156,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getText();
 		Assert.assertEquals("Active Problem without no value defaults to active", "active", actual);
 
 	}
@@ -169,8 +167,8 @@ public class ProblemConcernActTest {
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
 
-		ConditionVerificationStatus verificationStatus = condition.getVerificationStatus();
-		String actual = verificationStatus == null ? null : verificationStatus.toCode();
+		CodeableConcept verificationStatus = condition.getVerificationStatus();
+		String actual = verificationStatus == null ? null : verificationStatus.getText();
 		Assert.assertEquals(expected, actual);
 	}
 

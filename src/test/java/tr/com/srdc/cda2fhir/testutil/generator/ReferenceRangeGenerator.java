@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.testutil.generator;
 
-import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
+import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.ObservationRange;
 import org.openhealthtools.mdht.uml.cda.ReferenceRange;

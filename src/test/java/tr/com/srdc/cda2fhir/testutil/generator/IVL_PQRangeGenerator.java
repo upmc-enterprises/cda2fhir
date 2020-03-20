@@ -2,8 +2,8 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 
 import java.math.BigDecimal;
 
-import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
-import org.hl7.fhir.dstu3.model.Range;
+import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
+import org.hl7.fhir.r4.model.Range;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_PQ;

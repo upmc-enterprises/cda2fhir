@@ -3,7 +3,7 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.fhir.r4.model.Period;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_TS;

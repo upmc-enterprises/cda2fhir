@@ -3,7 +3,7 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Observation;
 import org.openhealthtools.mdht.uml.cda.consol.VitalSignsOrganizer;
@@ -34,8 +34,8 @@ public class VitalSignsOrganizerGenerator {
 	}
 
 	public void verify(Bundle bundle) {
-		List<org.hl7.fhir.dstu3.model.Observation> result = FHIRUtil.findResources(bundle,
-				org.hl7.fhir.dstu3.model.Observation.class);
+		List<org.hl7.fhir.r4.model.Observation> result = FHIRUtil.findResources(bundle,
+				org.hl7.fhir.r4.model.Observation.class);
 
 		Assert.assertEquals("Observation count", generators.size(), result.size());
 		for (int index = 0; index < result.size(); ++index) {

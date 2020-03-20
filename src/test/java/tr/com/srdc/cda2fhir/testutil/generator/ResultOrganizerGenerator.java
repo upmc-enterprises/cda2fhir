@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.DiagnosticReport;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.consol.ResultOrganizer;
@@ -135,8 +135,8 @@ public class ResultOrganizerGenerator {
 			for (int index = 0; index < observationGenerators.size(); ++index) {
 				String observationId = diagnosticReport.getResult().get(index).getReference();
 				ObservationGenerator og = observationGenerators.get(index);
-				org.hl7.fhir.dstu3.model.Observation observation = util.getResourceFromReference(observationId,
-						org.hl7.fhir.dstu3.model.Observation.class);
+				org.hl7.fhir.r4.model.Observation observation = util.getResourceFromReference(observationId,
+						org.hl7.fhir.r4.model.Observation.class);
 				og.verify(observation);
 			}
 		}

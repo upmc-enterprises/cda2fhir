@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationReactionComponent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Consumable;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
@@ -295,8 +295,8 @@ public class ImmunizationActivityGenerator {
 			ImmunizationReactionComponent reaction = reactions.get(0);
 			String observationId = reaction.getDetail().getReference();
 			BundleUtil util = new BundleUtil(bundle);
-			org.hl7.fhir.dstu3.model.Observation observation = util.getResourceFromReference(observationId,
-					org.hl7.fhir.dstu3.model.Observation.class);
+			org.hl7.fhir.r4.model.Observation observation = util.getResourceFromReference(observationId,
+					org.hl7.fhir.r4.model.Observation.class);
 			reactionObservationGenerator.verify(observation);
 		}
 	}

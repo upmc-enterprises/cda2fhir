@@ -32,10 +32,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.hl7.fhir.r4.model.Age;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
-import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCriticality;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
-import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
 import org.hl7.fhir.r4.model.Annotation;
 import org.hl7.fhir.r4.model.Attachment;
 import org.hl7.fhir.r4.model.Base64BinaryType;
@@ -52,7 +50,6 @@ import org.hl7.fhir.r4.model.Composition.DocumentConfidentiality;
 import org.hl7.fhir.r4.model.Composition.SectionComponent;
 import org.hl7.fhir.r4.model.Composition.SectionMode;
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Condition.ConditionClinicalStatus;
 import org.hl7.fhir.r4.model.Device;
 import org.hl7.fhir.r4.model.Device.FHIRDeviceStatus;
 import org.hl7.fhir.r4.model.DiagnosticReport;
@@ -68,6 +65,7 @@ import org.hl7.fhir.r4.model.Group.GroupType;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationPerformerComponent;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationPractitionerComponent;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
@@ -1737,11 +1735,11 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 			}
 		}
-
-		// negationInd -> notGiven
-		if (cdaImmunizationActivity.getNegationInd() != null) {
-			fhirImmunization.setNotGiven(cdaImmunizationActivity.getNegationInd());
-		}
+////In FHIR R4, there is no concept of 'notGiven', commenting this out in the meantime
+//		// negationInd -> notGiven
+//		if (cdaImmunizationActivity.getNegationInd() != null) {
+//			fhirImmunization.setNotGiven(cdaImmunizationActivity.getNegationInd());
+//		}
 
 		// effectiveTime -> date
 		if (cdaImmunizationActivity.getEffectiveTimes() != null
@@ -1814,8 +1812,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 						// TODO: verify the STU3 mappings
 						// TODO: find defined valueset/codesystem for immunization role
 						// fhirImmunization.setPerformer(new Reference(entry.getResource().getId()));
-						ImmunizationPractitionerComponent perf = fhirImmunization.addPractitioner();
-						perf.getRole().addCoding().setSystem("http://hl7.org/fhir/v2/0443").setCode("AP")
+						ImmunizationPerformerComponent perf = fhirImmunization.addPerformer();
+						perf.getFunction().addCoding().setSystem("http://hl7.org/fhir/v2/0443").setCode("AP")
 								.setDisplay("Administering Provider");
 						perf.setActor(getReference(entityResult.getPractitioner()));
 						fhirImmunization.setPrimarySource(true);
@@ -1865,36 +1863,36 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 			}
 		}
-
-		// notGiven == true
-		if (fhirImmunization.getNotGiven()) {
-			// immunizationRefusalReason.code -> explanation.reasonNotGiven
-			if (cdaImmunizationActivity.getImmunizationRefusalReason() != null
-					&& !cdaImmunizationActivity.getImmunizationRefusalReason().isSetNullFlavor()) {
-				if (cdaImmunizationActivity.getImmunizationRefusalReason().getCode() != null
-						&& !cdaImmunizationActivity.getImmunizationRefusalReason().getCode().isSetNullFlavor()) {
-					// fhirImmunization.setExplanation(new
-					// Explanation().addReasonNotGiven(dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode())));
-					fhirImmunization.getExplanation().addReasonNotGiven(
-							dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode()));
-				}
-			}
-		}
-		// notGiven == false
-		else if (!fhirImmunization.getNotGiven()) {
-			// indication.value -> explanation.reason
-			if (cdaImmunizationActivity.getIndication() != null
-					&& !cdaImmunizationActivity.getIndication().isSetNullFlavor()) {
-				if (!cdaImmunizationActivity.getIndication().getValues().isEmpty()
-						&& cdaImmunizationActivity.getIndication().getValues().get(0) != null
-						&& !cdaImmunizationActivity.getIndication().getValues().get(0).isSetNullFlavor()) {
-					// fhirImmunization.setExplanation(new
-					// Explanation().addReason(dtt.tCD2CodeableConcept((CD)cdaImmunizationActivity.getIndication().getValues().get(0))));
-					fhirImmunization.getExplanation().addReason(
-							dtt.tCD2CodeableConcept((CD) cdaImmunizationActivity.getIndication().getValues().get(0)));
-				}
-			}
-		}
+//In FHIR R4, there is no concept of 'notGiven', commenting this out in the meantime
+//		// notGiven == true
+//		if (fhirImmunization.getNotGiven()) {
+//			// immunizationRefusalReason.code -> explanation.reasonNotGiven
+//			if (cdaImmunizationActivity.getImmunizationRefusalReason() != null
+//					&& !cdaImmunizationActivity.getImmunizationRefusalReason().isSetNullFlavor()) {
+//				if (cdaImmunizationActivity.getImmunizationRefusalReason().getCode() != null
+//						&& !cdaImmunizationActivity.getImmunizationRefusalReason().getCode().isSetNullFlavor()) {
+//					// fhirImmunization.setExplanation(new
+//					// Explanation().addReasonNotGiven(dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode())));
+//					fhirImmunization.getExplanation().addReasonNotGiven(
+//							dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode()));
+//				}
+//			}
+//		}
+//		// notGiven == false
+//		else if (!fhirImmunization.getNotGiven()) {
+//			// indication.value -> explanation.reason
+//			if (cdaImmunizationActivity.getIndication() != null
+//					&& !cdaImmunizationActivity.getIndication().isSetNullFlavor()) {
+//				if (!cdaImmunizationActivity.getIndication().getValues().isEmpty()
+//						&& cdaImmunizationActivity.getIndication().getValues().get(0) != null
+//						&& !cdaImmunizationActivity.getIndication().getValues().get(0).isSetNullFlavor()) {
+//					// fhirImmunization.setExplanation(new
+//					// Explanation().addReason(dtt.tCD2CodeableConcept((CD)cdaImmunizationActivity.getIndication().getValues().get(0))));
+//					fhirImmunization.getExplanation().addReason(
+//							dtt.tCD2CodeableConcept((CD) cdaImmunizationActivity.getIndication().getValues().get(0)));
+//				}
+//			}
+//		}
 
 		// reaction (i.e.
 		// entryRelationship/observation[templateId/@root="2.16.840.1.113883.10.20.22.4.9"]

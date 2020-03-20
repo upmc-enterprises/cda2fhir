@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.testutil.generator;
 
-import org.hl7.fhir.dstu3.model.Ratio;
+import org.hl7.fhir.r4.model.Ratio;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.hl7.datatypes.REAL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.RTO;
