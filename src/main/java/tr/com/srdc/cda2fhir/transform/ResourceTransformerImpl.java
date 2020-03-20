@@ -349,11 +349,11 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			if (cdaAllergyProbAct.getEffectiveTime().getLow() != null
 					&& !cdaAllergyProbAct.getEffectiveTime().getLow().isSetNullFlavor()) {
 				fhirAllergyIntolerance
-						.setAssertedDateElement(dtt.tTS2DateTime(cdaAllergyProbAct.getEffectiveTime().getLow()));
+						.setAsserterTarget(dtt.tTS2DateTime(cdaAllergyProbAct.getEffectiveTime().getLow()));
 			} else if (cdaAllergyProbAct.getEffectiveTime().getValue() != null
 					&& !cdaAllergyProbAct.getEffectiveTime().getValue().isEmpty()) {
 				fhirAllergyIntolerance
-						.setAssertedDateElement(dtt.tString2DateTime(cdaAllergyProbAct.getEffectiveTime().getValue()));
+						.setAsserterTarget(dtt.tString2DateTime(cdaAllergyProbAct.getEffectiveTime().getValue()));
 			}
 		}
 
@@ -3289,7 +3289,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 				// author.time -> assertedDate
 				if (author.getTime() != null && !author.getTime().isSetNullFlavor()) {
-					fhirCondition.setAssertedDateElement(dtt.tTS2DateTime(author.getTime()));
+					fhirCondition.setAsserterTarget(dtt.tTS2DateTime(author.getTime()));
 				}
 			}
 		}

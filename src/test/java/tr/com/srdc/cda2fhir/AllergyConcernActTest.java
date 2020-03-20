@@ -9,7 +9,6 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
-import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
@@ -443,7 +442,7 @@ public class AllergyConcernActTest {
 		Bundle bundle = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance = findOneResource(bundle);
 
-		AllergyIntoleranceVerificationStatus verificationStatus = allergyIntolerance.getVerificationStatus();
+		CodeableConcept verificationStatus = allergyIntolerance.getVerificationStatus();
 		String actual = verificationStatus == null ? null : verificationStatus.toCode();
 		Assert.assertEquals(expected, actual);
 	}

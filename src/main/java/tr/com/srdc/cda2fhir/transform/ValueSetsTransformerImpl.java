@@ -25,15 +25,11 @@ import java.io.Serializable;
 import org.hl7.fhir.r4.model.Address.AddressType;
 import org.hl7.fhir.r4.model.Address.AddressUse;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCategory;
-import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceCriticality;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceSeverity;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceType;
-import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Condition.ConditionClinicalStatus;
-import org.hl7.fhir.r4.model.Condition.ConditionVerificationStatus;
 import org.hl7.fhir.r4.model.ContactPoint.ContactPointSystem;
 import org.hl7.fhir.r4.model.ContactPoint.ContactPointUse;
 import org.hl7.fhir.r4.model.DiagnosticReport.DiagnosticReportStatus;
@@ -43,7 +39,7 @@ import org.hl7.fhir.r4.model.FamilyMemberHistory.FamilyHistoryStatus;
 import org.hl7.fhir.r4.model.Group.GroupType;
 import org.hl7.fhir.r4.model.HumanName.NameUse;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
-import org.hl7.fhir.r4.model.MedicationDispense.MedicationDispenseStatus;
+import org.hl7.fhir.r4.model.codesystems.MedicationdispenseStatus;
 import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestStatus;
 import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementStatus;
 import org.hl7.fhir.r4.model.Observation.ObservationStatus;
@@ -58,6 +54,7 @@ import org.openhealthtools.mdht.uml.hl7.vocab.EntityNameUse;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 import org.openhealthtools.mdht.uml.hl7.vocab.PostalAddressUse;
 import org.openhealthtools.mdht.uml.hl7.vocab.TelecommunicationAddressUse;
+
 
 public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializable {
 
@@ -997,37 +994,39 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	}
 
 	@Override
-	public AllergyIntoleranceVerificationStatus tStatusCode2AllergyIntoleranceVerificationStatus(String cdaStatusCode) {
+	public CodeableConcept tStatusCode2AllergyIntoleranceVerificationStatus(String cdaStatusCode) {
 		switch (cdaStatusCode.toLowerCase()) {
 		case "completed":
-			return AllergyIntoleranceVerificationStatus.CONFIRMED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "confirmed", "Confirmed"));
 		case "active":
-			return AllergyIntoleranceVerificationStatus.CONFIRMED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "confirmed", "Confirmed"));
 		case "suspended":
-			return AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "Unconfirmed"));
 		case "aborted":
-			return AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "Unconfirmed"));
 		default:
-			return null;
+			return new CodeableConcept(new Coding(null, null, null));
 		}
 	}
 
 	@Override
-	public ConditionVerificationStatus tStatusCode2ConditionVerificationStatus(String cdaStatusCode) {
+	public CodeableConcept tStatusCode2ConditionVerificationStatus(String cdaStatusCode) {
 		if (cdaStatusCode == null) {
-			return ConditionVerificationStatus.UNKNOWN;
+			return new CodeableConcept(new Coding(null, null, null));
+			//return ConditionVerificationStatus.UNKNOWN;
 		}
 		switch (cdaStatusCode.toLowerCase()) {
 		case "completed":
-			return ConditionVerificationStatus.REFUTED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "refuted", "Refuted"));
 		case "active":
-			return ConditionVerificationStatus.CONFIRMED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "confirmed", "Confirmed"));
 		case "suspended":
-			return ConditionVerificationStatus.PROVISIONAL;
+			 new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "Provisional"));
 		case "aborted":
-			return ConditionVerificationStatus.ENTEREDINERROR;
+			 new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "entered-in-error", "Entered in Error"));
 		default:
-			return ConditionVerificationStatus.UNKNOWN;
+			return new CodeableConcept(new Coding(null, null, null));
+			//return ConditionVerificationStatus.UNKNOWN;
 		}
 	}
 
@@ -1054,12 +1053,12 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	}
 
 	@Override
-	public MedicationDispenseStatus tStatusCode2MedicationDispenseStatus(String cdaStatusCode) {
+	public MedicationdispenseStatus tStatusCode2MedicationDispenseStatus(String cdaStatusCode) {
 		switch (cdaStatusCode.toLowerCase()) {
 		case "completed":
-			return MedicationDispenseStatus.COMPLETED;
+			return MedicationdispenseStatus.COMPLETED;
 		case "aborted":
-			return MedicationDispenseStatus.STOPPED;
+			return MedicationdispenseStatus.STOPPED;
 		default:
 			return null;
 		}
@@ -1122,9 +1121,9 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "completed":
 			return ProcedureStatus.COMPLETED;
 		case "aborted":
-			return ProcedureStatus.ABORTED;
+			return ProcedureStatus.STOPPED;
 		case "cancelled":
-			return ProcedureStatus.SUSPENDED;
+			return ProcedureStatus.ONHOLD;
 		default:
 			return ProcedureStatus.UNKNOWN;
 		}
@@ -1174,36 +1173,36 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	}
 
 	@Override
-	public AllergyIntoleranceClinicalStatus tProblemStatus2AllergyIntoleranceClinicalStatus(String code) {
+	public CodeableConcept tProblemStatus2AllergyIntoleranceClinicalStatus(String code) {
 		if (code == null) {
-			return AllergyIntoleranceClinicalStatus.NULL;
+			return new CodeableConcept(new Coding(null, null, null));
 		}
 		switch (code) {
 		case "55561003":
-			return AllergyIntoleranceClinicalStatus.ACTIVE;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "Active"));
 		case "73425007":
-			return AllergyIntoleranceClinicalStatus.INACTIVE;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "inactive", "Inactive"));
 		case "413322009":
-			return AllergyIntoleranceClinicalStatus.RESOLVED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "resolved", "Resolved"));
 		default:
-			return AllergyIntoleranceClinicalStatus.NULL;
+			return new CodeableConcept(new Coding(null, null, null));
 		}
 	}
 
 	@Override
-	public ConditionClinicalStatus tProblemStatus2ConditionClinicalStatus(String code) {
+	public CodeableConcept tProblemStatus2ConditionClinicalStatus(String code) {
 		if (code == null) {
-			return ConditionClinicalStatus.NULL;
+			return new CodeableConcept(new Coding(null, null, null));
 		}
 		switch (code) {
 		case "55561003":
-			return ConditionClinicalStatus.ACTIVE;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "Active"));
 		case "73425007":
-			return ConditionClinicalStatus.INACTIVE;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "inactive", "Inactive"));
 		case "413322009":
-			return ConditionClinicalStatus.RESOLVED;
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "resolved", "Resolved"));
 		default:
-			return ConditionClinicalStatus.NULL;
+			return new CodeableConcept(new Coding(null, null, null));
 		}
 	}
 }
