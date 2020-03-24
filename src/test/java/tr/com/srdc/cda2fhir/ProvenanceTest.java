@@ -83,11 +83,11 @@ public class ProvenanceTest {
 		Assert.assertEquals(provenance.getTarget().get(3).getReference().substring(0, 17), "DocumentReference");
 		Assert.assertEquals(provenance.getTarget().get(4).getReference().substring(0, 6), "Device");
 
-		Coding roleDevice = provenance.getAgentFirstRep().getRelatedAgentType().getCodingFirstRep();
+		Coding roleDevice = provenance.getAgentFirstRep().getType().getCodingFirstRep();
 		Assert.assertEquals(roleDevice.getId().substring(0, 6), "Device");
-		Assert.assertEquals(roleDevice.getSystem(), ProvenanceAgentType.DEVICE.getSystem());
-		Assert.assertEquals(roleDevice.getCode(), ProvenanceAgentType.DEVICE.toCode());
-		Assert.assertEquals(roleDevice.getDisplay(), ProvenanceAgentType.DEVICE.getDisplay());
+		Assert.assertEquals(roleDevice.getSystem(), ProvenanceAgentType.ASSEMBLER.getSystem());
+		Assert.assertEquals(roleDevice.getCode(), ProvenanceAgentType.ASSEMBLER.toCode());
+		Assert.assertEquals(roleDevice.getDisplay(), ProvenanceAgentType.ASSEMBLER.getDisplay());
 
 		Coding roleAssembler = provenance.getAgentFirstRep().getRoleFirstRep().getCodingFirstRep();
 		Assert.assertEquals(roleAssembler.getId().substring(0, 6), "Device");
@@ -95,9 +95,9 @@ public class ProvenanceTest {
 		Assert.assertEquals(roleAssembler.getCode(), ProvenanceAgentRole.ASSEMBLER.toCode());
 		Assert.assertEquals(roleAssembler.getDisplay(), ProvenanceAgentRole.ASSEMBLER.getDisplay());
 
-		Assert.assertEquals(provenance.getAgentFirstRep().getWhoReference().getReference().substring(0, 6), "Device");
+		Assert.assertEquals(provenance.getAgentFirstRep().getWho().getReference().substring(0, 6), "Device");
 
-		Assert.assertEquals(provenance.getEntityFirstRep().getWhatReference().getReference().substring(0, 17),
+		Assert.assertEquals(provenance.getEntityFirstRep().getWhat().getReference().substring(0, 17),
 				"DocumentReference");
 		Assert.assertEquals(provenance.getEntityFirstRep().getRole(), ProvenanceEntityRole.SOURCE);
 	}

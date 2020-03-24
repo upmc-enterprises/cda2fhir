@@ -120,8 +120,8 @@ public class BundleUtil {
 	public void spotCheckImmunizationPractitioner(String identifier, String familyName, String roleCode,
 			String organizationName) {
 		Immunization imm = (Immunization) identifierMap.get("Immunization", identifier);
-		Assert.assertTrue("Immunization has a practitioner", imm.hasPractitioner());
-		String ref = imm.getPractitioner().get(0).getActor().getReference();
+		Assert.assertTrue("Immunization has a practitioner", imm.hasPerformer());
+		String ref = imm.getPerformer().get(0).getActor().getReference();
 		spotCheckAssignedPractitioner(ref, familyName, roleCode, organizationName);
 	}
 
@@ -188,7 +188,7 @@ public class BundleUtil {
 			String roleCode, String organizationName) {
 		Composition composition = (Composition) bundle.getEntry().get(0).getResource();
 		Optional<String> ref = composition.getAttester().stream()
-				.filter(a -> a.getMode().get(0).getValue().equals(mode)).map(a -> a.getParty().getReference())
+				.filter(a -> a.getMode().equals(mode)).map(a -> a.getParty().getReference())
 				.findFirst();
 		Assert.assertTrue("Attester exists", ref.isPresent());
 		spotCheckAssignedPractitioner(ref.get(), familyName, roleCode, organizationName);

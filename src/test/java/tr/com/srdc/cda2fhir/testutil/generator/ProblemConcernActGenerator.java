@@ -109,14 +109,14 @@ public class ProblemConcernActGenerator {
 
 			if (statusCode == null) {
 				Assert.assertEquals("Condition verification status", "unknown",
-						condition.getVerificationStatus().toCode());
+						condition.getVerificationStatus().getText());
 			} else {
 				String actual = (String) CONDITION_VERIFICATION_STATUS.get(statusCode);
 				if (actual == null) {
 					actual = "unknown";
 				}
 				Assert.assertEquals("Condition verification status", actual,
-						condition.getVerificationStatus().toCode());
+						condition.getVerificationStatus().getText());
 			}
 		}
 	}

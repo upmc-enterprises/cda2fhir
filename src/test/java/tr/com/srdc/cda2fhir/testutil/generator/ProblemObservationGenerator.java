@@ -140,8 +140,8 @@ public class ProblemObservationGenerator {
 		}
 
 		if (authorTime != null) {
-			Assert.assertTrue("Condition asserter date", condition.hasAssertedDate());
-			String datetime = condition.getAssertedDateElement().asStringValue();
+			Assert.assertTrue("Condition asserter date", condition.hasRecordedDate());
+			String datetime = condition.getRecordedDateElement().asStringValue();
 			String actual = FHIRUtil.toCDADatetime(datetime);
 			Assert.assertEquals("Condition asserter date", authorTime, actual);
 		}

@@ -121,7 +121,7 @@ public class ResultOrganizerGenerator {
 		} else {
 			Assert.assertEquals("Performer count", authorGenerators.size(), diagnosticReport.getPerformer().size());
 			for (int index = 0; index < authorGenerators.size(); ++index) {
-				String practitionerId = diagnosticReport.getPerformer().get(index).getActor().getReference();
+				String practitionerId = diagnosticReport.getPerformer().get(index).getReference();
 				AuthorGenerator ag = authorGenerators.get(index);
 				ag.verifyFromPractionerId(bundle, practitionerId);
 			}

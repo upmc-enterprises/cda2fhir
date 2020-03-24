@@ -245,10 +245,10 @@ public class MedicationActivityGenerator {
 		}
 
 		if (ivlPqGenerator == null) {
-			boolean hasDosageDose = medStatement.hasDosage() && medStatement.getDosage().get(0).hasDose();
+			boolean hasDosageDose = medStatement.hasDosage() && medStatement.getDosage().get(0).hasDoseAndRate();
 			Assert.assertTrue("Missing med statement dosage time", !hasDosageDose);
 		} else {
-			SimpleQuantity sq = medStatement.getDosage().get(0).getDoseSimpleQuantity();
+			SimpleQuantity sq = (SimpleQuantity) medStatement.getDosage().get(0).getDoseAndRateFirstRep().getDoseQuantity();
 			ivlPqGenerator.verify(sq);
 		}
 
@@ -260,10 +260,10 @@ public class MedicationActivityGenerator {
 		}
 
 		if (rateQuantityGenerator == null) {
-			boolean hasRate = medStatement.hasDosage() && medStatement.getDosage().get(0).hasRateRange();
+			boolean hasRate = medStatement.hasDosage() && medStatement.getDosage().get(0).getDoseAndRateFirstRep().hasRateRange();
 			Assert.assertTrue("Missing med statement dosage time", !hasRate);
 		} else {
-			rateQuantityGenerator.verify(medStatement.getDosage().get(0).getRateRange());
+			rateQuantityGenerator.verify(medStatement.getDosage().get(0).getDoseAndRateFirstRep().getRateRange());
 		}
 
 		if (maxDoseGenerator == null) {

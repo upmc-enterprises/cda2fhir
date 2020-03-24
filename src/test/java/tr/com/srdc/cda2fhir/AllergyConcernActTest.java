@@ -420,7 +420,7 @@ public class AllergyConcernActTest {
 
 		Bundle bundle1 = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance1 = findOneResource(bundle1);
-		String actual1 = allergyIntolerance1.getAssertedDateElement().getValueAsString();
+		String actual1 = allergyIntolerance1.getRecordedDateElement().getValueAsString();
 		Assert.assertEquals("Unexpected AllergyIntolerance Asserted Date (1)", expected1, actual1.replaceAll("-", ""));
 
 		String expected2 = "20161103";
@@ -432,7 +432,7 @@ public class AllergyConcernActTest {
 
 		Bundle bundle2 = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance2 = findOneResource(bundle2);
-		String actual2 = allergyIntolerance2.getAssertedDateElement().getValueAsString();
+		String actual2 = allergyIntolerance2.getRecordedDateElement().getValueAsString();
 		Assert.assertEquals("Unexpected AllergyIntolerance Asserted Date (2)", expected2, actual2.replaceAll("-", ""));
 	}
 
@@ -443,7 +443,7 @@ public class AllergyConcernActTest {
 		AllergyIntolerance allergyIntolerance = findOneResource(bundle);
 
 		CodeableConcept verificationStatus = allergyIntolerance.getVerificationStatus();
-		String actual = verificationStatus == null ? null : verificationStatus.toCode();
+		String actual = verificationStatus == null ? null : verificationStatus.getText();
 		Assert.assertEquals(expected, actual);
 	}
 

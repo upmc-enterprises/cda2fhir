@@ -42,6 +42,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.codesystems.MedicationdispenseStatus;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Composition.CompositionAttestationMode;
 import org.hl7.fhir.r4.model.Composition.CompositionAttesterComponent;
@@ -66,18 +67,14 @@ import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Immunization;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationPerformerComponent;
-import org.hl7.fhir.r4.model.Immunization.ImmunizationPractitionerComponent;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
 import org.hl7.fhir.r4.model.Medication;
-import org.hl7.fhir.r4.model.MedicationDispense.MedicationDispenseStatus;
 import org.hl7.fhir.r4.model.MedicationRequest;
 import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestDispenseRequestComponent;
 import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestIntent;
-import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestRequesterComponent;
 import org.hl7.fhir.r4.model.MedicationStatement;
 import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementStatus;
-import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementTaken;
 import org.hl7.fhir.r4.model.Narrative;
 import org.hl7.fhir.r4.model.Narrative.NarrativeStatus;
 import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
@@ -346,12 +343,12 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			// low(if not exists, value) -> asserted
 			if (cdaAllergyProbAct.getEffectiveTime().getLow() != null
 					&& !cdaAllergyProbAct.getEffectiveTime().getLow().isSetNullFlavor()) {
-				fhirAllergyIntolerance
-						.setAsserterTarget(dtt.tTS2DateTime(cdaAllergyProbAct.getEffectiveTime().getLow()));
+				fhirAllergyIntolerance.setRecordedDateElement(dtt.tTS2DateTime(cdaAllergyProbAct.getEffectiveTime().getLow()));
+//						.setAsserterTarget(dtt.tTS2DateTime(cdaAllergyProbAct.getEffectiveTime().getLow()));
 			} else if (cdaAllergyProbAct.getEffectiveTime().getValue() != null
 					&& !cdaAllergyProbAct.getEffectiveTime().getValue().isEmpty()) {
 				fhirAllergyIntolerance
-						.setAsserterTarget(dtt.tString2DateTime(cdaAllergyProbAct.getEffectiveTime().getValue()));
+						.setRecordedDateElement(dtt.tString2DateTime(cdaAllergyProbAct.getEffectiveTime().getValue()));
 			}
 		}
 
@@ -612,7 +609,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				&& !cdaAssignedAuthor.getAssignedAuthoringDevice().isSetNullFlavor()) {
 			fhirDevice.setManufacturer(
 					cdaAssignedAuthor.getAssignedAuthoringDevice().getManufacturerModelName().getText());
-			fhirDevice.setVersion(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getText());
+			fhirDevice.addVersion().setValue(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getText());
 			if (cdaAssignedAuthor.getAssignedAuthoringDevice().getCode() != null) {
 				fhirDevice.setType(dtt.tCD2CodeableConcept(cdaAssignedAuthor.getAssignedAuthoringDevice().getCode()));
 			} else {
@@ -954,7 +951,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			CodeableConcept classConcept = new CodeableConcept();
 			Coding classCoding = new Coding("http://hl7.org/fhir/ValueSet/doc-classcodes", "LP173421-7", "Note");
 			classConcept.addCoding(classCoding);
-			fhirComp.setClass_(classConcept);
+			fhirComp.addCategory(classConcept);
 
 			// id -> identifier
 			if (cdaClinicalDocument.getId() != null && !cdaClinicalDocument.getId().isSetNullFlavor()) {
@@ -1063,7 +1060,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				&& !cdaClinicalDocument.getLegalAuthenticator().isSetNullFlavor()) {
 			CompositionAttesterComponent attester = fhirComp != null ? fhirComp.addAttester() : null;
 			if (attester != null) {
-				attester.addMode(CompositionAttestationMode.LEGAL);
+				attester.setMode(CompositionAttestationMode.LEGAL);
 				attester.setTimeElement(dtt.tTS2DateTime(cdaClinicalDocument.getLegalAuthenticator().getTime()));
 			}
 			EntityResult entityResult = tAssignedEntity2Practitioner(
@@ -1081,7 +1078,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			if (!authenticator.isSetNullFlavor()) {
 				CompositionAttesterComponent attester = fhirComp != null ? fhirComp.addAttester() : null;
 				if (attester != null) {
-					attester.addMode(CompositionAttestationMode.PROFESSIONAL);
+					attester.setMode(CompositionAttestationMode.PROFESSIONAL);
 					attester.setTimeElement(dtt.tTS2DateTime(authenticator.getTime()));
 				}
 				EntityResult entityResult = tAssignedEntity2Practitioner(authenticator.getAssignedEntity(), bundleInfo);
@@ -1538,7 +1535,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				if (subjectPerson.getAdministrativeGenderCode() != null
 						&& !subjectPerson.getAdministrativeGenderCode().isSetNullFlavor()
 						&& subjectPerson.getAdministrativeGenderCode().getCode() != null) {
-					fhirFMH.setGender(vst.tAdministrativeGenderCode2AdministrativeGender(
+					fhirFMH.setSex(vst.tAdministrativeSexCode2FamilyMemberHistorySex(
 							subjectPerson.getAdministrativeGenderCode().getCode()));
 				}
 
@@ -1747,7 +1744,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			for (SXCM_TS effectiveTime : cdaImmunizationActivity.getEffectiveTimes()) {
 				if (effectiveTime != null && !effectiveTime.isSetNullFlavor()) {
 					// Asserting that at most one effective time exists
-					fhirImmunization.setDateElement(dtt.tTS2DateTime(effectiveTime));
+					fhirImmunization.setOccurrence(dtt.tTS2DateTime(effectiveTime));
 				}
 			}
 		}
@@ -2301,7 +2298,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			SimpleQuantity dose = dtt.tPQ2SimpleQuantity(cdaMedicationActivity.getDoseQuantity());
 			// manually set dose system, source object doesn't support it.
 			dose.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
-			fhirDosage.setDose(dose);
+			fhirDosage.addDoseAndRate().setDose(dose);
 		}
 
 		// routeCode -> dosage.route
@@ -2312,7 +2309,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		// rateQuantity -> dosage.rate
 		if (cdaMedicationActivity.getRateQuantity() != null
 				&& !cdaMedicationActivity.getRateQuantity().isSetNullFlavor()) {
-			fhirDosage.setRate(dtt.tIVL_PQ2Range(cdaMedicationActivity.getRateQuantity()));
+			fhirDosage.addDoseAndRate().setRate(dtt.tIVL_PQ2Range(cdaMedicationActivity.getRateQuantity()));
 		}
 
 		// maxDoseQuantity -> dosage.maxDosePerPeriod
@@ -2381,7 +2378,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		}
 
 		// taken -> UNK
-		fhirMedSt.setTaken(MedicationStatementTaken.UNK);
+		//fhirMedSt.setTaken(MedicationStatementTaken.UNK);
 
 		// indication -> reason
 		for (Indication indication : cdaMedicationActivity.getIndications()) {
@@ -2455,10 +2452,10 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (cdaMedicationDispense.getStatusCode() != null && !cdaMedicationDispense.getStatusCode().isSetNullFlavor()) {
 			if (cdaMedicationDispense.getStatusCode().getCode() != null
 					&& !cdaMedicationDispense.getStatusCode().getCode().isEmpty()) {
-				MedicationDispenseStatus mediDispStatEnum = vst
+				MedicationdispenseStatus mediDispStatEnum = vst
 						.tStatusCode2MedicationDispenseStatus(cdaMedicationDispense.getStatusCode().getCode());
 				if (mediDispStatEnum != null) {
-					fhirMediDisp.setStatus(mediDispStatEnum);
+					fhirMediDisp.setStatus(mediDispStatEnum.toCode());
 				}
 			}
 		}
@@ -2546,7 +2543,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// quantity -> dosageInstruction.dose
 		if (cdaMedicationDispense.getQuantity() != null && !cdaMedicationDispense.getQuantity().isSetNullFlavor()) {
-			fhirDosageInstruction.setDose(dtt.tPQ2SimpleQuantity(cdaMedicationDispense.getQuantity()));
+			fhirDosageInstruction.addDoseAndRate().setDose(dtt.tPQ2SimpleQuantity(cdaMedicationDispense.getQuantity()));
 		}
 
 		return result;
@@ -2660,9 +2657,9 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			localBundleInfo.updateFrom(entityResult);
 			result.updateFrom(entityResult);
 			if (entityResult.hasPractitioner()) {
-				MedicationRequestRequesterComponent requester = new MedicationRequestRequesterComponent();
-				requester.setAgent(getReference(entityResult.getPractitioner()));
-				medRequest.setRequester(requester);
+//				MedicationRequestRequesterComponent requester = new MedicationRequestRequesterComponent();
+//				requester.setAgent(getReference(entityResult.getPractitioner()));
+				medRequest.setRequester(getReference(entityResult.getPractitioner()));
 			}
 		}
 
@@ -2846,7 +2843,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					.getInterpretationCodes()) {
 				if (cdaInterprCode != null && !cdaInterprCode.isSetNullFlavor()) {
 					// Asserting that only one interpretation code exists
-					fhirObs.setInterpretation(
+					fhirObs.addInterpretation(
 							vst.tObservationInterpretationCode2ObservationInterpretationCode(cdaInterprCode));
 				}
 			}
@@ -3287,7 +3284,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 				// author.time -> assertedDate
 				if (author.getTime() != null && !author.getTime().isSetNullFlavor()) {
-					fhirCondition.setAsserterTarget(dtt.tTS2DateTime(author.getTime()));
+					fhirCondition.setRecordedDateElement(dtt.tTS2DateTime(author.getTime()));
 				}
 			}
 		}
@@ -3356,7 +3353,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 						fhirPerformer.setOnBehalfOf(entityResult.getOrganizationReference());
 					}
 					if (entityResult.hasPractitionerRoleCode()) {
-						fhirPerformer.setRole(entityResult.getPractitionerRoleCode());
+						fhirPerformer.setFunction(entityResult.getPractitionerRoleCode());
 					}
 				}
 			}
@@ -3562,7 +3559,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					result.updateFrom(entityResult);
 					// TODO: what about role?
 					if (entityResult.hasPractitioner()) {
-						fhirDiagReport.addPerformer().setActor(getReference(entityResult.getPractitioner()));
+						fhirDiagReport.addPerformer(getReference(entityResult.getPractitioner()));
 					}
 				}
 			}
@@ -3724,7 +3721,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// now -> indexed
 		Date now = new Date();
-		docReference.setIndexed(now);
+		docReference.setDate(now);
 
 		// type -> 34133-9 (hard-coded from specification)
 		CodeableConcept docType = new CodeableConcept();
@@ -3800,10 +3797,10 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		bundle.addEntry(new BundleEntryComponent().setResource(device));
 
 		// agent type
-		Coding agentTypeCoding = new Coding(ProvenanceAgentType.DEVICE.getSystem(), ProvenanceAgentType.DEVICE.toCode(),
-				ProvenanceAgentType.DEVICE.getDisplay());
+		Coding agentTypeCoding = new Coding(ProvenanceAgentType.ASSEMBLER.getSystem(), ProvenanceAgentType.ASSEMBLER.toCode(),
+				ProvenanceAgentType.ASSEMBLER.getDisplay());
 		agentTypeCoding.setId(device.getId());
-		pac.setRelatedAgentType(new CodeableConcept().addCoding(agentTypeCoding));
+		pac.setType(new CodeableConcept().addCoding(agentTypeCoding));
 
 		// agent role
 		Coding agentRoleCoding = new Coding(ProvenanceAgentRole.ASSEMBLER.getSystem(),

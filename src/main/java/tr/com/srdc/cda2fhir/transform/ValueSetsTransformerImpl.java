@@ -102,6 +102,21 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	}
 
 	@Override
+	public CodeableConcept tAdministrativeSexCode2FamilyMemberHistorySex(String cdaFamilyMemberHistorySexCode) {
+		switch (cdaFamilyMemberHistorySexCode.toLowerCase()) {
+		case "f":
+			return new CodeableConcept(new Coding("http://hl7.org/fhir/administrative-gender", "female", "Female"));
+		case "m":
+			return new CodeableConcept(new Coding("http://hl7.org/fhir/administrative-gender", "male", "Male"));
+		case "un":
+			return new CodeableConcept(new Coding("http://hl7.org/fhir/administrative-gender", "unknown", "Unknown"));
+		default:
+			return new CodeableConcept(new Coding("http://hl7.org/fhir/administrative-gender", "unknown", "Unknown"));
+		}
+		
+	}
+
+	@Override
 	public String tAgeObservationUnit2AgeUnit(String cdaAgeObservationUnit) {
 		if (cdaAgeObservationUnit == null || cdaAgeObservationUnit.isEmpty())
 			return null;

@@ -176,7 +176,7 @@ public class ObservationGenerator {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void verify(org.hl7.fhir.dstu3.model.Observation observation) {
+	public void verify(org.hl7.fhir.r4.model.Observation observation) {
 		if (idGenerators.isEmpty()) {
 			Assert.assertTrue("No observation identifier", !observation.hasIdentifier());
 		} else {
@@ -224,8 +224,9 @@ public class ObservationGenerator {
 				ag.verify(observation.getValueRange());
 			} else if (observation.hasValueRatio()) {
 				ag.verify(observation.getValueRatio());
-			} else if (observation.hasValueAttachment()) {
-				ag.verify(observation.getValueAttachment());
+// FHIR valueAttachment value deleted
+//			} else if (observation.hasValueAttachment()) {
+//				ag.verify(observation.getValueAttachment());
 			} else if (observation.hasValueDateTimeType()) {
 				ag.verify(observation.getValueDateTimeType());
 			} else if (observation.hasValueBooleanType()) {
@@ -255,7 +256,7 @@ public class ObservationGenerator {
 		} else {
 			String input = interpretationCodeGenerators.get(interpretationCodeGenerators.size() - 1);
 			String expected = (String) ((Map<String, Object>) OBSERVATION_INTERPRETATION.get(input)).get("code");
-			String actual = observation.getInterpretation().getCoding().get(0).getCode();
+			String actual = observation.getInterpretation().get(0).getText();
 			Assert.assertEquals("Observation interpretation", expected, actual);
 		}
 
@@ -271,8 +272,8 @@ public class ObservationGenerator {
 	}
 
 	public void verify(Bundle bundle) throws Exception {
-		org.hl7.fhir.dstu3.model.Observation obs = BundleUtil.findOneResource(bundle,
-				org.hl7.fhir.dstu3.model.Observation.class);
+		org.hl7.fhir.r4.model.Observation obs = BundleUtil.findOneResource(bundle,
+				org.hl7.fhir.r4.model.Observation.class);
 		verify(obs);
 
 		if (authorGenerators.isEmpty()) {

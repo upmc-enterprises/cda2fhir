@@ -196,10 +196,10 @@ public class AllergyObservationGenerator {
 
 		if (clinicalStatusGenerator == null) {
 			Assert.assertTrue("Clinical status exists", allergyIntolerance.hasClinicalStatus());
-			Assert.assertEquals("Default clinical status", "active", allergyIntolerance.getClinicalStatus().toCode());
+			Assert.assertEquals("Default clinical status", "active", allergyIntolerance.getClinicalStatus().getText());
 		} else {
 			Assert.assertTrue("Clinical status exists", allergyIntolerance.hasClinicalStatus());
-			clinicalStatusGenerator.verify(allergyIntolerance.getClinicalStatus().toCode());
+			clinicalStatusGenerator.verify(allergyIntolerance.getClinicalStatus().getText());
 		}
 
 		if (reactionGenerators.isEmpty()) {

@@ -90,7 +90,7 @@ public class ProceduresSectionSnippetTest {
 	}
 
 	private static void verifyProcedureContext(Procedure procedure, List<Encounter> encounters, String expectedId) {
-		Reference reference = procedure.getContext();
+		Reference reference = procedure.getEncounter();
 		Encounter encounter = findEncounterByReference(encounters, reference);
 		Assert.assertNotNull("Expect procedure encounter", encounter);
 		Assert.assertEquals("Expect the right id for procedure encounter", expectedId,

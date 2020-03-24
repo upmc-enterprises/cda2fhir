@@ -196,8 +196,8 @@ public class ProcedureActivityProcedureGenerator {
 				PractitionerRole role = util.getPractitionerRole(practitionerId);
 				pg.verify(role);
 
-				Assert.assertTrue("Procedure performer has role", ppc.hasRole());
-				Coding ppcRole = ppc.getRole().getCoding().get(0);
+				Assert.assertTrue("Procedure performer has role", ppc.hasFunction());
+				Coding ppcRole = ppc.getFunction().getCoding().get(0);
 				Assert.assertEquals("Procedure performer has role", pg.getCodeCode(), ppcRole.getCode());
 
 				if (!role.hasOrganization()) {

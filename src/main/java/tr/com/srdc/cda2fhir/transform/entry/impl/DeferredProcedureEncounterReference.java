@@ -33,6 +33,6 @@ public class DeferredProcedureEncounterReference implements IDeferredReference {
 
 	@Override
 	public void resolve(Reference reference) {
-		procedure.setContext(reference);
+		procedure.setEncounter(reference);
 	}
 }

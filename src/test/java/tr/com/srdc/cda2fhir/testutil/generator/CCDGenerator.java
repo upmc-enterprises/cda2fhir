@@ -471,7 +471,7 @@ public class CCDGenerator {
 			int authenticatorIndex = 0;
 			for (int index = 0; index < count; ++index) {
 				CompositionAttesterComponent attester = attesters.get(index);
-				CompositionAttestationMode mode = attester.getMode().get(0).getValue();
+				CompositionAttestationMode mode = attester.getMode();
 				if (mode == CompositionAttestationMode.LEGAL) {
 					Assert.assertNotNull("Legal asserter expected", legalAuthenticatorGenerator);
 					String attesterId = attester.getParty().getReference();

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
 import org.hl7.fhir.r4.model.Range;
+import org.hl7.fhir.r4.model.SimpleQuantity;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_PQ;
@@ -59,13 +60,13 @@ public class IVL_PQRangeGenerator {
 		if (high == null) {
 			Assert.assertTrue("No range high value", !range.hasHigh());
 		} else {
-			high.verify(range.getHigh());
+			high.verify((SimpleQuantity) range.getHigh());
 		}
 
 		if (low == null) {
 			Assert.assertTrue("No range low value", !range.hasLow());
 		} else {
-			low.verify(range.getLow());
+			low.verify((SimpleQuantity) range.getLow());
 		}
 	}
 
@@ -73,13 +74,13 @@ public class IVL_PQRangeGenerator {
 		if (high == null) {
 			Assert.assertTrue("No range high value", !range.hasHigh());
 		} else {
-			high.verify(range.getHigh());
+			high.verify((SimpleQuantity) range.getHigh());
 		}
 
 		if (low == null) {
 			Assert.assertTrue("No range low value", !range.hasLow());
 		} else {
-			low.verify(range.getLow());
+			low.verify((SimpleQuantity) range.getLow());
 		}
 	}
 }
