@@ -71,10 +71,10 @@ public class MedicationStatementTest {
 				.getBundle();
 
 		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
-		List<Base> takenCodes = fhirResource.getNamedProperty("taken").getValues();
+		List<Base> takenCodes = fhirResource.getNamedProperty("reasonCode").getValues();
 
 		// Make assertions.
-		Assert.assertEquals("Taken code defaults to UNK", "unk", takenCodes.get(0).primitiveValue());
+		Assert.assertEquals(0, takenCodes.size());
 
 	}
 
@@ -165,9 +165,8 @@ public class MedicationStatementTest {
 				.getBundle();
 
 		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
-
-		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("dose")
-				.getValues();
+		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("doseAndRate").getValues().get(0).getNamedProperty("dose").getValues();
+		
 		Dosage dosage = (Dosage) fhirResource.getNamedProperty("dosage").getValues().get(0);
 
 		// Make assertions.

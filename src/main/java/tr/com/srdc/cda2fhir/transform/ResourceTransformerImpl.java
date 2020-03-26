@@ -3799,6 +3799,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		// agent type
 		Coding agentTypeCoding = new Coding(ProvenanceAgentType.ASSEMBLER.getSystem(), ProvenanceAgentType.ASSEMBLER.toCode(),
 				ProvenanceAgentType.ASSEMBLER.getDisplay());
+		System.out.println("provence " + agentTypeCoding.getCode() + " " + agentTypeCoding);
 		agentTypeCoding.setId(device.getId());
 		pac.setType(new CodeableConcept().addCoding(agentTypeCoding));
 

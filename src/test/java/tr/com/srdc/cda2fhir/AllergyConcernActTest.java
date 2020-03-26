@@ -443,7 +443,7 @@ public class AllergyConcernActTest {
 		AllergyIntolerance allergyIntolerance = findOneResource(bundle);
 
 		CodeableConcept verificationStatus = allergyIntolerance.getVerificationStatus();
-		String actual = verificationStatus == null ? null : verificationStatus.getText();
+		String actual = verificationStatus == null ? null : allergyIntolerance.getVerificationStatus().getCodingFirstRep().getCode();
 		Assert.assertEquals(expected, actual);
 	}
 

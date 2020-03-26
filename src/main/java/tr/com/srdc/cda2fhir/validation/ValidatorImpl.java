@@ -46,7 +46,7 @@ public class ValidatorImpl implements IValidator {
 
 	private final Logger logger = LoggerFactory.getLogger(ValidatorImpl.class);
 
-	private FhirContext ctx = FhirContext.forDstu3();
+	private FhirContext ctx = FhirContext.forR4();
 
 	public ValidatorImpl(FhirContext ctx) {
 		this.setCtx(ctx);
@@ -56,7 +56,7 @@ public class ValidatorImpl implements IValidator {
 	 * Constructs a validator using the default configuration.
 	 */
 	public ValidatorImpl() {
-		this.setCtx(FhirContext.forDstu3());
+		this.setCtx(FhirContext.forR4());
 	}
 
 	@Override
@@ -199,7 +199,7 @@ public class ValidatorImpl implements IValidator {
 
 		logger.info("Validating resource " + resource.getIdElement());
 
-		FhirContext ctx = FhirContext.forDstu3();
+		FhirContext ctx = FhirContext.forR4();
 		FhirValidator validator = ctx.newValidator();
 
 		IValidatorModule schemaModule = new SchemaBaseValidator(ctx);

@@ -137,11 +137,13 @@
 			<artifactId>ph-schematron</artifactId>
 			<version>5.0.8</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-validation-resources-r4 -->
 		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-validation-resources-r4</artifactId>
-			<version>${hapifhir.version}</version>
+		    <groupId>ca.uhn.hapi.fhir</groupId>
+		    <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+		    <version>4.2.0</version>
 		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>

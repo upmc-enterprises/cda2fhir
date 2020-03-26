@@ -609,7 +609,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	public Coding tParticipationType2ParticipationTypeCode(
 			org.openhealthtools.mdht.uml.hl7.vocab.ParticipationType cdaParticipationType) {
 		Coding fhirParticipationType = new Coding();
-		fhirParticipationType.setSystem("http://hl7.org/fhir/v3/ParticipationType");
+		fhirParticipationType.setSystem("http://terminology.hl7.org/CodeSystem/v3-ParticipationType");
 		String code = null;
 		String display = null;
 
@@ -872,7 +872,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		// TODO: find a defined enum/valueset/codesystem for this.
 		// STU3 doesn't seem to have this so use DSTU2 definitions instead.
 		// https://www.hl7.org/fhir/DSTU2/valueset-condition-category.html
-		Coding c = new Coding().setSystem("http://hl7.org/fhir/condition-category");
+		Coding c = new Coding().setSystem("http://terminology.hl7.org/CodeSystem/condition-category");
 		if (cdaProblemType == null)
 			return null;
 		switch (cdaProblemType) {
@@ -939,7 +939,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 			return null;
 
 		Coding fhirPatientContactRelationshipCode = new Coding();
-		fhirPatientContactRelationshipCode.setSystem("http://hl7.org/fhir/v2/0131");
+		fhirPatientContactRelationshipCode.setSystem("http://terminology.hl7.org/CodeSystem/v2-0131");
 		String code = null;
 		String display = null;
 
@@ -1020,14 +1020,14 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "aborted":
 			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "Unconfirmed"));
 		default:
-			return new CodeableConcept(new Coding(null, null, null));
+			return null;
 		}
 	}
 
 	@Override
 	public CodeableConcept tStatusCode2ConditionVerificationStatus(String cdaStatusCode) {
 		if (cdaStatusCode == null) {
-			return new CodeableConcept(new Coding(null, null, null));
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "Unconfirmed"));
 			//return ConditionVerificationStatus.UNKNOWN;
 		}
 		switch (cdaStatusCode.toLowerCase()) {
@@ -1036,11 +1036,11 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "active":
 			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "confirmed", "Confirmed"));
 		case "suspended":
-			 new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "Provisional"));
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "Provisional"));
 		case "aborted":
-			 new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "entered-in-error", "Entered in Error"));
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "entered-in-error", "Entered in Error"));
 		default:
-			return new CodeableConcept(new Coding(null, null, null));
+			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "Unconfirmed"));
 			//return ConditionVerificationStatus.UNKNOWN;
 		}
 	}
@@ -1180,6 +1180,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "fax":
 			return ContactPointSystem.FAX;
 		case "http":
+			return ContactPointSystem.URL;
 		case "https":
 			return ContactPointSystem.URL;
 		default:
@@ -1190,7 +1191,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	@Override
 	public CodeableConcept tProblemStatus2AllergyIntoleranceClinicalStatus(String code) {
 		if (code == null) {
-			return new CodeableConcept(new Coding(null, null, null));
+			return null;
 		}
 		switch (code) {
 		case "55561003":
@@ -1200,14 +1201,14 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "413322009":
 			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "resolved", "Resolved"));
 		default:
-			return new CodeableConcept(new Coding(null, null, null));
+			return null;
 		}
 	}
 
 	@Override
 	public CodeableConcept tProblemStatus2ConditionClinicalStatus(String code) {
 		if (code == null) {
-			return new CodeableConcept(new Coding(null, null, null));
+			return null;
 		}
 		switch (code) {
 		case "55561003":
@@ -1217,7 +1218,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		case "413322009":
 			return new CodeableConcept(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "resolved", "Resolved"));
 		default:
-			return new CodeableConcept(new Coding(null, null, null));
+			return null;
 		}
 	}
 }

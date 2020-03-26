@@ -57,7 +57,7 @@ public class ProvenanceTest {
 		Assert.assertEquals(docRef.getStatus().toString(), "CURRENT");
 		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getContentType(), "text/plain");
 		Assert.assertEquals(docRef.getType().getCoding().get(0).getCode(), "34133-9");
-
+		System.out.println("==== " + docRef.getContent().get(0).getAttachment() + " --- " + docRef.getType().getCoding().get(0).getCode());
 		// Test encoding.
 		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getDataElement().asStringValue(),
 				Base64.encode(documentBody.getBytes()));
