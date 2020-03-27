@@ -57,15 +57,15 @@ public class ProvenanceTest {
 		Assert.assertEquals(docRef.getStatus().toString(), "CURRENT");
 		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getContentType(), "text/plain");
 		Assert.assertEquals(docRef.getType().getCoding().get(0).getCode(), "34133-9");
-		System.out.println("==== " + docRef.getContent().get(0).getAttachment() + " --- " + docRef.getType().getCoding().get(0).getCode());
+
 		// Test encoding.
-		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getDataElement().asStringValue(),
+		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getDataElement().getValueAsString(),
 				Base64.encode(documentBody.getBytes()));
 
 		// Test hash.
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
 		byte[] encodedHash = digest.digest(documentBody.getBytes());
-		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getHashElement().asStringValue(),
+		Assert.assertEquals(docRef.getContent().get(0).getAttachment().getHashElement().getValueAsString(),
 				Base64.encode(encodedHash));
 
 		Device device = BundleUtil.findOneResource(testBundle, Device.class);
