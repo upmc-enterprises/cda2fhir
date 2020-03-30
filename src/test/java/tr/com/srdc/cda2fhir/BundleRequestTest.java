@@ -1,10 +1,8 @@
 package tr.com.srdc.cda2fhir;
 
 import org.hl7.fhir.r4.model.AllergyIntolerance;
-import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.Bundle.BundleType;
-import org.hl7.fhir.r4.model.CodeableConcept;
+//import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Condition;
@@ -28,13 +26,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
-
 import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 import tr.com.srdc.cda2fhir.testutil.generator.CDGenerator;
-import tr.com.srdc.cda2fhir.transform.CCDTransformerImpl;
 import tr.com.srdc.cda2fhir.transform.util.impl.BundleRequest;
-import tr.com.srdc.cda2fhir.util.FHIRUtil;
-import tr.com.srdc.cda2fhir.util.IdGeneratorEnum;
+
 
 public class BundleRequestTest {
 
@@ -440,7 +435,7 @@ public class BundleRequestTest {
 
 		BundleEntryComponent bec = new BundleEntryComponent();
 		Medication becEntry = new Medication();
-		CodeableConcept medicationCode = new CodeableConcept();
+//		CodeableConcept medicationCode = new CodeableConcept();
 		Coding code = new Coding();
 		code.setCode(val);
 		code.setSystem(sys);
@@ -463,7 +458,7 @@ public class BundleRequestTest {
 
 		BundleEntryComponent bec = new BundleEntryComponent();
 		Medication becEntry = new Medication();
-		CodeableConcept medicationCode = new CodeableConcept();
+//		CodeableConcept medicationCode = new CodeableConcept();
 		Coding code1 = new Coding();
 		Coding code2 = new Coding();
 		code1.setCode(val1);

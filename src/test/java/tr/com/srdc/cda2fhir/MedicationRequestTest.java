@@ -8,7 +8,6 @@ import org.hl7.fhir.r4.model.MedicationRequest;
 import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestIntent;
 import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Practitioner;
-import org.hl7.fhir.r4.model.codesystems.MedicationrequestIntent;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

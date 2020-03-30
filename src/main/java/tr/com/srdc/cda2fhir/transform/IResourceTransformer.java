@@ -23,7 +23,6 @@ package tr.com.srdc.cda2fhir.transform;
 import org.hl7.fhir.r4.model.Age;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Composition.SectionComponent;
-import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.FamilyMemberHistory;
 import org.hl7.fhir.r4.model.Group;
 import org.hl7.fhir.r4.model.Identifier;
@@ -62,7 +61,6 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 
 import tr.com.srdc.cda2fhir.transform.entry.IEntityResult;
 import tr.com.srdc.cda2fhir.transform.entry.IEntryResult;
-import tr.com.srdc.cda2fhir.transform.entry.impl.EntryResult;
 import tr.com.srdc.cda2fhir.transform.util.IBundleInfo;
 
 public interface IResourceTransformer {
