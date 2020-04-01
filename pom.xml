@@ -133,9 +133,9 @@
 		</dependency>
 		<!-- FHIR validation -->
 		<dependency>
-			<groupId>com.helger</groupId>
-			<artifactId>ph-schematron</artifactId>
-			<version>5.5.0</version>
+			  <groupId>com.helger</groupId>
+			  <artifactId>ph-schematron</artifactId>
+			  <version>5.3.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-validation-resources-r4 -->
 		<dependency>

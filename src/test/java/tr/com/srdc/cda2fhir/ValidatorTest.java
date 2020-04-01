@@ -62,8 +62,8 @@ public class ValidatorTest {
 		String targetPathForFHIRResource = "src/test/resources/output/170.315_b1_toc_gold_sample2_v1-wo-profile-validation.xml";
 		String targetPathForResultFile = "src/test/resources/output/validation-result-wo-profile-for-170.315_b1_toc_gold_sample2_v1.html";
 		boolean generateDAFProfileMetadata = false;
-//		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-//				generateDAFProfileMetadata, true);
+		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
+				generateDAFProfileMetadata, true);
 	}
 
 	// 170.315_b1_toc_gold_sample2_v1.xml with profile
