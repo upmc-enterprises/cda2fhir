@@ -3326,7 +3326,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		// effectiveTime -> performed
 		if (cdaProcedure.getEffectiveTime() != null && !cdaProcedure.getEffectiveTime().isSetNullFlavor()) {
-			fhirProc.setPerformed(dtt.tTS2DateTime(cdaProcedure.getEffectiveTime()));
+			fhirProc.setPerformed(dtt.tIVL_TS2Period(cdaProcedure.getEffectiveTime()));
 		}
 
 		// targetSiteCode -> bodySite
