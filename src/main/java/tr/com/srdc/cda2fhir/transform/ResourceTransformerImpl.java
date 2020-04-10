@@ -54,6 +54,7 @@ import org.hl7.fhir.r4.model.Composition.SectionComponent;
 import org.hl7.fhir.r4.model.Composition.SectionMode;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Device;
+import org.hl7.fhir.r4.model.Device.DeviceVersionComponent;
 import org.hl7.fhir.r4.model.Device.FHIRDeviceStatus;
 import org.hl7.fhir.r4.model.DiagnosticReport;
 import org.hl7.fhir.r4.model.DocumentReference;
@@ -61,7 +62,6 @@ import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 import org.hl7.fhir.r4.model.Enumerations.DocumentReferenceStatus;
-import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.FamilyMemberHistory;
 import org.hl7.fhir.r4.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
 import org.hl7.fhir.r4.model.Group;
@@ -608,12 +608,23 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		IdType resourceDeviceId = new IdType("Device", getUniqueId());
 		fhirDevice.setId(resourceDeviceId);
 
+		DeviceVersionComponent fhirDeviceVersion = fhirDevice.addVersion();
 		// All things with the Device.
 		if (cdaAssignedAuthor.getAssignedAuthoringDevice() != null
 				&& !cdaAssignedAuthor.getAssignedAuthoringDevice().isSetNullFlavor()) {
 			fhirDevice.setManufacturer(
 					cdaAssignedAuthor.getAssignedAuthoringDevice().getManufacturerModelName().getText());
-			fhirDevice.addVersion().setValue(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getText());
+			fhirDeviceVersion.setValue(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getText());
+			if(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getCodeSystemVersion() != null) {
+				Identifier typeId = new Identifier();
+				typeId.setId(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getCodeSystemVersion());
+				fhirDeviceVersion.setComponent(typeId);
+			}
+			if(cdaAssignedAuthor.getAssignedAuthoringDevice().getTypeId() != null) {
+				Coding cd1 = new Coding();
+				cd1.setCode(cdaAssignedAuthor.getAssignedAuthoringDevice().getTypeId().getAssigningAuthorityName());
+				fhirDeviceVersion.setType(new CodeableConcept().addCoding(cd1));
+			}
 			if (cdaAssignedAuthor.getAssignedAuthoringDevice().getCode() != null) {
 				fhirDevice.setType(dtt.tCD2CodeableConcept(cdaAssignedAuthor.getAssignedAuthoringDevice().getCode()));
 			} else {
@@ -2664,8 +2675,6 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			localBundleInfo.updateFrom(entityResult);
 			result.updateFrom(entityResult);
 			if (entityResult.hasPractitioner()) {
-//				MedicationRequestRequesterComponent requester = new MedicationRequestRequesterComponent();
-//				requester.setAgent(getReference(entityResult.getPractitioner()));
 				medRequest.setRequester(getReference(entityResult.getPractitioner()));
 			}
 		}

@@ -128,7 +128,7 @@ public class MedicationDispenseGenerator {
 		if (quantityGenerator == null) {
 			Assert.assertTrue("No med dispense quantity", !medDispense.hasQuantity());
 		} else {
-			quantityGenerator.verify((SimpleQuantity) medDispense.getQuantity());
+			quantityGenerator.verify(medDispense.getQuantity());
 		}
 
 		if (effectiveTimeGenerators.isEmpty()) {

@@ -235,7 +235,7 @@ public class ImmunizationActivityGenerator {
 		if (doseQuantityGenerator == null) {
 			Assert.assertTrue("No immunization dose quantity", !immunization.hasDoseQuantity());
 		} else {
-			doseQuantityGenerator.verify((SimpleQuantity) immunization.getDoseQuantity());
+			doseQuantityGenerator.verify(immunization.getDoseQuantity());
 		}
 
 		if (refusalReasonGenerator == null) {

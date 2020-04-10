@@ -224,9 +224,6 @@ public class ObservationGenerator {
 				ag.verify(observation.getValueRange());
 			} else if (observation.hasValueRatio()) {
 				ag.verify(observation.getValueRatio());
-// FHIR valueAttachment value deleted
-//			} else if (observation.hasValueAttachment()) {
-//				ag.verify(observation.getValueAttachment());
 			} else if (observation.hasValueDateTimeType()) {
 				ag.verify(observation.getValueDateTimeType());
 			} else if (observation.hasValueBooleanType()) {

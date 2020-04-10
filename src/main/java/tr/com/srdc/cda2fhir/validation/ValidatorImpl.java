@@ -60,7 +60,7 @@ public class ValidatorImpl implements IValidator {
 	}
 
 	@Override
-	public OutputStream validateBundle(Bundle bundle) {
+	public OutputStream validateBundle(Bundle bundle, boolean includeSchematron) {
 		if (bundle == null) {
 			logger.warn("The bundle to be validated is null. Returning null.");
 			return null;
@@ -87,7 +87,7 @@ public class ValidatorImpl implements IValidator {
 				try {
 					// validate the resource contained in the entry
 					ByteArrayOutputStream byteArrayOutputStream = (ByteArrayOutputStream) validateResource(
-							entry.getResource());
+							entry.getResource(), includeSchematron);
 
 					if (byteArrayOutputStream != null) {
 						byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -148,7 +148,7 @@ public class ValidatorImpl implements IValidator {
 	}
 
 	@Override
-	public OutputStream validateResource(IBaseResource resource) {
+	public OutputStream validateResource(IBaseResource resource, boolean includeSchematron) {
 		if (resource == null) {
 			logger.warn("The resource to be validated is null. Returning null");
 			return null;
@@ -167,7 +167,9 @@ public class ValidatorImpl implements IValidator {
 		IValidatorModule schemaModule = new SchemaBaseValidator(ctx);
 		IValidatorModule schematronModule = new SchematronBaseValidator(ctx);
 		validator.registerValidatorModule(schemaModule);
-		validator.registerValidatorModule(schematronModule);
+		
+		if(includeSchematron)
+			validator.registerValidatorModule(schematronModule);
 
 		ValidationResult result = validator.validateWithResult(resource);
 		logValidationResult(result);

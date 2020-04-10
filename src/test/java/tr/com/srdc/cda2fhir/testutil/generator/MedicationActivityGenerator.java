@@ -13,6 +13,7 @@ import org.hl7.fhir.r4.model.MedicationStatement;
 import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Quantity;
 import org.hl7.fhir.r4.model.SimpleQuantity;
 import org.hl7.fhir.r4.model.Timing;
 import org.junit.Assert;
@@ -248,7 +249,7 @@ public class MedicationActivityGenerator {
 			boolean hasDosageDose = medStatement.hasDosage() && medStatement.getDosage().get(0).hasDoseAndRate();
 			Assert.assertTrue("Missing med statement dosage time", !hasDosageDose);
 		} else {
-			SimpleQuantity sq = (SimpleQuantity) medStatement.getDosage().get(0).getDoseAndRateFirstRep().getDoseQuantity();
+			Quantity sq = medStatement.getDosage().get(0).getDoseAndRateFirstRep().getDoseQuantity();
 			ivlPqGenerator.verify(sq);
 		}
 

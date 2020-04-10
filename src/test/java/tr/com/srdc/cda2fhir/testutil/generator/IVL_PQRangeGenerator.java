@@ -60,13 +60,13 @@ public class IVL_PQRangeGenerator {
 		if (high == null) {
 			Assert.assertTrue("No range high value", !range.hasHigh());
 		} else {
-			high.verify((SimpleQuantity) range.getHigh());
+			high.verify(range.getHigh());
 		}
 
 		if (low == null) {
 			Assert.assertTrue("No range low value", !range.hasLow());
 		} else {
-			low.verify((SimpleQuantity) range.getLow());
+			low.verify(range.getLow());
 		}
 	}
 
@@ -74,13 +74,13 @@ public class IVL_PQRangeGenerator {
 		if (high == null) {
 			Assert.assertTrue("No range high value", !range.hasHigh());
 		} else {
-			high.verify((SimpleQuantity) range.getHigh());
+			high.verify(range.getHigh());
 		}
 
 		if (low == null) {
 			Assert.assertTrue("No range low value", !range.hasLow());
 		} else {
-			low.verify((SimpleQuantity) range.getLow());
+			low.verify(range.getLow());
 		}
 	}
 }

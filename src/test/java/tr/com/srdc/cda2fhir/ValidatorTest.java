@@ -63,7 +63,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-wo-profile-for-170.315_b1_toc_gold_sample2_v1.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, true);
+				generateDAFProfileMetadata, true, false);
 	}
 
 	// 170.315_b1_toc_gold_sample2_v1.xml with profile
@@ -74,18 +74,18 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-w-profile-for-170.315_b1_toc_gold_sample2_v1.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// 170.315_b1_toc_inp_ccd_r21_sample1_v5.xml without profile
-	@Ignore
+	@Test
 	public void testInpSampleBundleWithoutProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/170.315_b1_toc_inp_ccd_r21_sample1_v5.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/170.315_b1_toc_inp_ccd_r21_sample1_v5-wo-profile-validation.xml";
 		String targetPathForResultFile = "src/test/resources/output/validation-result-wo-profile-for-170.315_b1_toc_inp_ccd_r21_sample1_v5.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// 170.315_b1_toc_inp_ccd_r21_sample1_v5.xml without profile
@@ -96,7 +96,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-w-profile-for-170.315_b1_toc_inp_ccd_r21_sample1_v5.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// C-CDA_R2-1_CCD.xml without DAF profile
@@ -107,7 +107,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-wo-profile-for-C-CDA_R2-1_CCD.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// C-CDA_R2-1_CCD.xml with provenance
@@ -118,7 +118,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-w-provenance-for-C-CDA_R2-1_CCD.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, true);
+				generateDAFProfileMetadata, true, false);
 	}
 
 	// C-CDA_R2-1_CCD.xml with DAF profile
@@ -129,7 +129,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-w-profile-for-C-CDA_R2-1_CCD.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// Vitera_CCDA_SMART_Sample.xml without profile
@@ -140,7 +140,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-wo-profile-for-Vitera_CCDA_SMART_Sample.html";
 		boolean generateDAFProfileMetadata = false;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// Vitera_CCDA_SMART_Sample.xml with profile
@@ -151,7 +151,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/validation-result-w-profile-for-Vitera_CCDA_SMART_Sample.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// HannahBanana_EpicCCD.xml
@@ -162,7 +162,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/Epic/HannahBanana_EpicCCD-pretty.validation-result.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// robust CCD.XML
@@ -173,7 +173,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/Epic/robust CCD.validation-result.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	// Person-RAKIA_TEST_DOC0001 (1).xml
@@ -184,7 +184,7 @@ public class ValidatorTest {
 		String targetPathForResultFile = "src/test/resources/output/Cerner/Person-RAKIA_TEST_DOC00001 (1).validation-result.html";
 		boolean generateDAFProfileMetadata = true;
 		transformAndValidate(cdaResourcePath, targetPathForFHIRResource, targetPathForResultFile,
-				generateDAFProfileMetadata, false);
+				generateDAFProfileMetadata, false, false);
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class ValidatorTest {
 	 * @throws Exception
 	 */
 	private void transformAndValidate(String cdaResourcePath, String targetPathForFHIRResource,
-			String targetPathForResultFile, boolean generateDAFProfileMetadata, boolean generateProvenance)
+			String targetPathForResultFile, boolean generateDAFProfileMetadata, boolean generateProvenance, boolean runWithSchematron)
 			throws Exception {
 		IValidator validator = new ValidatorImpl();
 		ByteArrayOutputStream os = null;
@@ -248,7 +248,7 @@ public class ValidatorTest {
 		// print the bundle for checking against validation results
 		// printed as XML, because HL7 FHIR Validator works with XML encoded resources
 		FHIRUtil.printXML(bundle, targetPathForFHIRResource);
-		os = (ByteArrayOutputStream) validator.validateBundle(bundle);
+		os = (ByteArrayOutputStream) validator.validateBundle(bundle, runWithSchematron);
 
 		// ValidationResult fileResult =
 		// validator.validateFile(targetPathForFHIRResource);

@@ -2,7 +2,6 @@ package tr.com.srdc.cda2fhir;
 
 import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-//import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Condition;
@@ -435,7 +434,6 @@ public class BundleRequestTest {
 
 		BundleEntryComponent bec = new BundleEntryComponent();
 		Medication becEntry = new Medication();
-//		CodeableConcept medicationCode = new CodeableConcept();
 		Coding code = new Coding();
 		code.setCode(val);
 		code.setSystem(sys);
@@ -458,7 +456,6 @@ public class BundleRequestTest {
 
 		BundleEntryComponent bec = new BundleEntryComponent();
 		Medication becEntry = new Medication();
-//		CodeableConcept medicationCode = new CodeableConcept();
 		Coding code1 = new Coding();
 		Coding code2 = new Coding();
 		code1.setCode(val1);

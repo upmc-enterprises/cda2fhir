@@ -163,7 +163,7 @@ public class MedicationSupplyOrderGenerator {
 			boolean hasQuantity = medRequest.hasDispenseRequest() && medRequest.getDispenseRequest().hasQuantity();
 			Assert.assertTrue("Missing med request dispense quantity", !hasQuantity);
 		} else {
-			quantityGenerator.verify((SimpleQuantity) medRequest.getDispenseRequest().getQuantity());
+			quantityGenerator.verify(medRequest.getDispenseRequest().getQuantity());
 		}
 
 		if (repeat == null) {
