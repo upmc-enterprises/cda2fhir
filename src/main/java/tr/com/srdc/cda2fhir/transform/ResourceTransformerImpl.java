@@ -40,8 +40,10 @@ import org.hl7.fhir.r4.model.Base64BinaryType;
 import org.hl7.fhir.r4.model.BooleanType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.CodeType;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Dosage.DosageDoseAndRateComponent;
 import org.hl7.fhir.r4.model.codesystems.MedicationdispenseStatus;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Composition.CompositionAttestationMode;
@@ -59,6 +61,7 @@ import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 import org.hl7.fhir.r4.model.Enumerations.DocumentReferenceStatus;
+import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.FamilyMemberHistory;
 import org.hl7.fhir.r4.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
 import org.hl7.fhir.r4.model.Group;
@@ -92,6 +95,7 @@ import org.hl7.fhir.r4.model.Provenance.ProvenanceAgentComponent;
 import org.hl7.fhir.r4.model.Provenance.ProvenanceEntityComponent;
 import org.hl7.fhir.r4.model.Provenance.ProvenanceEntityRole;
 import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.Range;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.SimpleQuantity;
@@ -1535,7 +1539,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				if (subjectPerson.getAdministrativeGenderCode() != null
 						&& !subjectPerson.getAdministrativeGenderCode().isSetNullFlavor()
 						&& subjectPerson.getAdministrativeGenderCode().getCode() != null) {
-					fhirFMH.setSex(vst.tAdministrativeSexCode2FamilyMemberHistorySex(
+					fhirFMH.setSex(vst.tAdministrativeGenderCode2FamilyMemberHistorySex(
 							subjectPerson.getAdministrativeGenderCode().getCode()));
 				}
 
@@ -1732,11 +1736,12 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 			}
 		}
-////In FHIR R4, there is no concept of 'notGiven', commenting this out in the meantime
-//		// negationInd -> notGiven
-//		if (cdaImmunizationActivity.getNegationInd() != null) {
-//			fhirImmunization.setNotGiven(cdaImmunizationActivity.getNegationInd());
-//		}
+
+		// negationInd -> status.NOTDONE
+		if (cdaImmunizationActivity.getNegationInd() != null) {
+			if(cdaImmunizationActivity.getNegationInd())
+				fhirImmunization.setStatus(ImmunizationStatus.NOTDONE);
+		}
 
 		// effectiveTime -> date
 		if (cdaImmunizationActivity.getEffectiveTimes() != null
@@ -1860,36 +1865,36 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 			}
 		}
-//In FHIR R4, there is no concept of 'notGiven', commenting this out in the meantime
-//		// notGiven == true
-//		if (fhirImmunization.getNotGiven()) {
-//			// immunizationRefusalReason.code -> explanation.reasonNotGiven
-//			if (cdaImmunizationActivity.getImmunizationRefusalReason() != null
-//					&& !cdaImmunizationActivity.getImmunizationRefusalReason().isSetNullFlavor()) {
-//				if (cdaImmunizationActivity.getImmunizationRefusalReason().getCode() != null
-//						&& !cdaImmunizationActivity.getImmunizationRefusalReason().getCode().isSetNullFlavor()) {
-//					// fhirImmunization.setExplanation(new
-//					// Explanation().addReasonNotGiven(dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode())));
-//					fhirImmunization.getExplanation().addReasonNotGiven(
-//							dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode()));
-//				}
-//			}
-//		}
-//		// notGiven == false
-//		else if (!fhirImmunization.getNotGiven()) {
-//			// indication.value -> explanation.reason
-//			if (cdaImmunizationActivity.getIndication() != null
-//					&& !cdaImmunizationActivity.getIndication().isSetNullFlavor()) {
-//				if (!cdaImmunizationActivity.getIndication().getValues().isEmpty()
-//						&& cdaImmunizationActivity.getIndication().getValues().get(0) != null
-//						&& !cdaImmunizationActivity.getIndication().getValues().get(0).isSetNullFlavor()) {
-//					// fhirImmunization.setExplanation(new
-//					// Explanation().addReason(dtt.tCD2CodeableConcept((CD)cdaImmunizationActivity.getIndication().getValues().get(0))));
-//					fhirImmunization.getExplanation().addReason(
-//							dtt.tCD2CodeableConcept((CD) cdaImmunizationActivity.getIndication().getValues().get(0)));
-//				}
-//			}
-//		}
+
+		// notGiven == true
+		if (fhirImmunization.getStatus() == ImmunizationStatus.NOTDONE) {
+			// immunizationRefusalReason.code -> explanation.reasonNotGiven
+			if (cdaImmunizationActivity.getImmunizationRefusalReason() != null
+					&& !cdaImmunizationActivity.getImmunizationRefusalReason().isSetNullFlavor()) {
+				if (cdaImmunizationActivity.getImmunizationRefusalReason().getCode() != null
+						&& !cdaImmunizationActivity.getImmunizationRefusalReason().getCode().isSetNullFlavor()) {
+					// fhirImmunization.setExplanation(new
+					// Explanation().addReasonNotGiven(dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode())));
+					fhirImmunization.addReasonCode(
+							dtt.tCD2CodeableConcept(cdaImmunizationActivity.getImmunizationRefusalReason().getCode()));
+				}
+			}
+		}
+		// notGiven == false
+		else if (!(fhirImmunization.getStatus() == ImmunizationStatus.NOTDONE)) {
+			// indication.value -> explanation.reason
+			if (cdaImmunizationActivity.getIndication() != null
+					&& !cdaImmunizationActivity.getIndication().isSetNullFlavor()) {
+				if (!cdaImmunizationActivity.getIndication().getValues().isEmpty()
+						&& cdaImmunizationActivity.getIndication().getValues().get(0) != null
+						&& !cdaImmunizationActivity.getIndication().getValues().get(0).isSetNullFlavor()) {
+					// fhirImmunization.setExplanation(new
+					// Explanation().addReason(dtt.tCD2CodeableConcept((CD)cdaImmunizationActivity.getIndication().getValues().get(0))));
+					fhirImmunization.addReasonCode(
+							dtt.tCD2CodeableConcept((CD) cdaImmunizationActivity.getIndication().getValues().get(0)));
+				}
+			}
+		}
 
 		// reaction (i.e.
 		// entryRelationship/observation[templateId/@root="2.16.840.1.113883.10.20.22.4.9"]
@@ -2212,6 +2217,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		MedicationStatement fhirMedSt = new MedicationStatement();
 		org.hl7.fhir.r4.model.Dosage fhirDosage = fhirMedSt.addDosage();
+		DosageDoseAndRateComponent fhirDosageAndRate = fhirDosage.addDoseAndRate();
 		result.addResource(fhirMedSt);
 
 		// resource id
@@ -2291,14 +2297,14 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 				}
 			}
 		}
-
+		
 		// doseQuantity -> dosage.quantity
 		if (cdaMedicationActivity.getDoseQuantity() != null
 				&& !cdaMedicationActivity.getDoseQuantity().isSetNullFlavor()) {
 			SimpleQuantity dose = dtt.tPQ2SimpleQuantity(cdaMedicationActivity.getDoseQuantity());
 			// manually set dose system, source object doesn't support it.
 			dose.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
-			fhirDosage.addDoseAndRate().setDose(dose);
+			fhirDosageAndRate.setDose(dose);
 		}
 
 		// routeCode -> dosage.route
@@ -2309,7 +2315,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		// rateQuantity -> dosage.rate
 		if (cdaMedicationActivity.getRateQuantity() != null
 				&& !cdaMedicationActivity.getRateQuantity().isSetNullFlavor()) {
-			fhirDosage.addDoseAndRate().setRate(dtt.tIVL_PQ2Range(cdaMedicationActivity.getRateQuantity()));
+			fhirDosageAndRate.setRate(dtt.tIVL_PQ2Range(cdaMedicationActivity.getRateQuantity()));
 		}
 
 		// maxDoseQuantity -> dosage.maxDosePerPeriod
@@ -2377,8 +2383,9 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			}
 		}
 
-		// taken -> UNK
-		//fhirMedSt.setTaken(MedicationStatementTaken.UNK);
+		// taken -> MedicationStatement.status.UNKNOWN
+		// Add the extension to the resource
+		fhirMedSt.addExtension("http://hl7.org/fhir/3.0/StructureDefinition/extension-MedicationStatement.status", new CodeType("UNKNOWN"));
 
 		// indication -> reason
 		for (Indication indication : cdaMedicationActivity.getIndications()) {

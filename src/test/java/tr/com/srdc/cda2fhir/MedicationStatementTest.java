@@ -123,6 +123,13 @@ public class MedicationStatementTest {
 		doseQuantity.setValue(100.000);
 		return doseQuantity;
 	}
+	
+	private IVL_PQ getRateQuantity(String unit, Double value) {
+		IVL_PQ rateQuantity = factories.datatype.createIVL_PQ();
+		rateQuantity.setUnit("g");
+		rateQuantity.setValue(200.000);
+		return rateQuantity;
+	}
 
 	@Test
 	public void testMedicationDosage() throws Exception {
@@ -147,9 +154,16 @@ public class MedicationStatementTest {
 
 		// Make Dosage Quantity
 		IVL_PQ doseQuantity = getDoseQuantity("mg", 100.000);
+		
+		// Make Rate Quantity
+		IVL_PQ rateQuantity = getRateQuantity("mg", 100.000);
 
 		// Set Dosage
 		medAct.setDoseQuantity(doseQuantity);
+		
+		//Set Rate
+		medAct.setRateQuantity(rateQuantity);
+		
 		// Set Signature Reference
 		medAct.getEntryRelationships().add(freeTextEntryRelationship);
 		// Set frequency observation
@@ -166,13 +180,20 @@ public class MedicationStatementTest {
 
 		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
 		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("doseAndRate").getValues().get(0).getNamedProperty("dose").getValues();
-		
+		List<Base> rates = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("doseAndRate").getValues().get(0).getNamedProperty("rate").getValues().get(0).getNamedProperty("low").getValues();
+
 		Dosage dosage = (Dosage) fhirResource.getNamedProperty("dosage").getValues().get(0);
 
 		// Make assertions.
 		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
 				doses.get(0).getNamedProperty("system").getValues().get(0).toString());
-
+		
+		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
+				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
+		
+		Assert.assertEquals("URI attached for ucum", doses.get(0).getNamedProperty("system").getValues().get(0).toString(),
+				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
+		
 		Assert.assertEquals("sig1 free text instruction included in dosage text", freeTextInstruction,
 				dosage.getText());
 

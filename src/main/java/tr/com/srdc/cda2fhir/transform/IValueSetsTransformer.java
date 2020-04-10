@@ -68,7 +68,7 @@ public interface IValueSetsTransformer {
 	 * @param cdaFamilyMemberHistorySexCode A CDA FamilyMemberHistorySexCode string
 	 * @return A value from the FHIR CodeableConcept valueset
 	 */
-	CodeableConcept tAdministrativeSexCode2FamilyMemberHistorySex(String cdaFamilyMemberHistorySexCode);
+	CodeableConcept tAdministrativeGenderCode2FamilyMemberHistorySex(String cdaFamilyMemberHistorySexCode);
 	
 	/**
 	 * Transforms a CDA AgeObservationUnit string to a FHIR AgeUnit string.

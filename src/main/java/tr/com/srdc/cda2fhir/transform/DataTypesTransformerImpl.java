@@ -587,6 +587,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 		if (ivlpq.getLow() == null && ivlpq.getHigh() == null && ivlpq.getValue() != null) {
 			SimpleQuantity low = new SimpleQuantity();
 			low.setValue(ivlpq.getValue());
+			low.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
 			rangeDt.setLow(low);
 		}
 

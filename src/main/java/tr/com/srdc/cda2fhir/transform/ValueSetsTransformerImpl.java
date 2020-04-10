@@ -102,7 +102,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 	}
 
 	@Override
-	public CodeableConcept tAdministrativeSexCode2FamilyMemberHistorySex(String cdaFamilyMemberHistorySexCode) {
+	public CodeableConcept tAdministrativeGenderCode2FamilyMemberHistorySex(String cdaFamilyMemberHistorySexCode) {
 		switch (cdaFamilyMemberHistorySexCode.toLowerCase()) {
 		case "f":
 			return new CodeableConcept(new Coding("http://hl7.org/fhir/administrative-gender", "female", "Female"));
