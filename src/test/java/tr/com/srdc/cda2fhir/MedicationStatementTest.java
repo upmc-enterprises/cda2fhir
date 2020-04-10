@@ -156,7 +156,7 @@ public class MedicationStatementTest {
 		IVL_PQ doseQuantity = getDoseQuantity("mg", 100.000);
 		
 		// Make Rate Quantity
-		IVL_PQ rateQuantity = getRateQuantity("mg", 100.000);
+		IVL_PQ rateQuantity = getRateQuantity("g", 200.000);
 
 		// Set Dosage
 		medAct.setDoseQuantity(doseQuantity);
