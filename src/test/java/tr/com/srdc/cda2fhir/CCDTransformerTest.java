@@ -131,6 +131,7 @@ public class CCDTransformerTest {
 			addlSections.stream().forEach(r -> ccdTransformer.addSection(r));
 		}
 		Config.setGenerateDafProfileMetadata(false);
+		Config.setAddedZerosToDateTime(false);
 		Config.setGenerateNarrative(true);
 		Bundle bundle = ccdTransformer.transformDocument(cda, null, null);
 		Assert.assertNotNull("Expect a bundle after transformation", bundle);

@@ -600,26 +600,37 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 			return null;
 
 		Period periodDt = new Period();
-
+		
 		// low -> start
 		if (ivlts.getLow() != null && !ivlts.getLow().isSetNullFlavor()) {
 			String date = ivlts.getLow().getValue();
-			periodDt.setStartElement(tString2DateTime(date));
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setStartElement(tString2DateTime(date + "00"));
+			} else {
+				periodDt.setStartElement(tString2DateTime(date));
+			}
 		}
 
 		// high -> end
 		if (ivlts.getHigh() != null && !ivlts.getHigh().isSetNullFlavor()) {
 			String date = ivlts.getHigh().getValue();
-			periodDt.setEndElement(tString2DateTime(date));
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setEndElement(tString2DateTime(date + "00"));
+			} else {
+				periodDt.setEndElement(tString2DateTime(date));
+			}
 		}
 
 		// low is null, high is null and the value is carrying the low value
 		// value -> low
 		if (ivlts.getLow() == null && ivlts.getHigh() == null && ivlts.getValue() != null
 				&& !ivlts.getValue().equals("")) {
-			periodDt.setStartElement(tString2DateTime(ivlts.getValue()));
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setStartElement(tString2DateTime(ivlts.getValue() + "00"));
+			} else {
+				periodDt.setStartElement(tString2DateTime(ivlts.getValue()));
+			}
 		}
-
 		return periodDt;
 	}
 

@@ -68,6 +68,8 @@ public class Config {
 	private static INarrativeGenerator narrativeGenerator;
 
 	private static boolean generateDafProfileMetadata = false;
+	
+	private static boolean addedZerosToDateTime = false;
 
 	private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
@@ -101,6 +103,14 @@ public class Config {
 	}
 
 	public static boolean isGenerateDafProfileMetadata() {
+		return generateDafProfileMetadata;
+	}
+	
+	public static void setAddedZerosToDateTime(boolean addedZerosToDateTimeValue) {
+		generateDafProfileMetadata = addedZerosToDateTimeValue;
+	}
+
+	public static boolean addedZerosToDateTime() {
 		return generateDafProfileMetadata;
 	}
 

@@ -40,11 +40,10 @@ public interface IValidator {
 	 *               validated. If the (DAF) profile is supplied in meta.profile
 	 *               attribute of contained resources, then (DAF) profile validation
 	 *               is enable automatically.
-	 * @param b 
 	 * @return An output stream containing the validation result(s). The validation
 	 *         results are contained in separate div elements.
 	 */
-	OutputStream validateBundle(Bundle bundle, boolean b);
+	OutputStream validateBundle(Bundle bundle);
 
 	/**
 	 * Validates a FHIR IBaseResource instance by using the validation engine
@@ -56,7 +55,7 @@ public interface IValidator {
 	 * @return An output stream containing the validation result. The validation
 	 *         result is contained in div element.
 	 */
-	OutputStream validateResource(IBaseResource resource, boolean includeSchematron);
+	OutputStream validateResource(IBaseResource resource);
 
 	/**
 	 * Validates a FHIR File

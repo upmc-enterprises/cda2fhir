@@ -225,6 +225,7 @@ public class BundleUtil {
 		Reference dummyPatientRef = new Reference(new IdType("Patient", "0"));
 		ccdTransformer.setPatientRef(dummyPatientRef);
 		Config.setGenerateDafProfileMetadata(false);
+		Config.setAddedZerosToDateTime(false);
 		Config.setGenerateNarrative(false); // TODO: Make this an argument to ccdTransformer
 		Bundle bundle = ccdTransformer.transformDocument(cda, includeComposition);
 		return bundle;
