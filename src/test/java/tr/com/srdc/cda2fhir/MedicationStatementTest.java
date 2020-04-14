@@ -119,15 +119,15 @@ public class MedicationStatementTest {
 
 	private IVL_PQ getDoseQuantity(String unit, Double value) {
 		IVL_PQ doseQuantity = factories.datatype.createIVL_PQ();
-		doseQuantity.setUnit("mg");
-		doseQuantity.setValue(100.000);
+		doseQuantity.setUnit(unit);
+		doseQuantity.setValue(value);
 		return doseQuantity;
 	}
-	
+
 	private IVL_PQ getRateQuantity(String unit, Double value) {
 		IVL_PQ rateQuantity = factories.datatype.createIVL_PQ();
-		rateQuantity.setUnit("g");
-		rateQuantity.setValue(200.000);
+		rateQuantity.setUnit(unit);
+		rateQuantity.setValue(value);
 		return rateQuantity;
 	}
 
@@ -154,16 +154,16 @@ public class MedicationStatementTest {
 
 		// Make Dosage Quantity
 		IVL_PQ doseQuantity = getDoseQuantity("mg", 100.000);
-		
+
 		// Make Rate Quantity
 		IVL_PQ rateQuantity = getRateQuantity("g", 200.000);
 
 		// Set Dosage
 		medAct.setDoseQuantity(doseQuantity);
-		
+
 		//Set Rate
 		medAct.setRateQuantity(rateQuantity);
-		
+
 		// Set Signature Reference
 		medAct.getEntryRelationships().add(freeTextEntryRelationship);
 		// Set frequency observation
@@ -187,13 +187,13 @@ public class MedicationStatementTest {
 		// Make assertions.
 		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
 				doses.get(0).getNamedProperty("system").getValues().get(0).toString());
-		
+
 		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
 				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
-		
+
 		Assert.assertEquals("URI attached for ucum", doses.get(0).getNamedProperty("system").getValues().get(0).toString(),
 				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
-		
+
 		Assert.assertEquals("sig1 free text instruction included in dosage text", freeTextInstruction,
 				dosage.getText());
 

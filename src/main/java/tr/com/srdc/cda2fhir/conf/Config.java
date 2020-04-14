@@ -107,11 +107,11 @@ public class Config {
 	}
 	
 	public static void setAddedZerosToDateTime(boolean addedZerosToDateTimeValue) {
-		generateDafProfileMetadata = addedZerosToDateTimeValue;
+		addedZerosToDateTime = addedZerosToDateTimeValue;
 	}
 
 	public static boolean addedZerosToDateTime() {
-		return generateDafProfileMetadata;
+		return addedZerosToDateTime;
 	}
 
 }

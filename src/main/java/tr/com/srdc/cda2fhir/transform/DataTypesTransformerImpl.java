@@ -310,7 +310,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 					isEmpty = false;
 				}
 
-				if (isEmpty == false)
+				if (!isEmpty)
 					myCodeableConcept.addCoding(codingDt);
 			}
 		}
@@ -585,10 +585,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 		// low is null, high is null and the value is carrying the low value
 		// value -> low
 		if (ivlpq.getLow() == null && ivlpq.getHigh() == null && ivlpq.getValue() != null) {
-			SimpleQuantity low = new SimpleQuantity();
-			low.setValue(ivlpq.getValue());
-			low.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
-			rangeDt.setLow(low);
+			rangeDt.setLow(tPQ2SimpleQuantity(ivlpq));
 		}
 
 		return rangeDt;
@@ -600,10 +597,11 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 			return null;
 
 		Period periodDt = new Period();
-		
+
 		// low -> start
 		if (ivlts.getLow() != null && !ivlts.getLow().isSetNullFlavor()) {
 			String date = ivlts.getLow().getValue();
+
 			if(Config.addedZerosToDateTime()) {
 				periodDt.setStartElement(tString2DateTime(date + "00"));
 			} else {
@@ -711,6 +709,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 
 		// unit -> unit
 		if (pq.getUnit() != null && !pq.getUnit().isEmpty()) {
+			simpleQuantity.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
 			simpleQuantity.setUnit(pq.getUnit());
 		}
 
@@ -730,6 +729,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 				}
 			}
 		}
+
 		return simpleQuantity;
 	}
 
