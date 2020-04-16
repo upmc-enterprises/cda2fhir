@@ -8,7 +8,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Immunization;
 import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
-import org.hl7.fhir.r4.model.SimpleQuantity;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Consumable;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
@@ -205,12 +205,12 @@ public class ImmunizationActivityGenerator {
 				idGenerators.get(index).verify(immunization.getIdentifier().get(index));
 			}
 		}
-//TODO: FIX Test Case
-//		if (negationInd == null) {
-//			Assert.assertTrue("No immunization not given", !immunization.hasNotGiven());
-//		} else {
-//			Assert.assertEquals("Immunization not given", negationInd.booleanValue(), immunization.getNotGiven());
-//		}
+
+		if (negationInd == null) {
+			Assert.assertTrue("No immunization not given", immunization.getStatus() != ImmunizationStatus.NOTDONE);
+		} else {
+			Assert.assertEquals("Immunization not given", negationInd.booleanValue(), immunization.getStatus() == ImmunizationStatus.NOTDONE);
+		}
 
 		if (effectiveTimeGenerators.isEmpty()) {
 			Assert.assertTrue("No immunization date", !immunization.hasOccurrence());

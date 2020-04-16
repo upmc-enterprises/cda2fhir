@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Composition;
@@ -131,7 +132,6 @@ public class CCDTransformerTest {
 			addlSections.stream().forEach(r -> ccdTransformer.addSection(r));
 		}
 		Config.setGenerateDafProfileMetadata(false);
-		Config.setAddedZerosToDateTime(false);
 		Config.setGenerateNarrative(true);
 		Bundle bundle = ccdTransformer.transformDocument(cda, null, null);
 		Assert.assertNotNull("Expect a bundle after transformation", bundle);

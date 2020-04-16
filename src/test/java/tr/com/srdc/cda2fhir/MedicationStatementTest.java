@@ -23,6 +23,7 @@ package tr.com.srdc.cda2fhir;
 import java.util.List;
 
 import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Dosage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -117,18 +118,11 @@ public class MedicationStatementTest {
 		return er;
 	}
 
-	private IVL_PQ getDoseQuantity(String unit, Double value) {
-		IVL_PQ doseQuantity = factories.datatype.createIVL_PQ();
-		doseQuantity.setUnit(unit);
-		doseQuantity.setValue(value);
-		return doseQuantity;
-	}
-
-	private IVL_PQ getRateQuantity(String unit, Double value) {
-		IVL_PQ rateQuantity = factories.datatype.createIVL_PQ();
-		rateQuantity.setUnit(unit);
-		rateQuantity.setValue(value);
-		return rateQuantity;
+	private IVL_PQ getQuantity(String unit, Double value) {
+		IVL_PQ quantity = factories.datatype.createIVL_PQ();
+		quantity.setUnit(unit);
+		quantity.setValue(value);
+		return quantity;
 	}
 
 	@Test
@@ -153,10 +147,10 @@ public class MedicationStatementTest {
 		MedicationActivityImpl medAct = (MedicationActivityImpl) factories.consol.createMedicationActivity();
 
 		// Make Dosage Quantity
-		IVL_PQ doseQuantity = getDoseQuantity("mg", 100.000);
+		IVL_PQ doseQuantity = getQuantity("mg", 100.000);
 
 		// Make Rate Quantity
-		IVL_PQ rateQuantity = getRateQuantity("g", 200.000);
+		IVL_PQ rateQuantity = getQuantity("g", 200.000);
 
 		// Set Dosage
 		medAct.setDoseQuantity(doseQuantity);
@@ -185,6 +179,11 @@ public class MedicationStatementTest {
 		Dosage dosage = (Dosage) fhirResource.getNamedProperty("dosage").getValues().get(0);
 
 		// Make assertions.
+		Assert.assertEquals(new DecimalType(100.0).asStringValue(), doses.get(0).getNamedProperty("value").getValues().get(0).primitiveValue());
+		Assert.assertEquals("mg", doses.get(0).getNamedProperty("unit").getValues().get(0).toString());
+		Assert.assertEquals(new DecimalType(200.0).asStringValue(), rates.get(0).getNamedProperty("value").getValues().get(0).primitiveValue());
+		Assert.assertEquals("g", rates.get(0).getNamedProperty("unit").getValues().get(0).toString());
+
 		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
 				doses.get(0).getNamedProperty("system").getValues().get(0).toString());
 

@@ -204,10 +204,10 @@ public class ValidatorTest {
 	 */
 	private void transformAndValidate(String cdaResourcePath, String targetPathForFHIRResource,
 			String targetPathForResultFile, boolean generateDAFProfileMetadata, boolean generateProvenance)
-			throws Exception {
+					throws Exception {
 		IValidator validator = new ValidatorImpl();
 		ByteArrayOutputStream os = null;
-		
+
 		// file to be transformed
 		FileInputStream fis = new FileInputStream(cdaResourcePath);
 		ContinuityOfCareDocument cda = (ContinuityOfCareDocument) CDAUtil.loadAs(fis,
@@ -240,7 +240,7 @@ public class ValidatorTest {
 		} else {
 			bundle = ccdTransformer.transformDocument(cda, null, null);
 		}
-
+		Config.setAddedZerosToDateTime(false);
 		Assert.assertNotNull(bundle);
 
 		// print the bundle for checking against validation results
