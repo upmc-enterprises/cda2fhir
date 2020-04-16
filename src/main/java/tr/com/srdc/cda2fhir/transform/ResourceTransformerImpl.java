@@ -607,23 +607,21 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		IdType resourceDeviceId = new IdType("Device", getUniqueId());
 		fhirDevice.setId(resourceDeviceId);
 
-		DeviceVersionComponent fhirDeviceVersion = fhirDevice.addVersion();
 		// All things with the Device.
 		if (cdaAssignedAuthor.getAssignedAuthoringDevice() != null
 				&& !cdaAssignedAuthor.getAssignedAuthoringDevice().isSetNullFlavor()) {
-			fhirDevice.setManufacturer(
-					cdaAssignedAuthor.getAssignedAuthoringDevice().getManufacturerModelName().getText());
+			DeviceVersionComponent fhirDeviceVersion = fhirDevice.addVersion();
+			fhirDevice.setManufacturer(cdaAssignedAuthor.getAssignedAuthoringDevice().getManufacturerModelName().getText());
 			fhirDeviceVersion.setValue(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getText());
-			if(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getCodeSystemVersion() != null) {
-				Identifier typeId = new Identifier();
-				typeId.setId(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getCodeSystemVersion());
-				fhirDeviceVersion.setComponent(typeId);
-			}
+
 			if(cdaAssignedAuthor.getAssignedAuthoringDevice().getTypeId() != null) {
-				Coding cd1 = new Coding();
-				cd1.setCode(cdaAssignedAuthor.getAssignedAuthoringDevice().getTypeId().getAssigningAuthorityName());
-				fhirDeviceVersion.setType(new CodeableConcept().addCoding(cd1));
+				fhirDeviceVersion.setComponent(dtt.tII2Identifier(cdaAssignedAuthor.getAssignedAuthoringDevice().getTypeId()));
 			}
+
+			if(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName().getCodeSystemVersion() != null) {
+				fhirDeviceVersion.setType(dtt.tSC2CodeableConcept(cdaAssignedAuthor.getAssignedAuthoringDevice().getSoftwareName()));
+			}
+
 			if (cdaAssignedAuthor.getAssignedAuthoringDevice().getCode() != null) {
 				fhirDevice.setType(dtt.tCD2CodeableConcept(cdaAssignedAuthor.getAssignedAuthoringDevice().getCode()));
 			} else {

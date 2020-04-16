@@ -61,6 +61,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.PIVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.REAL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.RTO;
+import org.openhealthtools.mdht.uml.hl7.datatypes.SC;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TEL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
@@ -145,6 +146,16 @@ public interface IDataTypesTransformer {
 	 * @return A CodeableConcept composite datatype instance
 	 */
 	CodeableConcept tCD2CodeableConceptExcludingTranslations(CD cd);
+
+	/**
+	 * Transforms a CDA SC instance to a FHIR CodeableConcept composite datatype
+	 * instance. Translations of the SC instance are excluded.
+	 *
+	 * @param cd A CDA SC instance
+	 * @return A CodeableConcept composite datatype instance
+	 */
+
+	CodeableConcept tSC2CodeableConcept(SC sc);
 
 	/**
 	 * Transforms a CDA CV instance to a FHIR Coding composite datatype instance.

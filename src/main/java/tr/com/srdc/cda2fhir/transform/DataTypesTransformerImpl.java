@@ -78,6 +78,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.PQR;
 import org.openhealthtools.mdht.uml.hl7.datatypes.REAL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.RTO;
+import org.openhealthtools.mdht.uml.hl7.datatypes.SC;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.SXCM_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TEL;
@@ -372,6 +373,52 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 				myCodeableConcept = new CodeableConcept();
 			}
 			myCodeableConcept.setText(annotation);
+		}
+
+		return myCodeableConcept;
+	}
+
+	@Override
+	public CodeableConcept tSC2CodeableConcept(SC sc) {
+		if (sc == null) {
+			return null;
+		}
+
+		CodeableConcept myCodeableConcept = null;
+
+		if (!sc.isSetNullFlavor()) {
+			// .
+			Coding codingDt = new Coding();
+			boolean isEmpty = true;
+
+			// codeSystem -> system
+			if (sc.getCodeSystem() != null && !sc.getCodeSystem().isEmpty()) {
+				codingDt.setSystem(vst.tOid2Url(sc.getCodeSystem()));
+				isEmpty = false;
+			}
+
+			// code -> code
+			if (sc.getCode() != null && !sc.getCode().isEmpty()) {
+				codingDt.setCode(sc.getCode());
+				isEmpty = false;
+			}
+
+			// codeSystemVersion -> version
+			if (sc.getCodeSystemVersion() != null && !sc.getCodeSystemVersion().isEmpty()) {
+				codingDt.setVersion(sc.getCodeSystemVersion());
+				isEmpty = false;
+			}
+
+			// displayName -> display
+			if (sc.getDisplayName() != null && !sc.getDisplayName().isEmpty()) {
+				codingDt.setDisplay(sc.getDisplayName());
+				isEmpty = false;
+			}
+
+			if (!isEmpty) {
+				myCodeableConcept = new CodeableConcept();
+				myCodeableConcept.addCoding(codingDt);
+			}
 		}
 
 		return myCodeableConcept;
