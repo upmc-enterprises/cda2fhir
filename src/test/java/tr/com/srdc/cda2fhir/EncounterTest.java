@@ -2,9 +2,9 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Encounter;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

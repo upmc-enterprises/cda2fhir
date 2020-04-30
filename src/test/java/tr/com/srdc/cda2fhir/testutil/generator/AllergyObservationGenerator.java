@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.Bundle;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
 import org.openhealthtools.mdht.uml.cda.Observation;
@@ -196,10 +196,10 @@ public class AllergyObservationGenerator {
 
 		if (clinicalStatusGenerator == null) {
 			Assert.assertTrue("Clinical status exists", allergyIntolerance.hasClinicalStatus());
-			Assert.assertEquals("Default clinical status", "active", allergyIntolerance.getClinicalStatus().toCode());
+			Assert.assertEquals("Default clinical status", "active", allergyIntolerance.getClinicalStatus().getText());
 		} else {
 			Assert.assertTrue("Clinical status exists", allergyIntolerance.hasClinicalStatus());
-			clinicalStatusGenerator.verify(allergyIntolerance.getClinicalStatus().toCode());
+			clinicalStatusGenerator.verify(allergyIntolerance.getClinicalStatus().getText());
 		}
 
 		if (reactionGenerators.isEmpty()) {

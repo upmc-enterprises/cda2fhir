@@ -22,8 +22,9 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Base;
-import org.hl7.fhir.dstu3.model.Dosage;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.DecimalType;
+import org.hl7.fhir.r4.model.Dosage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -67,14 +68,14 @@ public class MedicationStatementTest {
 
 		// Transform from CDA to FHIR.
 		BundleInfo bundleInfo = new BundleInfo(rt);
-		org.hl7.fhir.dstu3.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
+		org.hl7.fhir.r4.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
 				.getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
-		List<Base> takenCodes = fhirResource.getNamedProperty("taken").getValues();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		List<Base> takenCodes = fhirResource.getNamedProperty("reasonCode").getValues();
 
 		// Make assertions.
-		Assert.assertEquals("Taken code defaults to UNK", "unk", takenCodes.get(0).primitiveValue());
+		Assert.assertEquals(0, takenCodes.size());
 
 	}
 
@@ -117,11 +118,11 @@ public class MedicationStatementTest {
 		return er;
 	}
 
-	private IVL_PQ getDoseQuantity(String unit, Double value) {
-		IVL_PQ doseQuantity = factories.datatype.createIVL_PQ();
-		doseQuantity.setUnit("mg");
-		doseQuantity.setValue(100.000);
-		return doseQuantity;
+	private IVL_PQ getQuantity(String unit, Double value) {
+		IVL_PQ quantity = factories.datatype.createIVL_PQ();
+		quantity.setUnit(unit);
+		quantity.setValue(value);
+		return quantity;
 	}
 
 	@Test
@@ -146,10 +147,17 @@ public class MedicationStatementTest {
 		MedicationActivityImpl medAct = (MedicationActivityImpl) factories.consol.createMedicationActivity();
 
 		// Make Dosage Quantity
-		IVL_PQ doseQuantity = getDoseQuantity("mg", 100.000);
+		IVL_PQ doseQuantity = getQuantity("mg", 100.000);
+
+		// Make Rate Quantity
+		IVL_PQ rateQuantity = getQuantity("g", 200.000);
 
 		// Set Dosage
 		medAct.setDoseQuantity(doseQuantity);
+
+		//Set Rate
+		medAct.setRateQuantity(rateQuantity);
+
 		// Set Signature Reference
 		medAct.getEntryRelationships().add(freeTextEntryRelationship);
 		// Set frequency observation
@@ -161,18 +169,29 @@ public class MedicationStatementTest {
 		// Create signature to free text mapping in Bundle Info
 		bundleInfo.getIdedAnnotations().put(sig, freeTextInstruction);
 
-		org.hl7.fhir.dstu3.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
+		org.hl7.fhir.r4.model.Bundle fhirBundle = rt.tMedicationActivity2MedicationStatement(medAct, bundleInfo)
 				.getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("doseAndRate").getValues().get(0).getNamedProperty("dose").getValues();
+		List<Base> rates = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("doseAndRate").getValues().get(0).getNamedProperty("rate").getValues().get(0).getNamedProperty("low").getValues();
 
-		List<Base> doses = fhirResource.getNamedProperty("dosage").getValues().get(0).getNamedProperty("dose")
-				.getValues();
 		Dosage dosage = (Dosage) fhirResource.getNamedProperty("dosage").getValues().get(0);
 
 		// Make assertions.
+		Assert.assertEquals(new DecimalType(100.0).asStringValue(), doses.get(0).getNamedProperty("value").getValues().get(0).primitiveValue());
+		Assert.assertEquals("mg", doses.get(0).getNamedProperty("unit").getValues().get(0).toString());
+		Assert.assertEquals(new DecimalType(200.0).asStringValue(), rates.get(0).getNamedProperty("value").getValues().get(0).primitiveValue());
+		Assert.assertEquals("g", rates.get(0).getNamedProperty("unit").getValues().get(0).toString());
+
 		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
 				doses.get(0).getNamedProperty("system").getValues().get(0).toString());
+
+		Assert.assertEquals("URI attached for ucum", "UriType[http://unitsofmeasure.org/ucum.html]",
+				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
+
+		Assert.assertEquals("URI attached for ucum", doses.get(0).getNamedProperty("system").getValues().get(0).toString(),
+				rates.get(0).getNamedProperty("system").getValues().get(0).toString());
 
 		Assert.assertEquals("sig1 free text instruction included in dosage text", freeTextInstruction,
 				dosage.getText());

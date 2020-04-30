@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Identifier;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
 import org.openhealthtools.mdht.uml.cda.consol.ProblemConcernAct;
@@ -109,14 +109,14 @@ public class ProblemConcernActGenerator {
 
 			if (statusCode == null) {
 				Assert.assertEquals("Condition verification status", "unknown",
-						condition.getVerificationStatus().toCode());
+						condition.getVerificationStatus().getText());
 			} else {
 				String actual = (String) CONDITION_VERIFICATION_STATUS.get(statusCode);
 				if (actual == null) {
 					actual = "unknown";
 				}
 				Assert.assertEquals("Condition verification status", actual,
-						condition.getVerificationStatus().toCode());
+						condition.getVerificationStatus().getText());
 			}
 		}
 	}

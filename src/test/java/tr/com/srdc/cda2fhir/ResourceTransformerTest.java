@@ -24,26 +24,26 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Composition.SectionComponent;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.FamilyMemberHistory;
-import org.hl7.fhir.dstu3.model.HumanName;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Patient.ContactComponent;
-import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition.SectionComponent;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.FamilyMemberHistory;
+import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Patient.ContactComponent;
+import org.hl7.fhir.r4.model.Patient.PatientCommunicationComponent;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -455,7 +455,7 @@ public class ResourceTransformerTest {
 							appendToResultFile(transformationStartMsg);
 							ContactComponent contact = rt.tGuardian2Contact(guardian);
 							appendToResultFile(transformationEndMsg);
-							org.hl7.fhir.dstu3.model.Patient patient = new Patient().addContact(contact);
+							org.hl7.fhir.r4.model.Patient patient = new Patient().addContact(contact);
 							appendToResultFile(patient);
 						}
 					}
@@ -505,7 +505,7 @@ public class ResourceTransformerTest {
 				appendToResultFile(transformationStartMsg);
 				PatientCommunicationComponent fhirCommunication = rt.tLanguageCommunication2Communication(LC);
 				appendToResultFile(transformationEndMsg);
-				org.hl7.fhir.dstu3.model.Patient fhirPatient = new org.hl7.fhir.dstu3.model.Patient();
+				org.hl7.fhir.r4.model.Patient fhirPatient = new org.hl7.fhir.r4.model.Patient();
 				fhirPatient.addCommunication(fhirCommunication);
 				appendToResultFile(fhirPatient);
 			}
@@ -656,8 +656,8 @@ public class ResourceTransformerTest {
 			org.openhealthtools.mdht.uml.cda.Organization cdaOrg = patRole.getProviderOrganization();
 			appendToResultFile(transformationStartMsg);
 			IEntryResult result2 = rt.tOrganization2Organization(cdaOrg, new BundleInfo(rt));
-			org.hl7.fhir.dstu3.model.Organization fhirOrg = FHIRUtil.findFirstResource(result2.getBundle(),
-					org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization fhirOrg = FHIRUtil.findFirstResource(result2.getBundle(),
+					org.hl7.fhir.r4.model.Organization.class);
 			appendToResultFile(transformationEndMsg);
 			appendToResultFile(fhirOrg);
 		}
@@ -1056,7 +1056,7 @@ public class ResourceTransformerTest {
 			}
 		}
 		if (sampleSection != null) {
-			org.hl7.fhir.dstu3.model.Composition fhirComposition = new org.hl7.fhir.dstu3.model.Composition();
+			org.hl7.fhir.r4.model.Composition fhirComposition = new org.hl7.fhir.r4.model.Composition();
 			appendToResultFile(transformationStartMsg);
 			SectionComponent fhirSection = rt.tSection2Section(sampleSection);
 			appendToResultFile(transformationEndMsg);

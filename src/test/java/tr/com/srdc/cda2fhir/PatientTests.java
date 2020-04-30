@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir;
 
-import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
+import org.hl7.fhir.r4.model.Patient.PatientCommunicationComponent;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class PatientTests {
 	@Test
 	public void testPatientContactRelationship() {
 		ValueSetsTransformerImpl vst = new ValueSetsTransformerImpl();
-		Assert.assertEquals("http://hl7.org/fhir/v2/0131",
+		Assert.assertEquals("http://terminology.hl7.org/CodeSystem/v2-0131",
 				vst.tRoleCode2PatientContactRelationshipCode("econ").getSystem());
 		Assert.assertEquals("Emergency Contact", vst.tRoleCode2PatientContactRelationshipCode("econ").getDisplay());
 		Assert.assertEquals("C", vst.tRoleCode2PatientContactRelationshipCode("econ").getCode());

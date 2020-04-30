@@ -3,7 +3,7 @@ package tr.com.srdc.cda2fhir.transform.util.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.r4.model.Identifier;
 
 public class InnerIdentifierMap<T> {
 	private Map<String, T> genericMap;

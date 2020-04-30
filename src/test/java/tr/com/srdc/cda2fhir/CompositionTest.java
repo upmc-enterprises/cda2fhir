@@ -1,8 +1,8 @@
 package tr.com.srdc.cda2fhir;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Composition;
-import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Practitioner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -67,11 +67,11 @@ public class CompositionTest {
 		Assert.assertEquals("Expect confidentiality to equal confidentiality", defaultExpectedConfidentiality,
 				comp.getConfidentiality().toString());
 		Assert.assertEquals("Expect composition to code system to equal http://hl7.org/fhir/ValueSet/doc-classcodes",
-				"http://hl7.org/fhir/ValueSet/doc-classcodes", comp.getClass_().getCodingFirstRep().getSystem());
+				"http://hl7.org/fhir/ValueSet/doc-classcodes", comp.getCategoryFirstRep().getCodingFirstRep().getSystem());
 		Assert.assertEquals("Expect composition to code to equal LP173418-7", "LP173421-7",
-				comp.getClass_().getCodingFirstRep().getCode());
+				comp.getCategoryFirstRep().getCodingFirstRep().getCode());
 		Assert.assertEquals("Expect composition to code display to equal Note", "Note",
-				comp.getClass_().getCodingFirstRep().getDisplay());
+				comp.getCategoryFirstRep().getCodingFirstRep().getDisplay());
 		Assert.assertEquals("Expect composition event.detail to contain reference to prmary care physician",
 				comp.getEvent().get(0).getDetailFirstRep().getReference(), primary.getId());
 		Assert.assertEquals("Expect composition event.period.start to equal service Event effective time low",

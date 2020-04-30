@@ -1,6 +1,6 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.r4.model.Observation;
 import org.openhealthtools.mdht.uml.cda.consol.SocialHistorySection;
 
 import tr.com.srdc.cda2fhir.transform.IResourceTransformer;

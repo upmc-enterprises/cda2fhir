@@ -23,11 +23,11 @@ package tr.com.srdc.cda2fhir;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Base;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.UriType;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -90,7 +90,7 @@ public class MedicationTest {
 		product.setManufacturedMaterial(material);
 
 		// Transform from CDA to FHIR.
-		org.hl7.fhir.dstu3.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
+		org.hl7.fhir.r4.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
 				.getBundle().getEntryFirstRep().getResource();
 
 		List<Base> fhirCodes = fhirResource.getNamedProperty("code").getValues();
@@ -126,7 +126,7 @@ public class MedicationTest {
 		product.setManufacturedMaterial(material);
 
 		// Transform from CDA to FHIR.
-		org.hl7.fhir.dstu3.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
+		org.hl7.fhir.r4.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
 				.getBundle().getEntryFirstRep().getResource();
 
 		List<Base> fhirCodes = fhirResource.getNamedProperty("code").getValues();
@@ -160,7 +160,7 @@ public class MedicationTest {
 		product.setManufacturedMaterial(material);
 
 		// Transform from CDA to FHIR.
-		org.hl7.fhir.dstu3.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
+		org.hl7.fhir.r4.model.Resource fhirResource = rt.tManufacturedProduct2Medication(product, bundleInfo)
 				.getBundle().getEntryFirstRep().getResource();
 
 		List<Base> fhirCodes = fhirResource.getNamedProperty("code").getValues();

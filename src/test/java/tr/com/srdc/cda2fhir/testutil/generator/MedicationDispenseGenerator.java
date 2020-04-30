@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationDispense;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationDispense;
+import org.hl7.fhir.r4.model.SimpleQuantity;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.ManufacturedProduct;
 import org.openhealthtools.mdht.uml.cda.Performer2;
@@ -121,7 +122,7 @@ public class MedicationDispenseGenerator {
 		if (statusCodeGenerator == null) {
 			Assert.assertTrue("No med dispense status", !medDispense.hasStatus());
 		} else {
-			statusCodeGenerator.verify(medDispense.getStatus().toCode());
+			statusCodeGenerator.verify(medDispense.getStatus());
 		}
 
 		if (quantityGenerator == null) {

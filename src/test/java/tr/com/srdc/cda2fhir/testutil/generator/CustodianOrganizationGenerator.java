@@ -3,7 +3,7 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.r4.model.Identifier;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.CustodianOrganization;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
@@ -106,7 +106,7 @@ public class CustodianOrganizationGenerator {
 		return og;
 	}
 
-	public void verify(org.hl7.fhir.dstu3.model.Organization organization) {
+	public void verify(org.hl7.fhir.r4.model.Organization organization) {
 		Assert.assertEquals("Organization name", name, organization.getName());
 
 		List<Identifier> identifiers = organization.getIdentifier();

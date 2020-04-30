@@ -28,8 +28,8 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public class ValidatorImpl implements IValidator {
 
 	private final Logger logger = LoggerFactory.getLogger(ValidatorImpl.class);
 
-	private FhirContext ctx = FhirContext.forDstu3();
+	private FhirContext ctx = FhirContext.forR4();
 
 	public ValidatorImpl(FhirContext ctx) {
 		this.setCtx(ctx);
@@ -56,7 +56,7 @@ public class ValidatorImpl implements IValidator {
 	 * Constructs a validator using the default configuration.
 	 */
 	public ValidatorImpl() {
-		this.setCtx(FhirContext.forDstu3());
+		this.setCtx(FhirContext.forR4());
 	}
 
 	@Override
@@ -167,8 +167,10 @@ public class ValidatorImpl implements IValidator {
 		IValidatorModule schemaModule = new SchemaBaseValidator(ctx);
 		IValidatorModule schematronModule = new SchematronBaseValidator(ctx);
 		validator.registerValidatorModule(schemaModule);
-		validator.registerValidatorModule(schematronModule);
-
+		
+//		if(includeSchematron) {
+			validator.registerValidatorModule(schematronModule);
+//		}
 		ValidationResult result = validator.validateWithResult(resource);
 		logValidationResult(result);
 
@@ -199,7 +201,7 @@ public class ValidatorImpl implements IValidator {
 
 		logger.info("Validating resource " + resource.getIdElement());
 
-		FhirContext ctx = FhirContext.forDstu3();
+		FhirContext ctx = FhirContext.forR4();
 		FhirValidator validator = ctx.newValidator();
 
 		IValidatorModule schemaModule = new SchemaBaseValidator(ctx);

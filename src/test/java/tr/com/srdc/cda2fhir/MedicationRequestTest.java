@@ -2,12 +2,12 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.codesystems.MedicationRequestIntent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationRequest;
+import org.hl7.fhir.r4.model.MedicationRequest.MedicationRequestIntent;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class MedicationRequestTest {
 		Assert.assertEquals("2019-01-01T12:34:56.000-05:00",
 				medRequest.getDispenseRequest().getValidityPeriod().getEndElement().getValueAsString());
 		Assert.assertEquals(MedicationSupplyOrderGenerator.DEFAULT_INSTRUCTION, medRequest.getNoteFirstRep().getText());
-		Assert.assertEquals(medRequest.getRequester().getAgent().getReference(), practitioner.getId());
+		Assert.assertEquals(medRequest.getRequester().getReference(), practitioner.getId());
 
 		Assert.assertEquals(ManufacturedProductGenerator.DEFAULT_MANU_MATERIAL_CODE_CODE,
 				medication.getCode().getCodingFirstRep().getCode());

@@ -2,8 +2,8 @@ package tr.com.srdc.cda2fhir.transform.section.impl;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Resource;
 
 import tr.com.srdc.cda2fhir.util.FHIRUtil;
 

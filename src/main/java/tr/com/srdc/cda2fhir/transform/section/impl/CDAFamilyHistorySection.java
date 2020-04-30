@@ -1,7 +1,7 @@
 package tr.com.srdc.cda2fhir.transform.section.impl;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.FamilyMemberHistory;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.FamilyMemberHistory;
 import org.openhealthtools.mdht.uml.cda.consol.FamilyHistoryOrganizer;
 import org.openhealthtools.mdht.uml.cda.consol.FamilyHistorySection;
 

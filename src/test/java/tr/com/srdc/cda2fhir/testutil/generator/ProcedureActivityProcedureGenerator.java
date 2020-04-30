@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Procedure.ProcedurePerformerComponent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Procedure.ProcedurePerformerComponent;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
 import org.openhealthtools.mdht.uml.cda.Performer2;
@@ -196,8 +196,8 @@ public class ProcedureActivityProcedureGenerator {
 				PractitionerRole role = util.getPractitionerRole(practitionerId);
 				pg.verify(role);
 
-				Assert.assertTrue("Procedure performer has role", ppc.hasRole());
-				Coding ppcRole = ppc.getRole().getCoding().get(0);
+				Assert.assertTrue("Procedure performer has role", ppc.hasFunction());
+				Coding ppcRole = ppc.getFunction().getCoding().get(0);
 				Assert.assertEquals("Procedure performer has role", pg.getCodeCode(), ppcRole.getCode());
 
 				if (!role.hasOrganization()) {

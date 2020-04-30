@@ -1,7 +1,7 @@
 package tr.com.srdc.cda2fhir;
 
-import org.hl7.fhir.dstu3.model.Composition.SectionComponent;
-import org.hl7.fhir.dstu3.model.Composition.SectionMode;
+import org.hl7.fhir.r4.model.Composition.SectionComponent;
+import org.hl7.fhir.r4.model.Composition.SectionMode;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

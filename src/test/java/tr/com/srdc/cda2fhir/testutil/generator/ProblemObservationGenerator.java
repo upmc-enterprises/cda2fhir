@@ -3,12 +3,12 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.consol.ProblemObservation;
@@ -140,8 +140,8 @@ public class ProblemObservationGenerator {
 		}
 
 		if (authorTime != null) {
-			Assert.assertTrue("Condition asserter date", condition.hasAssertedDate());
-			String datetime = condition.getAssertedDateElement().asStringValue();
+			Assert.assertTrue("Condition asserter date", condition.hasRecordedDate());
+			String datetime = condition.getRecordedDateElement().asStringValue();
 			String actual = FHIRUtil.toCDADatetime(datetime);
 			Assert.assertEquals("Condition asserter date", authorTime, actual);
 		}

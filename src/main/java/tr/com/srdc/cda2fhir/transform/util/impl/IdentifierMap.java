@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.r4.model.Identifier;
 
 import tr.com.srdc.cda2fhir.transform.util.IIdentifierMap;
 

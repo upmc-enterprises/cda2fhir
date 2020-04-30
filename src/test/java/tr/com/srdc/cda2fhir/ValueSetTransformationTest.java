@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
-import org.hl7.fhir.dstu3.model.Configuration;
-import org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus;
 
 import tr.com.srdc.cda2fhir.testutil.CDAFactories;
 import tr.com.srdc.cda2fhir.transform.ValueSetsTransformerImpl;

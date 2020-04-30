@@ -25,9 +25,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleType;
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleType;
+import org.hl7.fhir.r4.model.Identifier;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -67,7 +67,7 @@ public class ValidatorTest {
 	}
 
 	// 170.315_b1_toc_gold_sample2_v1.xml with profile
-	@Ignore
+	@Test
 	public void testGoldSampleBundleWithProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/170.315_b1_toc_gold_sample2_v1.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/170.315_b1_toc_gold_sample2_v1-w-profile-validation.xml";
@@ -78,7 +78,7 @@ public class ValidatorTest {
 	}
 
 	// 170.315_b1_toc_inp_ccd_r21_sample1_v5.xml without profile
-	@Ignore
+	@Test
 	public void testInpSampleBundleWithoutProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/170.315_b1_toc_inp_ccd_r21_sample1_v5.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/170.315_b1_toc_inp_ccd_r21_sample1_v5-wo-profile-validation.xml";
@@ -89,7 +89,7 @@ public class ValidatorTest {
 	}
 
 	// 170.315_b1_toc_inp_ccd_r21_sample1_v5.xml without profile
-	@Ignore
+	@Test
 	public void testInpSampleBundleWithProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/170.315_b1_toc_inp_ccd_r21_sample1_v5.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/170.315_b1_toc_inp_ccd_r21_sample1_v5-w-profile-validation.xml";
@@ -100,7 +100,7 @@ public class ValidatorTest {
 	}
 
 	// C-CDA_R2-1_CCD.xml without DAF profile
-	@Ignore
+	@Test
 	public void testReferenceCCDBundleWithoutProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/C-CDA_R2-1_CCD.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/C-CDA_R2-1_CCD-wo-profile-validation.xml";
@@ -111,7 +111,7 @@ public class ValidatorTest {
 	}
 
 	// C-CDA_R2-1_CCD.xml with provenance
-	@Ignore
+	@Test
 	public void testReferenceCCDBundleWithProvenance() throws Exception {
 		String cdaResourcePath = "src/test/resources/C-CDA_R2-1_CCD.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/C-CDA_R2-1_CCD-w-provenance.xml";
@@ -122,7 +122,7 @@ public class ValidatorTest {
 	}
 
 	// C-CDA_R2-1_CCD.xml with DAF profile
-	@Ignore
+	@Test
 	public void testReferenceCCDBundleWithProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/C-CDA_R2-1_CCD.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/C-CDA_R2-1_CCD-w-profile-validation.xml";
@@ -133,7 +133,7 @@ public class ValidatorTest {
 	}
 
 	// Vitera_CCDA_SMART_Sample.xml without profile
-	@Ignore
+	@Test
 	public void testViteraBundleWithoutProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/Vitera_CCDA_SMART_Sample.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/Vitera_CCDA_SMART_Sample-wo-profile-validation.xml";
@@ -144,7 +144,7 @@ public class ValidatorTest {
 	}
 
 	// Vitera_CCDA_SMART_Sample.xml with profile
-	@Ignore
+	@Test
 	public void testViteraBundleWithProfile() throws Exception {
 		String cdaResourcePath = "src/test/resources/Vitera_CCDA_SMART_Sample.xml";
 		String targetPathForFHIRResource = "src/test/resources/output/Vitera_CCDA_SMART_Sample-w-profile-validation.xml";
@@ -204,21 +204,19 @@ public class ValidatorTest {
 	 */
 	private void transformAndValidate(String cdaResourcePath, String targetPathForFHIRResource,
 			String targetPathForResultFile, boolean generateDAFProfileMetadata, boolean generateProvenance)
-			throws Exception {
+					throws Exception {
 		IValidator validator = new ValidatorImpl();
 		ByteArrayOutputStream os = null;
 
 		// file to be transformed
 		FileInputStream fis = new FileInputStream(cdaResourcePath);
-
 		ContinuityOfCareDocument cda = (ContinuityOfCareDocument) CDAUtil.loadAs(fis,
 				ConsolPackage.eINSTANCE.getContinuityOfCareDocument());
 		ICDATransformer ccdTransformer = new CCDTransformerImpl(IdGeneratorEnum.COUNTER);
-
 		// set whether DAF Profile URLs will be created in meta.profile of relevant
 		// resources
 		Config.setGenerateDafProfileMetadata(generateDAFProfileMetadata);
-
+		Config.setAddedZerosToDateTime(true);
 		Bundle bundle = null;
 
 		if (generateProvenance) {
@@ -242,7 +240,7 @@ public class ValidatorTest {
 		} else {
 			bundle = ccdTransformer.transformDocument(cda, null, null);
 		}
-
+		Config.setAddedZerosToDateTime(false);
 		Assert.assertNotNull(bundle);
 
 		// print the bundle for checking against validation results

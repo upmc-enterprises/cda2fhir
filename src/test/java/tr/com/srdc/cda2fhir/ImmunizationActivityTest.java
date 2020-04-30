@@ -4,11 +4,11 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
-import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
+import org.hl7.fhir.r4.model.Practitioner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -69,12 +69,11 @@ public class ImmunizationActivityTest {
 		Immunization immunization1 = BundleUtil.findOneResource(bundle1, Immunization.class);
 		Assert.assertEquals("Unexpected negative primary source", true, immunization1.getPrimarySource());
 
-		String reference = immunization1.getPractitioner().get(0).getActor().getReference();
+		String reference = immunization1.getPerformer().get(0).getActor().getReference();
 		Practitioner practitioner = BundleUtil.findOneResource(bundle1, Practitioner.class);
 		Assert.assertEquals("Unexpected Reference", reference, practitioner.getId());
 		performerGenerator.verify(practitioner);
 	}
-
 	static private void verifyNotGiven(ImmunizationActivity act, ImmunizationRefusalReason refusal, Boolean value)
 			throws Exception {
 		if (value != null) {
@@ -88,9 +87,9 @@ public class ImmunizationActivityTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tImmunizationActivity2Immunization(act, bundleInfo).getBundle();
 		Immunization immunization = BundleUtil.findOneResource(bundle, Immunization.class);
-		Assert.assertEquals("Unexpected not given", value == null ? false : value, immunization.getNotGiven());
+		Assert.assertEquals("Unexpected not given", value == null ? false : value, immunization.getStatus() == ImmunizationStatus.NOTDONE);
 		Assert.assertEquals("Unexpected Not Given Reason", value == null ? false : value,
-				immunization.getExplanation().getReasonNotGiven().size() > 0);
+				immunization.getReasonCode().size() > 0);
 	}
 
 	@Test
@@ -208,7 +207,7 @@ public class ImmunizationActivityTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle fhirBundle = rt.tImmunizationActivity2Immunization(act, bundleInfo).getBundle();
 
-		org.hl7.fhir.dstu3.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
+		org.hl7.fhir.r4.model.Resource fhirResource = fhirBundle.getEntry().get(0).getResource();
 
 		String systemString = fhirResource.getNamedProperty("doseQuantity").getValues().get(0)
 				.getNamedProperty("system").getValues().get(0).toString();

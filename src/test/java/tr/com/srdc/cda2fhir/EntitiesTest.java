@@ -22,10 +22,10 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Base;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -86,8 +86,8 @@ public class EntitiesTest {
 		// Transform from CDA to FHIR.
 		IEntryResult result = rt.tOrganization2Organization(org, new BundleInfo(rt));
 
-		org.hl7.fhir.dstu3.model.Organization fhirOrganization = BundleUtil.findOneResource(result.getBundle(),
-				org.hl7.fhir.dstu3.model.Organization.class);
+		org.hl7.fhir.r4.model.Organization fhirOrganization = BundleUtil.findOneResource(result.getBundle(),
+				org.hl7.fhir.r4.model.Organization.class);
 
 		// Make assertions.
 		Assert.assertEquals("Organization name was set", orgStringOne, fhirOrganization.getName());
@@ -121,7 +121,7 @@ public class EntitiesTest {
 		// Transform from CDA to FHIR.
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		IEntityResult entityResult = rt.tAuthor2Practitioner(auth, bundleInfo);
-		org.hl7.fhir.dstu3.model.Resource fhirResource = entityResult.getPractitioner();
+		org.hl7.fhir.r4.model.Resource fhirResource = entityResult.getPractitioner();
 		List<Base> fhirNames = fhirResource.getNamedProperty("name").getValues();
 
 		// Make assertions.

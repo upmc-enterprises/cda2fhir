@@ -29,35 +29,35 @@ import java.util.TimeZone;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.hl7.fhir.dstu3.model.Address;
-import org.hl7.fhir.dstu3.model.Attachment;
-import org.hl7.fhir.dstu3.model.Base64BinaryType;
-import org.hl7.fhir.dstu3.model.BaseDateTimeType;
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointSystem;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.DateType;
-import org.hl7.fhir.dstu3.model.DecimalType;
-import org.hl7.fhir.dstu3.model.HumanName;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Identifier.IdentifierUse;
-import org.hl7.fhir.dstu3.model.InstantType;
-import org.hl7.fhir.dstu3.model.IntegerType;
-import org.hl7.fhir.dstu3.model.Narrative;
-import org.hl7.fhir.dstu3.model.Narrative.NarrativeStatus;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.dstu3.model.Range;
-import org.hl7.fhir.dstu3.model.Ratio;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.SimpleQuantity;
-import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.Timing;
-import org.hl7.fhir.dstu3.model.Timing.TimingRepeatComponent;
-import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.fhir.r4.model.Address;
+import org.hl7.fhir.r4.model.Attachment;
+import org.hl7.fhir.r4.model.Base64BinaryType;
+import org.hl7.fhir.r4.model.BaseDateTimeType;
+import org.hl7.fhir.r4.model.BooleanType;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.ContactPoint;
+import org.hl7.fhir.r4.model.ContactPoint.ContactPointSystem;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.DateType;
+import org.hl7.fhir.r4.model.DecimalType;
+import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
+import org.hl7.fhir.r4.model.InstantType;
+import org.hl7.fhir.r4.model.IntegerType;
+import org.hl7.fhir.r4.model.Narrative;
+import org.hl7.fhir.r4.model.Narrative.NarrativeStatus;
+import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.Range;
+import org.hl7.fhir.r4.model.Ratio;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.SimpleQuantity;
+import org.hl7.fhir.r4.model.StringType;
+import org.hl7.fhir.r4.model.Timing;
+import org.hl7.fhir.r4.model.Timing.TimingRepeatComponent;
+import org.hl7.fhir.r4.model.UriType;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ADXP;
@@ -78,6 +78,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.PQR;
 import org.openhealthtools.mdht.uml.hl7.datatypes.REAL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.RTO;
+import org.openhealthtools.mdht.uml.hl7.datatypes.SC;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.SXCM_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TEL;
@@ -310,7 +311,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 					isEmpty = false;
 				}
 
-				if (isEmpty == false)
+				if (!isEmpty)
 					myCodeableConcept.addCoding(codingDt);
 			}
 		}
@@ -372,6 +373,52 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 				myCodeableConcept = new CodeableConcept();
 			}
 			myCodeableConcept.setText(annotation);
+		}
+
+		return myCodeableConcept;
+	}
+
+	@Override
+	public CodeableConcept tSC2CodeableConcept(SC sc) {
+		if (sc == null) {
+			return null;
+		}
+
+		CodeableConcept myCodeableConcept = null;
+
+		if (!sc.isSetNullFlavor()) {
+			// .
+			Coding codingDt = new Coding();
+			boolean isEmpty = true;
+
+			// codeSystem -> system
+			if (sc.getCodeSystem() != null && !sc.getCodeSystem().isEmpty()) {
+				codingDt.setSystem(vst.tOid2Url(sc.getCodeSystem()));
+				isEmpty = false;
+			}
+
+			// code -> code
+			if (sc.getCode() != null && !sc.getCode().isEmpty()) {
+				codingDt.setCode(sc.getCode());
+				isEmpty = false;
+			}
+
+			// codeSystemVersion -> version
+			if (sc.getCodeSystemVersion() != null && !sc.getCodeSystemVersion().isEmpty()) {
+				codingDt.setVersion(sc.getCodeSystemVersion());
+				isEmpty = false;
+			}
+
+			// displayName -> display
+			if (sc.getDisplayName() != null && !sc.getDisplayName().isEmpty()) {
+				codingDt.setDisplay(sc.getDisplayName());
+				isEmpty = false;
+			}
+
+			if (!isEmpty) {
+				myCodeableConcept = new CodeableConcept();
+				myCodeableConcept.addCoding(codingDt);
+			}
 		}
 
 		return myCodeableConcept;
@@ -585,9 +632,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 		// low is null, high is null and the value is carrying the low value
 		// value -> low
 		if (ivlpq.getLow() == null && ivlpq.getHigh() == null && ivlpq.getValue() != null) {
-			SimpleQuantity low = new SimpleQuantity();
-			low.setValue(ivlpq.getValue());
-			rangeDt.setLow(low);
+			rangeDt.setLow(tPQ2SimpleQuantity(ivlpq));
 		}
 
 		return rangeDt;
@@ -603,22 +648,34 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 		// low -> start
 		if (ivlts.getLow() != null && !ivlts.getLow().isSetNullFlavor()) {
 			String date = ivlts.getLow().getValue();
-			periodDt.setStartElement(tString2DateTime(date));
+
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setStartElement(tString2DateTime(date + "00"));
+			} else {
+				periodDt.setStartElement(tString2DateTime(date));
+			}
 		}
 
 		// high -> end
 		if (ivlts.getHigh() != null && !ivlts.getHigh().isSetNullFlavor()) {
 			String date = ivlts.getHigh().getValue();
-			periodDt.setEndElement(tString2DateTime(date));
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setEndElement(tString2DateTime(date + "00"));
+			} else {
+				periodDt.setEndElement(tString2DateTime(date));
+			}
 		}
 
 		// low is null, high is null and the value is carrying the low value
 		// value -> low
 		if (ivlts.getLow() == null && ivlts.getHigh() == null && ivlts.getValue() != null
 				&& !ivlts.getValue().equals("")) {
-			periodDt.setStartElement(tString2DateTime(ivlts.getValue()));
+			if(Config.addedZerosToDateTime()) {
+				periodDt.setStartElement(tString2DateTime(ivlts.getValue() + "00"));
+			} else {
+				periodDt.setStartElement(tString2DateTime(ivlts.getValue()));
+			}
 		}
-
 		return periodDt;
 	}
 
@@ -699,6 +756,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 
 		// unit -> unit
 		if (pq.getUnit() != null && !pq.getUnit().isEmpty()) {
+			simpleQuantity.setSystem(vst.tOid2Url("2.16.840.1.113883.1.11.12839"));
 			simpleQuantity.setUnit(pq.getUnit());
 		}
 
@@ -718,6 +776,7 @@ public class DataTypesTransformerImpl implements IDataTypesTransformer, Serializ
 				}
 			}
 		}
+
 		return simpleQuantity;
 	}
 

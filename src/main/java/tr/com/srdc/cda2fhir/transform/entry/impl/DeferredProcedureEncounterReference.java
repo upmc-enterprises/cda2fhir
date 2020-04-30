@@ -1,9 +1,9 @@
 package tr.com.srdc.cda2fhir.transform.entry.impl;
 
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
 
 import tr.com.srdc.cda2fhir.transform.util.IDeferredReference;
 
@@ -33,6 +33,6 @@ public class DeferredProcedureEncounterReference implements IDeferredReference {
 
 	@Override
 	public void resolve(Reference reference) {
-		procedure.setContext(reference);
+		procedure.setEncounter(reference);
 	}
 }

@@ -1,8 +1,8 @@
 package tr.com.srdc.cda2fhir.testutil.generator;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.openhealthtools.mdht.uml.cda.AssignedEntity;
 import org.openhealthtools.mdht.uml.cda.Performer2;
 import org.openhealthtools.mdht.uml.cda.impl.Performer2Impl;
@@ -53,7 +53,7 @@ public class PerformerGenerator {
 		assignedEntityGenerator.verify(role);
 	}
 
-	public void verify(org.hl7.fhir.dstu3.model.Organization org) {
+	public void verify(org.hl7.fhir.r4.model.Organization org) {
 		assignedEntityGenerator.verify(org);
 	}
 

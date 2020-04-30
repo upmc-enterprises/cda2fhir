@@ -3,8 +3,8 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;

@@ -5,12 +5,10 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus;
-import org.hl7.fhir.dstu3.model.Condition.ConditionVerificationStatus;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Condition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -125,8 +123,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getCodingFirstRep().getCode();
 		Assert.assertEquals("Inactive Problem with high value", "inactive", actual);
 
 	}
@@ -145,8 +143,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getCodingFirstRep().getCode();
 		Assert.assertEquals("Active Problem without high value", "active", actual);
 
 	}
@@ -158,8 +156,8 @@ public class ProblemConcernActTest {
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
-		ConditionClinicalStatus clinicalStatus = condition.getClinicalStatus();
-		String actual = clinicalStatus.toCode();
+		CodeableConcept clinicalStatus = condition.getClinicalStatus();
+		String actual = clinicalStatus.getCodingFirstRep().getCode();
 		Assert.assertEquals("Active Problem without no value defaults to active", "active", actual);
 
 	}
@@ -169,8 +167,9 @@ public class ProblemConcernActTest {
 		Bundle bundle = rt.tProblemConcernAct2Condition(act, bundleInfo).getBundle();
 		Condition condition = BundleUtil.findOneResource(bundle, Condition.class);
 
-		ConditionVerificationStatus verificationStatus = condition.getVerificationStatus();
-		String actual = verificationStatus == null ? null : verificationStatus.toCode();
+		CodeableConcept verificationStatus = condition.getVerificationStatus();
+		String actual = verificationStatus == null ? null : verificationStatus.getCodingFirstRep().getCode();
+		
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -181,10 +180,10 @@ public class ProblemConcernActTest {
 		act.addObservation(observation);
 
 		DiagnosticChain dxChain = new BasicDiagnostic();
-		verifyConditionVerificationStatus(act, "unknown");
+		verifyConditionVerificationStatus(act, "unconfirmed");
 
 		act.setStatusCode(null);
-		verifyConditionVerificationStatus(act, "unknown");
+		verifyConditionVerificationStatus(act, "unconfirmed");
 
 		act.setStatusCode(cdaTypeFactory.createCS("invalid"));
 		Boolean invalidation = act.validateProblemConcernActStatusCode(null, null);
@@ -195,7 +194,7 @@ public class ProblemConcernActTest {
 		act.setStatusCode(csNullFlavor);
 		Boolean validationNF = act.validateProblemConcernActStatusCode(dxChain, null);
 		Assert.assertTrue("Invalid Problem Concern Act in Test", validationNF);
-		verifyConditionVerificationStatus(act, "unknown");
+		verifyConditionVerificationStatus(act, "unconfirmed");
 
 		for (Map.Entry<String, Object> entry : verificationStatusMap.entrySet()) {
 			String cdaStatusCode = entry.getKey();

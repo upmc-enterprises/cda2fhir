@@ -7,14 +7,13 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Enumeration;
-import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Enumeration;
+import org.hl7.fhir.r4.model.Practitioner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -421,7 +420,7 @@ public class AllergyConcernActTest {
 
 		Bundle bundle1 = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance1 = findOneResource(bundle1);
-		String actual1 = allergyIntolerance1.getAssertedDateElement().getValueAsString();
+		String actual1 = allergyIntolerance1.getRecordedDateElement().getValueAsString();
 		Assert.assertEquals("Unexpected AllergyIntolerance Asserted Date (1)", expected1, actual1.replaceAll("-", ""));
 
 		String expected2 = "20161103";
@@ -433,7 +432,7 @@ public class AllergyConcernActTest {
 
 		Bundle bundle2 = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance2 = findOneResource(bundle2);
-		String actual2 = allergyIntolerance2.getAssertedDateElement().getValueAsString();
+		String actual2 = allergyIntolerance2.getRecordedDateElement().getValueAsString();
 		Assert.assertEquals("Unexpected AllergyIntolerance Asserted Date (2)", expected2, actual2.replaceAll("-", ""));
 	}
 
@@ -443,8 +442,8 @@ public class AllergyConcernActTest {
 		Bundle bundle = rt.tAllergyProblemAct2AllergyIntolerance(act, bundleInfo).getBundle();
 		AllergyIntolerance allergyIntolerance = findOneResource(bundle);
 
-		AllergyIntoleranceVerificationStatus verificationStatus = allergyIntolerance.getVerificationStatus();
-		String actual = verificationStatus == null ? null : verificationStatus.toCode();
+		CodeableConcept verificationStatus = allergyIntolerance.getVerificationStatus();
+		String actual = verificationStatus == null ? null : allergyIntolerance.getVerificationStatus().getCodingFirstRep().getCode();
 		Assert.assertEquals(expected, actual);
 	}
 

@@ -12,7 +12,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -21,7 +21,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>3.0.0-M3</version>
 				<configuration>
 					<!-- Setting the system file encoding to UTF-8 -->
 					<argLine>-Dfile.encoding=UTF-8</argLine>
@@ -91,7 +91,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<hapifhir.version>3.6.0</hapifhir.version>
+		<hapifhir.version>4.2.0</hapifhir.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -105,39 +105,45 @@
 		<dependency>
 			<groupId>org.openehealth.ipf.modules</groupId>
 			<artifactId>ipf-modules-cda-mdht</artifactId>
-			<version>3.6-20190124</version>
+			<version>3.7-20200306</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-client -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-client</artifactId>
-			<version>3.7.0</version>
+			<version>4.2.0</version>
 		</dependency>
 		<!-- HAPI: FHIR manipulation -->
-		<!-- <dependency> <groupId>ca.uhn.hapi.fhir</groupId> <artifactId>hapi-fhir-base</artifactId> 
-			<version>${hapifhir.version}</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-base -->
+		<dependency>
+		    <groupId>ca.uhn.hapi.fhir</groupId>
+		    <artifactId>hapi-fhir-base</artifactId>
+		    <version>4.2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-dstu3</artifactId>
-			<version>${hapifhir.version}</version>
+			<artifactId>hapi-fhir-structures-r4</artifactId>
+			<version>4.2.0</version>
 		</dependency>
 		<!-- FHIR narrative generation -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
-			<version>3.0.9.RELEASE</version>
+			<version>3.0.11.RELEASE</version>
 		</dependency>
 		<!-- FHIR validation -->
 		<dependency>
-			<groupId>com.helger</groupId>
-			<artifactId>ph-schematron</artifactId>
-			<version>5.0.8</version>
+			  <groupId>com.helger</groupId>
+			  <artifactId>ph-schematron</artifactId>
+			  <version>5.3.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-validation-resources-r4 -->
 		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
-			<version>${hapifhir.version}</version>
+		    <groupId>ca.uhn.hapi.fhir</groupId>
+		    <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+		    <version>4.2.0</version>
 		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -164,7 +170,7 @@
 		<dependency>
 			<groupId>com.palantir.docker.compose</groupId>
 			<artifactId>docker-compose-rule-junit4</artifactId>
-			<version>0.34.0</version>
+			<version>0.29.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.skyscreamer</groupId>
@@ -175,7 +181,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20180130</version>
+			<version>20190722</version>
 		</dependency>
 	</dependencies>
 </project>

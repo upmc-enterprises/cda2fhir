@@ -3,11 +3,11 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.HumanName;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Organization;
 import org.openhealthtools.mdht.uml.cda.Person;
@@ -176,7 +176,7 @@ public class EntityGenerator {
 		}
 	}
 
-	public void verify(org.hl7.fhir.dstu3.model.Organization organization) {
+	public void verify(org.hl7.fhir.r4.model.Organization organization) {
 		if (organizationGenerator == null || !organizationGenerator.shouldExists()) {
 			Assert.assertNull("Author organization", organization);
 			return;
@@ -193,11 +193,11 @@ public class EntityGenerator {
 		verify(role);
 
 		if (organizationGenerator == null || !role.hasOrganization()) {
-			verify((org.hl7.fhir.dstu3.model.Organization) null);
+			verify((org.hl7.fhir.r4.model.Organization) null);
 		} else {
 			String reference = role.getOrganization().getReference();
-			org.hl7.fhir.dstu3.model.Organization organization = util.getResourceFromReference(reference,
-					org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization organization = util.getResourceFromReference(reference,
+					org.hl7.fhir.r4.model.Organization.class);
 			verify(organization);
 		}
 	}

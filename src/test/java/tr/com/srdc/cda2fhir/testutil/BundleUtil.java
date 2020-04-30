@@ -8,22 +8,22 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.Composition;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.consol.ConsolPackage;
 import org.openhealthtools.mdht.uml.cda.consol.ContinuityOfCareDocument;
@@ -120,8 +120,8 @@ public class BundleUtil {
 	public void spotCheckImmunizationPractitioner(String identifier, String familyName, String roleCode,
 			String organizationName) {
 		Immunization imm = (Immunization) identifierMap.get("Immunization", identifier);
-		Assert.assertTrue("Immunization has a practitioner", imm.hasPractitioner());
-		String ref = imm.getPractitioner().get(0).getActor().getReference();
+		Assert.assertTrue("Immunization has a practitioner", imm.hasPerformer());
+		String ref = imm.getPerformer().get(0).getActor().getReference();
 		spotCheckAssignedPractitioner(ref, familyName, roleCode, organizationName);
 	}
 
@@ -188,7 +188,7 @@ public class BundleUtil {
 			String roleCode, String organizationName) {
 		Composition composition = (Composition) bundle.getEntry().get(0).getResource();
 		Optional<String> ref = composition.getAttester().stream()
-				.filter(a -> a.getMode().get(0).getValue().equals(mode)).map(a -> a.getParty().getReference())
+				.filter(a -> a.getMode().equals(mode)).map(a -> a.getParty().getReference())
 				.findFirst();
 		Assert.assertTrue("Attester exists", ref.isPresent());
 		spotCheckAssignedPractitioner(ref.get(), familyName, roleCode, organizationName);

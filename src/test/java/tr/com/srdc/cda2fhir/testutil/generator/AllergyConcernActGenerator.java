@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.Bundle;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.consol.AllergyProblemAct;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
@@ -101,19 +101,19 @@ public class AllergyConcernActGenerator {
 		}
 
 		if (statusCodeGenerator == null) {
-			Assert.assertEquals("Default verification status", "unconfirmed", allergy.getVerificationStatus().toCode());
+			Assert.assertEquals("Default verification status", "unconfirmed", allergy.getVerificationStatus().getText());
 		} else {
-			statusCodeGenerator.verify(allergy.getVerificationStatus().toCode());
+			statusCodeGenerator.verify(allergy.getVerificationStatus().getText());
 		}
 
 		if (effectiveTimeGenerator == null) {
-			Assert.assertTrue("No asserted date", !allergy.hasAssertedDate());
+			Assert.assertTrue("No asserted date", !allergy.hasRecordedDate());
 		} else {
 			String value = effectiveTimeGenerator.getLowOrValue();
 			if (value == null) {
-				Assert.assertTrue("No asserted date", !allergy.hasAssertedDate());
+				Assert.assertTrue("No asserted date", !allergy.hasRecordedDate());
 			} else {
-				String actual = FHIRUtil.toCDADatetime(allergy.getAssertedDateElement().asStringValue());
+				String actual = FHIRUtil.toCDADatetime(allergy.getRecordedDateElement().asStringValue());
 				Assert.assertEquals("Allergy asserted date", value, actual);
 			}
 		}
@@ -122,7 +122,7 @@ public class AllergyConcernActGenerator {
 			Assert.assertTrue("No allergy code", !allergy.hasCode());
 			Assert.assertTrue("No type", !allergy.hasType());
 			Assert.assertTrue("No onset", !allergy.hasOnset());
-			Assert.assertEquals("Default clinical status", "active", allergy.getClinicalStatus().toCode());
+			Assert.assertEquals("Default clinical status", "active", allergy.getClinicalStatus().getText());
 			Assert.assertTrue("No reaction", !allergy.hasReaction());
 			Assert.assertTrue("No category", !allergy.hasCategory());
 			return;

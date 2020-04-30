@@ -1,12 +1,12 @@
 package tr.com.srdc.cda2fhir.testutil;
 
-import org.hl7.fhir.dstu3.model.Address;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Organization.OrganizationContactComponent;
-import org.hl7.fhir.dstu3.model.codesystems.ContactentityType;
-import org.hl7.fhir.dstu3.model.codesystems.OrganizationType;
+import org.hl7.fhir.r4.model.Address;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Organization.OrganizationContactComponent;
+import org.hl7.fhir.r4.model.codesystems.ContactentityType;
+import org.hl7.fhir.r4.model.codesystems.OrganizationType;
 
 public class FhirOrganizationGenerator {
 	public Organization generate() {

@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationDispense;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.SimpleQuantity;
-import org.hl7.fhir.dstu3.model.Timing;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationDispense;
+import org.hl7.fhir.r4.model.MedicationRequest;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.SimpleQuantity;
+import org.hl7.fhir.r4.model.Timing;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.Consumable;
@@ -245,10 +246,10 @@ public class MedicationActivityGenerator {
 		}
 
 		if (ivlPqGenerator == null) {
-			boolean hasDosageDose = medStatement.hasDosage() && medStatement.getDosage().get(0).hasDose();
+			boolean hasDosageDose = medStatement.hasDosage() && medStatement.getDosage().get(0).hasDoseAndRate();
 			Assert.assertTrue("Missing med statement dosage time", !hasDosageDose);
 		} else {
-			SimpleQuantity sq = medStatement.getDosage().get(0).getDoseSimpleQuantity();
+			Quantity sq = medStatement.getDosage().get(0).getDoseAndRateFirstRep().getDoseQuantity();
 			ivlPqGenerator.verify(sq);
 		}
 
@@ -260,10 +261,10 @@ public class MedicationActivityGenerator {
 		}
 
 		if (rateQuantityGenerator == null) {
-			boolean hasRate = medStatement.hasDosage() && medStatement.getDosage().get(0).hasRateRange();
+			boolean hasRate = medStatement.hasDosage() && medStatement.getDosage().get(0).getDoseAndRateFirstRep().hasRateRange();
 			Assert.assertTrue("Missing med statement dosage time", !hasRate);
 		} else {
-			rateQuantityGenerator.verify(medStatement.getDosage().get(0).getRateRange());
+			rateQuantityGenerator.verify(medStatement.getDosage().get(0).getDoseAndRateFirstRep().getRateRange());
 		}
 
 		if (maxDoseGenerator == null) {

@@ -2,7 +2,7 @@ package tr.com.srdc.cda2fhir.transform.entry.impl;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Medication;
+import org.hl7.fhir.r4.model.Medication;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 

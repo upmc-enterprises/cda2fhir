@@ -2,10 +2,10 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.r4.model.BooleanType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Observation;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,8 +40,8 @@ public class ObservationTest {
 
 		BundleInfo bundleInfo = new BundleInfo(rt);
 		Bundle bundle = rt.tObservation2Observation(observation, bundleInfo).getBundle();
-		org.hl7.fhir.dstu3.model.Observation fhirObservation = BundleUtil.findOneResource(bundle,
-				org.hl7.fhir.dstu3.model.Observation.class);
+		org.hl7.fhir.r4.model.Observation fhirObservation = BundleUtil.findOneResource(bundle,
+				org.hl7.fhir.r4.model.Observation.class);
 		BooleanType bt = fhirObservation.getValueBooleanType();
 		Assert.assertEquals("Pull back the observation " + value + " boolean value", value,
 				bt.getValue().booleanValue());

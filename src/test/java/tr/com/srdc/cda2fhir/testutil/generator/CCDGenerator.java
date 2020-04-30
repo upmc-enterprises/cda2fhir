@@ -3,21 +3,21 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Composition;
-import org.hl7.fhir.dstu3.model.Composition.CompositionAttestationMode;
-import org.hl7.fhir.dstu3.model.Composition.CompositionAttesterComponent;
-import org.hl7.fhir.dstu3.model.Composition.CompositionEventComponent;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Procedure;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Composition.CompositionAttestationMode;
+import org.hl7.fhir.r4.model.Composition.CompositionAttesterComponent;
+import org.hl7.fhir.r4.model.Composition.CompositionEventComponent;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Procedure;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.AssignedCustodian;
 import org.openhealthtools.mdht.uml.cda.AssignedEntity;
@@ -471,7 +471,7 @@ public class CCDGenerator {
 			int authenticatorIndex = 0;
 			for (int index = 0; index < count; ++index) {
 				CompositionAttesterComponent attester = attesters.get(index);
-				CompositionAttestationMode mode = attester.getMode().get(0).getValue();
+				CompositionAttestationMode mode = attester.getMode();
 				if (mode == CompositionAttestationMode.LEGAL) {
 					Assert.assertNotNull("Legal asserter expected", legalAuthenticatorGenerator);
 					String attesterId = attester.getParty().getReference();
@@ -513,8 +513,8 @@ public class CCDGenerator {
 			Assert.assertTrue("No custodian", !composition.hasCustodian());
 		} else {
 			String organizationId = composition.getCustodian().getReference();
-			org.hl7.fhir.dstu3.model.Organization organization = bundleUtil.getResourceFromReference(organizationId,
-					org.hl7.fhir.dstu3.model.Organization.class);
+			org.hl7.fhir.r4.model.Organization organization = bundleUtil.getResourceFromReference(organizationId,
+					org.hl7.fhir.r4.model.Organization.class);
 			organizationGenerator.verify(organization);
 		}
 

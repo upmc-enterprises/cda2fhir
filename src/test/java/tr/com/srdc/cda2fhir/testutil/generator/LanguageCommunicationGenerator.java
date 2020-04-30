@@ -2,8 +2,8 @@ package tr.com.srdc.cda2fhir.testutil.generator;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Patient.PatientCommunicationComponent;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.LanguageCommunication;
 import org.openhealthtools.mdht.uml.hl7.datatypes.BL;

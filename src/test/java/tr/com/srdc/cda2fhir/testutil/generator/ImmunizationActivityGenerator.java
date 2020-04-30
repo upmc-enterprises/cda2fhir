@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.fhir.dstu3.model.Immunization.ImmunizationReactionComponent;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationReactionComponent;
+import org.hl7.fhir.r4.model.Immunization.ImmunizationStatus;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Consumable;
 import org.openhealthtools.mdht.uml.cda.EntryRelationship;
@@ -206,16 +207,16 @@ public class ImmunizationActivityGenerator {
 		}
 
 		if (negationInd == null) {
-			Assert.assertTrue("No immunization not given", !immunization.hasNotGiven());
+			Assert.assertTrue("No immunization not given", immunization.getStatus() != ImmunizationStatus.NOTDONE);
 		} else {
-			Assert.assertEquals("Immunization not given", negationInd.booleanValue(), immunization.getNotGiven());
+			Assert.assertEquals("Immunization not given", negationInd.booleanValue(), immunization.getStatus() == ImmunizationStatus.NOTDONE);
 		}
 
 		if (effectiveTimeGenerators.isEmpty()) {
-			Assert.assertTrue("No immunization date", !immunization.hasDate());
+			Assert.assertTrue("No immunization date", !immunization.hasOccurrence());
 		} else {
 			EffectiveTimeGenerator etg = effectiveTimeGenerators.get(effectiveTimeGenerators.size() - 1);
-			etg.verifyValue(immunization.getDateElement().asStringValue());
+			etg.verifyValue(immunization.getOccurrenceDateTimeType().asStringValue());
 		}
 
 		if (approachSiteCodeGenerators.isEmpty()) {
@@ -238,20 +239,20 @@ public class ImmunizationActivityGenerator {
 		}
 
 		if (refusalReasonGenerator == null) {
-			boolean hasRefusal = immunization.hasExplanation() && immunization.getExplanation().hasReasonNotGiven();
+			boolean hasRefusal = immunization.hasReasonCode();
 			Assert.assertTrue("No immunization refusal reason", !hasRefusal);
 		} else {
-			CodeableConcept cc = immunization.getExplanation().getReasonNotGiven().get(0);
+			CodeableConcept cc = immunization.getReasonCode().get(0);
 			refusalReasonGenerator.verify(cc);
 		}
 
 		if (indicationGenerator == null) {
-			boolean hasReason = immunization.hasExplanation() && immunization.getExplanation().hasReason();
+			boolean hasReason = immunization.hasReasonCode();
 			Assert.assertTrue("No immunization reason", !hasReason);
 		} else {
-			boolean hasReason = immunization.hasExplanation() && immunization.getExplanation().hasReason();
+			boolean hasReason = immunization.hasReasonCode();
 			Assert.assertTrue("Has immunization reason", hasReason);
-			CodeableConcept cc = immunization.getExplanation().getReason().get(0);
+			CodeableConcept cc = immunization.getReasonCode().get(0);
 			indicationGenerator.verify(cc);
 		}
 
@@ -279,10 +280,10 @@ public class ImmunizationActivityGenerator {
 		}
 
 		if (performerGenerators.isEmpty()) {
-			Assert.assertTrue("No practitioner", !immunization.hasPractitioner());
+			Assert.assertTrue("No practitioner", !immunization.hasPerformer());
 		} else {
-			Assert.assertEquals("Practitioner count", 1, immunization.getPractitioner().size());
-			String practitionerId = immunization.getPractitioner().get(0).getActor().getReference();
+			Assert.assertEquals("Practitioner count", 1, immunization.getPerformer().size());
+			String practitionerId = immunization.getPerformer().get(0).getActor().getReference();
 			PerformerGenerator pg = performerGenerators.get(performerGenerators.size() - 1);
 			pg.verifyFromPractionerId(bundle, practitionerId);
 		}
@@ -295,8 +296,8 @@ public class ImmunizationActivityGenerator {
 			ImmunizationReactionComponent reaction = reactions.get(0);
 			String observationId = reaction.getDetail().getReference();
 			BundleUtil util = new BundleUtil(bundle);
-			org.hl7.fhir.dstu3.model.Observation observation = util.getResourceFromReference(observationId,
-					org.hl7.fhir.dstu3.model.Observation.class);
+			org.hl7.fhir.r4.model.Observation observation = util.getResourceFromReference(observationId,
+					org.hl7.fhir.r4.model.Observation.class);
 			reactionObservationGenerator.verify(observation);
 		}
 	}

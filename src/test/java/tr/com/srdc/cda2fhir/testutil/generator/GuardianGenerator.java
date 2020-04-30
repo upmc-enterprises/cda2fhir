@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Patient.ContactComponent;
+import org.hl7.fhir.r4.model.Patient.ContactComponent;
 import org.junit.Assert;
 import org.openhealthtools.mdht.uml.cda.Guardian;
 import org.openhealthtools.mdht.uml.cda.Person;

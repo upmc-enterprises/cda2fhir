@@ -2,14 +2,14 @@ package tr.com.srdc.cda2fhir;
 
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -90,7 +90,7 @@ public class ProceduresSectionSnippetTest {
 	}
 
 	private static void verifyProcedureContext(Procedure procedure, List<Encounter> encounters, String expectedId) {
-		Reference reference = procedure.getContext();
+		Reference reference = procedure.getEncounter();
 		Encounter encounter = findEncounterByReference(encounters, reference);
 		Assert.assertNotNull("Expect procedure encounter", encounter);
 		Assert.assertEquals("Expect the right id for procedure encounter", expectedId,
