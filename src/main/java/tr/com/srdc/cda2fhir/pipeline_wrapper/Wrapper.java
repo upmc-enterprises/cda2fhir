@@ -3,6 +3,7 @@ package tr.com.srdc.cda2fhir.pipeline_wrapper;
 import java.io.FileInputStream;
 
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleType;
 import org.openhealthtools.mdht.uml.cda.consol.ConsolPackage;
 import org.openhealthtools.mdht.uml.cda.consol.ContinuityOfCareDocument;
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
@@ -24,8 +25,8 @@ public class Wrapper {
 			ContinuityOfCareDocument cda = (ContinuityOfCareDocument) CDAUtil.loadAs(fis,
 					ConsolPackage.eINSTANCE.getContinuityOfCareDocument());
 
-			CCDTransformerImpl ccdTransformer = new CCDTransformerImpl(IdGeneratorEnum.COUNTER);
-			Bundle bundle = ccdTransformer.transformDocument(cda);
+			CCDTransformerImpl ccdTransformer = new CCDTransformerImpl(IdGeneratorEnum.UUID);
+			Bundle bundle =  ccdTransformer.transformDocument(cda, BundleType.TRANSACTION, null, null, null);
 			FHIRUtil.printJSON(bundle, args[1]);
 		} else {
 			logger.error("Wrapper run without arguments");

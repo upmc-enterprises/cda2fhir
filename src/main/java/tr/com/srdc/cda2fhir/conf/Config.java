@@ -70,6 +70,8 @@ public class Config {
 	private static boolean generateDafProfileMetadata = false;
 	
 	private static boolean addedZerosToDateTime = false;
+	
+	private static boolean isTransactionBundle = false;
 
 	private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
@@ -112,6 +114,14 @@ public class Config {
 
 	public static boolean addedZerosToDateTime() {
 		return addedZerosToDateTime;
+	}
+	
+	public static boolean getIsTransactionBundle() {
+		return isTransactionBundle;
+	}
+	
+	public static void setIsTransactionBundle(boolean transactionBundle) {
+		isTransactionBundle = transactionBundle;
 	}
 
 }
