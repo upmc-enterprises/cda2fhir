@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.openhealthtools.mdht.uml.cda.ManufacturedProduct;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 
@@ -27,11 +28,17 @@ public class BundleInfo implements IBundleInfo {
 	private CDAIIMap<IEntityInfo> entities = new CDAIIMap<IEntityInfo>();
 	private CDAIIResourceMaps<IBaseResource> resourceMaps = new CDAIIResourceMaps<IBaseResource>();
 	private CDACDMap<IMedicationsInformation> cdMap = new CDACDMap<IMedicationsInformation>();
+	private Map<String,ManufacturedProduct> medicationDedupMap = new HashMap<String,ManufacturedProduct>();
 
 	public BundleInfo(IResourceTransformer resourceTransformer) {
 		this.resourceTransformer = resourceTransformer;
 	}
 
+	@Override
+	public Map<String, ManufacturedProduct> getMedicationDedupMap() {
+		return medicationDedupMap;
+	}
+	
 	@Override
 	public IResourceTransformer getResourceTransformer() {
 		return resourceTransformer;
@@ -122,5 +129,4 @@ public class BundleInfo implements IBundleInfo {
 	public CDACDMap<IMedicationsInformation> getCDMap() {
 		return cdMap;
 	}
-
 }

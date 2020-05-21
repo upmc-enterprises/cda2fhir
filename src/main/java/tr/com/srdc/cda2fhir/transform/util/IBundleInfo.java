@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.openhealthtools.mdht.uml.cda.ManufacturedProduct;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 
@@ -21,6 +22,8 @@ public interface IBundleInfo {
 	IResourceTransformer getResourceTransformer();
 
 	Map<String, String> getIdedAnnotations();
+	
+	Map<String, ManufacturedProduct> getMedicationDedupMap();
 
 	Reference getReferenceByIdentifier(String fhirType, Identifier identifier);
 
