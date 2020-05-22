@@ -196,7 +196,7 @@ public class DeduplicationTest {
 
 		Bundle resultBundle = runMedidicationDeduplicationTest(medActs, 2, false, null);
 
-		BundleUtil.findResources(resultBundle, Organization.class, 2);
+		BundleUtil.findResources(resultBundle, Organization.class, 1);
 
 	}
 
@@ -319,7 +319,7 @@ public class DeduplicationTest {
 		Bundle resultBundle = runMedidicationDeduplicationTest(medActs, 3, true,
 				"src/test/resources/output/hello-world.json");
 
-		BundleUtil.findResources(resultBundle, Organization.class, 5);
+		BundleUtil.findResources(resultBundle, Organization.class, 1);
 
 	}
 
@@ -358,7 +358,7 @@ public class DeduplicationTest {
 
 		Bundle resultBundle = runMedidicationDeduplicationTest(medActs, 1, false, null);
 
-		BundleUtil.findResources(resultBundle, Organization.class, 2);
+		BundleUtil.findResources(resultBundle, Organization.class, 1);
 
 	}
 
@@ -549,7 +549,7 @@ public class DeduplicationTest {
 
 		Bundle resultBundle = ccdTransformer.transformDocument(clinicalDoc);
 
-		BundleUtil.findResources(resultBundle, Organization.class, 2);
+		BundleUtil.findResources(resultBundle, Organization.class, 1);
 
 	}
 
@@ -746,7 +746,7 @@ public class DeduplicationTest {
 
 		Bundle resultBundle = ccdTransformer.transformDocument(document);
 
-		BundleUtil.findResources(resultBundle, Organization.class, 5);
+		BundleUtil.findResources(resultBundle, Organization.class, 3);
 
 	}
 
