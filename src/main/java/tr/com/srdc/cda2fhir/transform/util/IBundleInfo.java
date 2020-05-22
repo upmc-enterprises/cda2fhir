@@ -2,6 +2,7 @@ package tr.com.srdc.cda2fhir.transform.util;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Reference;
@@ -24,6 +25,8 @@ public interface IBundleInfo {
 	Map<String, String> getIdedAnnotations();
 	
 	Map<String, ManufacturedProduct> getMedicationDedupMap();
+	
+	Set<String> getOrganizationnDedupMap();
 
 	Reference getReferenceByIdentifier(String fhirType, Identifier identifier);
 

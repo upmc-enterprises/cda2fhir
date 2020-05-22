@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
@@ -2883,7 +2884,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 	public IEntryResult tOrganization2Organization(org.openhealthtools.mdht.uml.cda.Organization cdaOrganization,
 			IBundleInfo bundleInfo) {
 		EntryResult result = new EntryResult();
-
+		Set<String> orgNameSet = bundleInfo.getOrganizationnDedupMap();
+		boolean inSet = false;
 		if (cdaOrganization == null || cdaOrganization.isSetNullFlavor()) {
 			return result;
 		}
@@ -2931,6 +2933,10 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					} else {
 						fhirOrganization.addAlias(name.getText());
 					}
+					if (orgNameSet.contains(name.getText()))
+						inSet = true;
+
+					orgNameSet.add(name.getText());
 				}
 			}
 
@@ -2958,8 +2964,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (!fhirOrganization.hasName() && !fhirOrganization.hasIdentifier()) {
 			return result;
 		}
-
-		result.addResource(fhirOrganization);
+		if (!inSet)
+			result.addResource(fhirOrganization);
 		return result;
 
 	}
