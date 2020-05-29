@@ -45,6 +45,7 @@ import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tr.com.srdc.cda2fhir.conf.Config;
 import tr.com.srdc.cda2fhir.transform.entry.IEntryResult;
 import tr.com.srdc.cda2fhir.transform.section.CDASectionTypeEnum;
 import tr.com.srdc.cda2fhir.transform.section.ICDASection;
@@ -209,6 +210,9 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	public Bundle transformDocument(String filePath, BundleType bundleType, Map<String, String> resourceProfileMap,
 			String documentBody, Identifier assemblerDevice) throws Exception {
 		ContinuityOfCareDocument cda = getClinicalDocument(filePath);
+		if (bundleType.equals(BundleType.TRANSACTION)) {
+			Config.setIsTransactionBundle(true);
+		}
 		Bundle bundle = transformDocument(cda, true);
 		bundle.setType(bundleType);
 		if (assemblerDevice != null && !StringUtils.isEmpty(documentBody)) {
@@ -272,6 +276,9 @@ public class CCDTransformerImpl implements ICDATransformer, Serializable {
 	@Override
 	public Bundle transformDocument(ContinuityOfCareDocument cda, BundleType bundleType,
 			Map<String, String> resourceProfileMap, String documentBody, Identifier assemblerDevice) throws Exception {
+		if (bundleType.equals(BundleType.TRANSACTION)) {
+			Config.setIsTransactionBundle(true);
+		}
 		Bundle bundle = transformDocument(cda, true);
 		bundle.setType(bundleType);
 		if (assemblerDevice != null && !StringUtils.isEmpty(documentBody)) {

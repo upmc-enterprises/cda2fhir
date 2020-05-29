@@ -55,6 +55,8 @@ import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 import org.openhealthtools.mdht.uml.hl7.vocab.PostalAddressUse;
 import org.openhealthtools.mdht.uml.hl7.vocab.TelecommunicationAddressUse;
 
+import tr.com.srdc.cda2fhir.conf.Config;
+
 
 public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializable {
 
@@ -412,7 +414,7 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 		if (cdaObservationInterpretationCode == null)
 			return null;
 		Coding obsIntCode = new Coding();
-		obsIntCode.setSystem("http://hl7.org/fhir/v2/0078");
+		obsIntCode.setSystem("http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation");
 
 		String code = null, display = null;
 
@@ -466,7 +468,11 @@ public class ValueSetsTransformerImpl implements IValueSetsTransformer, Serializ
 			}
 		}
 		obsIntCode.setCode(code);
-		obsIntCode.setDisplay(display);
+		
+		if (Config.getIsTransactionBundle() == false) {
+			obsIntCode.setDisplay(display);
+		}
+		
 		return new CodeableConcept().addCoding(obsIntCode);
 	}
 

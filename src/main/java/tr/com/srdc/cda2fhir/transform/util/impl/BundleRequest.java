@@ -138,6 +138,25 @@ public class BundleRequest {
 					}
 				}
 			}
+			if (bundleEntry.getResource().getResourceType().name() == "Organization") {
+				Property orgNames = bundleEntry.getResource().getChildByName("name");
+				if (orgNames != null) {
+					List<Base> nameList = orgNames.getValues();
+					for(Base entry: nameList) {
+						String name = entry.primitiveValue();
+						if(name != null && !name.isEmpty()) {
+							if (ifNotExistString != "") {
+								ifNotExistString = ifNotExistString + ",";
+							} else {
+								ifNotExistString = "identifier=";
+							}
+							ifNotExistString = ifNotExistString + name.replaceAll(" ", "").toLowerCase();
+						}
+						
+					}
+				}
+			}
+			
 
 			// if it's a practitioner role, de-duplicate by reference ids.
 			if (bundleEntry.getResource().getResourceType().name() == "PractitionerRole") {

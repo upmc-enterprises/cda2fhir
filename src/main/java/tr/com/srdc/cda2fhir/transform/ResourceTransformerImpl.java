@@ -26,6 +26,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
@@ -2122,6 +2124,7 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		IMedicationsInformation medsInfo = null;
 		CD cd = null;
 		List<II> orgIds = null;
+		Map<String, ManufacturedProduct> medDedupMap = bundleInfo.getMedicationDedupMap();
 
 		if (cdaManufacturedProduct.getManufacturedMaterial() != null
 				&& !cdaManufacturedProduct.getManufacturedMaterial().isSetNullFlavor()) {
@@ -2129,9 +2132,13 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 			cd = cdaManufacturedProduct.getManufacturedMaterial().getCode();
 
 			if (cd != null) {
-
-				medsInfo = bundleInfo.findResourceResult(cd);
-
+				if (medDedupMap.containsKey(cd.getCode()) && cd.getTranslations().size() < medDedupMap.get(cd.getCode()).getManufacturedMaterial().getCode().getTranslations().size()) {
+					cdaManufacturedProduct = medDedupMap.get(cd.getCode());
+					medsInfo = bundleInfo.findResourceResult(medDedupMap.get(cd.getCode()).getManufacturedMaterial().getCode());
+				} else {
+					medsInfo = bundleInfo.findResourceResult(cd);
+				}
+				medDedupMap.put(cd.getCode(), cdaManufacturedProduct);
 				// manufacturedMaterial.code -> code
 				fhirMedication.setCode(dtt.tCD2CodeableConcept(
 						cdaManufacturedProduct.getManufacturedMaterial().getCode(), bundleInfo.getIdedAnnotations()));
@@ -2152,9 +2159,6 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (cdaManufacturedProduct.getManufacturerOrganization() != null
 				&& !cdaManufacturedProduct.getManufacturerOrganization().isSetNullFlavor()) {
 
-			if (cdaManufacturedProduct.getManufacturerOrganization().getIds() != null) {
-				orgIds = cdaManufacturedProduct.getManufacturerOrganization().getIds();
-			}
 			IEntryResult orgResult = tOrganization2Organization(cdaManufacturedProduct.getManufacturerOrganization(),
 					bundleInfo);
 
@@ -2170,22 +2174,16 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 
 		}
 
-		if (medsInfo != null && medsInfo.containsMedication(cd, orgIds)) {
+		if (medsInfo != null) {
 			Medication previousMedication = medsInfo.getMedication(cd, orgIds);
 
 			if (previousMedication != null) {
 				result.addExistingResource(previousMedication);
 			}
 		} else {
-			if (medsInfo == null && cd != null) {
+			if (cd != null) {
 				medsInfo = new MedicationsInformation(fhirMedication, cd, orgIds);
 				result.putCDResource(cd, medsInfo);
-			} else if (!medsInfo.containsMedication(cd, orgIds) && cd != null) {
-				if (orgIds != null) {
-					medsInfo.putMedication(fhirMedication, cd, orgIds);
-				} else {
-					medsInfo.putMedication(fhirMedication, cd);
-				}
 			}
 			result.addResource(fhirMedication);
 		}
@@ -2886,7 +2884,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 	public IEntryResult tOrganization2Organization(org.openhealthtools.mdht.uml.cda.Organization cdaOrganization,
 			IBundleInfo bundleInfo) {
 		EntryResult result = new EntryResult();
-
+		Set<String> orgNameSet = bundleInfo.getOrganizationnDedupMap();
+		boolean inSet = false;
 		if (cdaOrganization == null || cdaOrganization.isSetNullFlavor()) {
 			return result;
 		}
@@ -2934,6 +2933,10 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 					} else {
 						fhirOrganization.addAlias(name.getText());
 					}
+					if (orgNameSet.contains(name.getText()))
+						inSet = true;
+
+					orgNameSet.add(name.getText());
 				}
 			}
 
@@ -2961,8 +2964,8 @@ public class ResourceTransformerImpl implements IResourceTransformer, Serializab
 		if (!fhirOrganization.hasName() && !fhirOrganization.hasIdentifier()) {
 			return result;
 		}
-
-		result.addResource(fhirOrganization);
+		if (!inSet)
+			result.addResource(fhirOrganization);
 		return result;
 
 	}

@@ -145,7 +145,7 @@ public class IntegrationTest {
 
 		// 3 organizations don't have identifiers.
 		Bundle organizationResults = (Bundle) client.search().forResource(Organization.class).prettyPrint().execute();
-		Assert.assertEquals(9, organizationResults.getTotal());
+		Assert.assertEquals(4, organizationResults.getTotal());
 
 		// Non de-duplicating resources below.
 		Bundle documentReferenceResults = (Bundle) client.search().forResource(DocumentReference.class).prettyPrint()
